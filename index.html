@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CATECNOfan | El Búnker del Gamer Real</title>
+    <title>CaTecnoFan | El Búnker del Gamer Real</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
             --cian-neon: #00e5ff;
@@ -17,149 +18,148 @@
             font-family: 'Arial Black', Gadget, sans-serif;
             margin: 0;
             padding: 0;
-            /* Fondo sutil con el banner repetido y oscurecido */
             background-image: linear-gradient(rgba(0,0,0,0.96), rgba(0,0,0,0.96)), url('banner.png');
             background-attachment: fixed;
             background-size: cover;
             background-position: center;
         }
 
-        /* --- ESTRUCTURA DEL HEADER (BANNER) --- */
         header {
             width: 100%;
             background-color: #000;
-            position: relative;
-            z-index: 1;
             text-align: center;
             overflow: hidden;
         }
 
-        .banner-img {
-            width: 100%;
-            height: auto;
-            
-            display: block;
-            margin: 0 auto;
-        }
+        .banner-img { width: 100%; height: auto; display: block; margin: 0 auto; }
 
         .linea-magenta {
-            width: 100%;
-            height: 5px;
+            width: 100%; height: 5px;
             background-color: var(--magenta-neon);
             box-shadow: 0px 0px 25px var(--magenta-neon);
-            position: relative;
-            z-index: 5;
         }
 
-        /* --- CONTENEDOR PRINCIPAL (EL BÚNKER) --- */
+        /* --- CONTENEDOR INTEGRADO --- */
         .container {
             max-width: 1000px;
-            /* Solapamiento: sube el contenido sobre el banner */
-            margin: -100px auto 50px auto; 
-            padding: 35px;
+            margin: -80px auto 50px auto; 
             background-color: rgba(10, 10, 10, 0.98);
             border-radius: 20px;
             border: 1px solid #333;
             box-shadow: 0px 0px 60px rgba(0,0,0,1);
             position: relative;
             z-index: 10;
-        }
-
-        /* --- CAJA DE VIDEO --- */
-        .video-box {
-            position: relative;
-            padding-bottom: 56.25%; /* Relación 16:9 */
-            height: 0;
-            margin-bottom: 35px;
-            border: 3px solid var(--cian-neon);
-            box-shadow: 0px 0px 25px rgba(0, 229, 255, 0.4);
-            border-radius: 12px;
             overflow: hidden;
         }
 
-        .video-box iframe {
-            position: absolute; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%;
+        /* --- MENÚ INTEGRADO (ICONOS A LA IZQUIERDA) --- */
+        nav {
+            background-color: #1a1a1a;
+            border-bottom: 2px solid var(--cian-neon);
         }
 
-        /* --- ALERTAS Y TEXTOS --- */
-        .alerta-shadow {
-            background: #151515;
-            padding: 25px;
-            border-left: 10px solid var(--cian-neon);
-            margin-bottom: 35px;
-            border-radius: 8px;
-        }
-
-        .alerta-shadow p {
-            font-family: sans-serif;
-            line-height: 1.6;
+        nav ul {
+            list-style: none;
             margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
         }
 
-        /* --- BOTONES --- */
-        .grid-descargas {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
+        nav li { 
+            position: relative; 
+            flex: 1; /* Esto hace que todos los botones midan lo mismo */
+            min-width: 150px;
+            border-right: 1px solid #333; 
         }
+        nav li:last-child { border-right: none; }
 
-        .boton-descarga {
-            display: block;
-            padding: 22px;
-            text-align: center;
+        nav a {
+            color: white;
             text-decoration: none;
-            font-weight: bold;
-            font-size: 1.3em;
-            border-radius: 12px;
             text-transform: uppercase;
-            transition: all 0.3s ease;
+            font-size: 0.8em;
+            padding: 18px 10px;
+            display: flex;
+            flex-direction: row; /* Icono al costado del texto */
+            align-items: center;
+            justify-content: center; /* Centra el conjunto icono+texto */
+            gap: 12px;
+            transition: 0.3s;
         }
 
-        .btn-amarillo { 
-            background-color: var(--amarillo-neon); 
-            color: #000; 
-            box-shadow: 0px 5px 20px rgba(255, 255, 0, 0.3);
+        nav a i {
+            font-size: 1.2em;
+            color: var(--cian-neon);
+            width: 20px; /* Ancho fijo para que los iconos queden alineados */
+            text-align: center;
         }
 
-        .btn-amarillo:hover {
-            transform: translateY(-3px);
-            box-shadow: 0px 0px 30px var(--amarillo-neon);
-        }
-        
-        .btn-cian { 
-            border: 3px solid var(--cian-neon); 
+        nav a:hover { 
+            background-color: #252525;
             color: var(--cian-neon); 
         }
 
-        .btn-cian:hover {
-            background-color: var(--cian-neon);
-            color: #000;
-            box-shadow: 0px 0px 30px var(--cian-neon);
+        /* --- DROPDOWN --- */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #111;
+            min-width: 220px;
+            border: 1px solid var(--cian-neon);
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.9);
+            top: 100%;
+            left: 0;
+            z-index: 2000;
         }
 
-        /* --- FOOTER --- */
-        footer { 
-            text-align: center; 
-            padding: 60px; 
-            color: #555; 
-            font-family: sans-serif; 
-            font-size: 0.9em;
+        .dropdown-content a {
+            justify-content: flex-start;
+            padding: 15px;
+            border-bottom: 1px solid #222;
         }
 
-        /* --- RESPONSIVE --- */
+        .dropdown:hover .dropdown-content { display: block; }
+
+        /* --- CONTENIDO INTERNO --- */
+        .inner-content { padding: 35px; }
+
+        .video-box {
+            position: relative; padding-bottom: 56.25%; height: 0;
+            margin-bottom: 35px; border: 3px solid var(--cian-neon);
+            box-shadow: 0px 0px 20px rgba(0, 229, 255, 0.3);
+            border-radius: 12px; overflow: hidden;
+        }
+
+        .video-box iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+
+        .alerta-shadow {
+            background: #111; padding: 25px;
+            border-left: 8px solid var(--cian-neon);
+            margin-bottom: 35px; border-radius: 8px;
+            border: 1px solid #222;
+        }
+
+        .grid-descargas {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;
+        }
+
+        .boton-descarga {
+            display: block; padding: 20px; text-align: center;
+            text-decoration: none; font-weight: bold; font-size: 1.2em;
+            border-radius: 12px; text-transform: uppercase; transition: 0.3s;
+        }
+
+        .btn-amarillo { background-color: var(--amarillo-neon); color: #000; }
+        .btn-cian { border: 3px solid var(--cian-neon); color: var(--cian-neon); }
+
+        footer { text-align: center; padding: 60px; color: #555; font-family: sans-serif; }
+
         @media (max-width: 768px) {
-            .container {
-                margin-top: -40px;
-                padding: 20px;
-                width: 90%;
-            }
-            .boton-descarga {
-                font-size: 1.1em;
-            }
+            .container { margin-top: -30px; width: 95%; }
+            nav a { padding: 12px 5px; font-size: 0.7em; }
+            nav li { min-width: 120px; }
         }
     </style>
 </head>
@@ -171,23 +171,60 @@
 </header>
 
 <div class="container">
-    <div class="video-box">
-        <iframe src="https://www.youtube.com/embed/Un6ZHrWKDYI" frameborder="0" allowfullscreen></iframe>
-    </div>
+    <nav>
+        <ul>
+            <li>
+                <a href="index.html">
+                    <i class="fas fa-home"></i>
+                    INICIO
+                </a>
+            </li>
+            <li class="dropdown">
+                <a href="#">
+                    <i class="fas fa-download"></i>
+                    DESCARGAS ▼
+                </a>
+                <div class="dropdown-content">
+                    <a href="emuladores.html"><i class="fas fa-gamepad"></i> EMULADORES</a>
+                    <a href="https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist" target="_blank">
+                        <i class="fas fa-tools"></i> UTILIDADES
+                    </a>
+                </div>
+            </li>
+            <li>
+                <a href="https://www.youtube.com/@CaTecnoFan" target="_blank">
+                    <i class="fab fa-youtube"></i>
+                    YOUTUBE
+                </a>
+            </li>
+            <li>
+                <a href="mailto:tu-mail@gmail.com">
+                    <i class="fas fa-envelope"></i>
+                    CONTACTO
+                </a>
+            </li>
+        </ul>
+    </nav>
 
-    <div class="alerta-shadow">
-        <h3 style="color: var(--cian-neon); margin-top: 0; text-transform: uppercase; letter-spacing: 1px;">📢 RECOMENDACIÓN TÉCNICA</h3>
-        <p>Para jugar al <strong>UFC 4</strong> sin que se cierre, bajate la versión <strong>0.15.0</strong> de ShadPS4. No des vueltas con las versiones nuevas que están rotas para este juego específico.</p>
-    </div>
+    <div class="inner-content">
+        <div class="video-box">
+            <iframe src="https://www.youtube.com/embed/Un6ZHrWKDYI" frameborder="0" allowfullscreen></iframe>
+        </div>
 
-    <div class="grid-descargas">
-        <a href="https://github.com/shadps4-emu/shadPS4/releases/tag/v0.15.0" class="boton-descarga btn-amarillo">DESCARGAR EMULADOR</a>
-        <a href="https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist" class="boton-descarga btn-cian">VISUAL C++</a>
+        <div class="alerta-shadow">
+            <h3 style="color: var(--cian-neon); margin-top: 0; text-transform: uppercase; font-size: 1rem;">📢 RECOMENDACIÓN TÉCNICA</h3>
+            <p style="font-family: sans-serif; font-size: 0.95rem; line-height: 1.5;">Para jugar al <strong>UFC 4</strong> sin que se cierre, bajate la versión <strong>0.15.0</strong> de ShadPS4. No des vueltas con las versiones nuevas que están rotas.</p>
+        </div>
+
+        <div class="grid-descargas">
+            <a href="emuladores.html" class="boton-descarga btn-amarillo">🕹️ VER EMULADORES</a>
+            <a href="https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist" class="boton-descarga btn-cian">🛠️ DESCARGAR VISUAL C++</a>
+        </div>
     </div>
 </div>
 
 <footer>
-    CATECNOfan &copy; 2026 - Rosario, Argentina <br>
+    CaTecnoFan &copy; 2026 - Rosario, Argentina <br>
     Hardware, Juegos y Tecnología para el Gamer Real
 </footer>
 
