@@ -39,7 +39,6 @@
             box-shadow: 0px 0px 25px var(--magenta-neon);
         }
 
-        /* --- CONTENEDOR INTEGRADO --- */
         .container {
             max-width: 1000px;
             margin: -80px auto 50px auto; 
@@ -52,7 +51,6 @@
             overflow: hidden;
         }
 
-        /* --- MENÚ INTEGRADO (ICONOS A LA IZQUIERDA) --- */
         nav {
             background-color: #1a1a1a;
             border-bottom: 2px solid var(--cian-neon);
@@ -69,7 +67,7 @@
 
         nav li { 
             position: relative; 
-            flex: 1; /* Esto hace que todos los botones midan lo mismo */
+            flex: 1; 
             min-width: 150px;
             border-right: 1px solid #333; 
         }
@@ -82,57 +80,83 @@
             font-size: 0.8em;
             padding: 18px 10px;
             display: flex;
-            flex-direction: row; /* Icono al costado del texto */
             align-items: center;
-            justify-content: center; /* Centra el conjunto icono+texto */
+            justify-content: center; 
             gap: 12px;
             transition: 0.3s;
         }
 
-        nav a i {
-            font-size: 1.2em;
-            color: var(--cian-neon);
-            width: 20px; /* Ancho fijo para que los iconos queden alineados */
-            text-align: center;
-        }
+        nav a i { font-size: 1.2em; color: var(--cian-neon); width: 20px; text-align: center; }
+        nav a:hover { background-color: #252525; color: var(--cian-neon); }
 
-        nav a:hover { 
-            background-color: #252525;
-            color: var(--cian-neon); 
-        }
-
-        /* --- DROPDOWN --- */
         .dropdown-content {
             display: none;
             position: absolute;
             background-color: #111;
             min-width: 220px;
             border: 1px solid var(--cian-neon);
-            box-shadow: 0px 8px 16px rgba(0,0,0,0.9);
             top: 100%;
             left: 0;
             z-index: 2000;
         }
 
-        .dropdown-content a {
-            justify-content: flex-start;
-            padding: 15px;
-            border-bottom: 1px solid #222;
-        }
-
         .dropdown:hover .dropdown-content { display: block; }
+        .dropdown-content a { justify-content: flex-start; padding: 15px; border-bottom: 1px solid #222; }
 
-        /* --- CONTENIDO INTERNO --- */
         .inner-content { padding: 35px; }
 
-        .video-box {
-            position: relative; padding-bottom: 56.25%; height: 0;
-            margin-bottom: 35px; border: 3px solid var(--cian-neon);
+        /* --- CARRUSEL DINÁMICO --- */
+        .video-carousel-container {
+            position: relative;
+            margin-bottom: 35px;
+            border: 3px solid var(--cian-neon);
             box-shadow: 0px 0px 20px rgba(0, 229, 255, 0.3);
-            border-radius: 12px; overflow: hidden;
+            border-radius: 12px;
+            overflow: hidden;
         }
 
-        .video-box iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        .video-slider {
+            display: flex;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 100%;
+        }
+
+        .video-item {
+            min-width: 100%;
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+        }
+
+        .video-item iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .carousel-controls {
+            display: flex;
+            justify-content: space-between;
+            background: #111;
+            padding: 10px;
+            border-top: 1px solid #333;
+        }
+
+        .carousel-controls button {
+            background: transparent;
+            border: 1px solid var(--cian-neon);
+            color: var(--cian-neon);
+            padding: 8px 18px;
+            cursor: pointer;
+            font-family: 'Arial Black', sans-serif;
+            font-size: 0.7rem;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        .carousel-controls button:hover { background: var(--cian-neon); color: #000; }
 
         .alerta-shadow {
             background: #111; padding: 25px;
@@ -173,52 +197,49 @@
 <div class="container">
     <nav>
         <ul>
-            <li>
-                <a href="index.html">
-                    <i class="fas fa-home"></i>
-                    INICIO
-                </a>
-            </li>
+            <li><a href="index.html"><i class="fas fa-home"></i> INICIO</a></li>
             <li class="dropdown">
-                <a href="#">
-                    <i class="fas fa-download"></i>
-                    DESCARGAS ▼
-                </a>
+                <a href="#"><i class="fas fa-download"></i> DESCARGAS ▼</a>
                 <div class="dropdown-content">
                     <a href="emuladores.html"><i class="fas fa-gamepad"></i> EMULADORES</a>
-                    <a href="https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist" target="_blank">
-                        <i class="fas fa-tools"></i> UTILIDADES
-                    </a>
+                    <a href="https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist" target="_blank"><i class="fas fa-tools"></i> UTILIDADES</a>
                 </div>
             </li>
-            <li>
-                <a href="https://www.youtube.com/@CaTecnoFan" target="_blank">
-                    <i class="fab fa-youtube"></i>
-                    YOUTUBE
-                </a>
-            </li>
-            <li>
-                <a href="mailto:tu-mail@gmail.com">
-                    <i class="fas fa-envelope"></i>
-                    CONTACTO
-                </a>
-            </li>
+            <li><a href="https://www.youtube.com/@CaTecnoFan" target="_blank"><i class="fab fa-youtube"></i> YOUTUBE</a></li>
+            <li><a href="mailto:tu-mail@gmail.com"><i class="fas fa-envelope"></i> CONTACTO</a></li>
         </ul>
     </nav>
 
     <div class="inner-content">
-        <div class="video-box">
-            <iframe src="https://www.youtube.com/embed/Un6ZHrWKDYI" frameborder="0" allowfullscreen></iframe>
+        <div class="video-carousel-container">
+            <div class="video-slider" id="videoSlider">
+                <div class="video-item"><iframe src="https://www.youtube.com/embed/Un6ZHrWKDYI" frameborder="0" allowfullscreen></iframe></div>
+                <div class="video-item"><iframe src="https://www.youtube.com/embed/6UUWiL0neeY" frameborder="0" allowfullscreen></iframe></div>
+                <div class="video-item"><iframe src="https://www.youtube.com/embed/9KoAwkaC_KU" frameborder="0" allowfullscreen></iframe></div>
+                <div class="video-item"><iframe src="https://www.youtube.com/embed/jBCiqo6hCnk" frameborder="0" allowfullscreen></iframe></div>
+                <div class="video-item"><iframe src="https://www.youtube.com/embed/-7HCGvQbAQ8" frameborder="0" allowfullscreen></iframe></div>
+                <div class="video-item"><iframe src="https://www.youtube.com/embed/vFWvq0UMbDs" frameborder="0" allowfullscreen></iframe></div>
+                <div class="video-item"><iframe src="https://www.youtube.com/embed/sz9VXeCTt5c" frameborder="0" allowfullscreen></iframe></div>
+                <div class="video-item"><iframe src="https://www.youtube.com/embed/ZE5B5mnhZRk" frameborder="0" allowfullscreen></iframe></div>
+                <div class="video-item"><iframe src="https://www.youtube.com/embed/n2UFF11aNxI" frameborder="0" allowfullscreen></iframe></div>
+                <div class="video-item"><iframe src="https://www.youtube.com/embed/yVnf-hC-HiQ" frameborder="0" allowfullscreen></iframe></div>
+                <div class="video-item"><iframe src="https://www.youtube.com/embed/WO-X7K-M9I4" frameborder="0" allowfullscreen></iframe></div>
+                <div class="video-item"><iframe src="https://www.youtube.com/embed/VTZrG056Y88" frameborder="0" allowfullscreen></iframe></div>
+            </div>
+            <div class="carousel-controls">
+                <button onclick="manualMove(-1)"><i class="fas fa-chevron-left"></i> ANTERIOR</button>
+                <button onclick="manualMove(1)">SIGUIENTE <i class="fas fa-chevron-right"></i></button>
+            </div>
         </div>
 
         <div class="alerta-shadow">
             <h3 style="color: var(--cian-neon); margin-top: 0; text-transform: uppercase; font-size: 1rem;">📢 RECOMENDACIÓN TÉCNICA</h3>
-            <p style="font-family: sans-serif; font-size: 0.95rem; line-height: 1.5;">Para jugar al <strong>UFC 4</strong> sin que se cierre, bajate la versión <strong>0.15.0</strong> de ShadPS4. No des vueltas con las versiones nuevas que están rotas.</p>
+            <p style="font-family: sans-serif; font-size: 0.95rem; line-height: 1.5;">Si venís por el tutorial de <strong>UFC 4</strong>, bajate el pack exclusivo del Búnker. Está optimizado para que no tire error de módulos.</p>
         </div>
 
         <div class="grid-descargas">
-            <a href="emuladores.html" class="boton-descarga btn-amarillo">🕹️ VER EMULADORES</a>
-            <a href="https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist" class="boton-descarga btn-cian">🛠️ DESCARGAR VISUAL C++</a>
+            <a href="emuladores.html" class="boton-descarga btn-amarillo">🕹️ IR A DESCARGAS</a>
+            <a href="https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist" class="boton-descarga btn-cian">🛠️ VISUAL C++ REQUISITO</a>
         </div>
     </div>
 </div>
@@ -228,5 +249,24 @@
     Hardware, Juegos y Tecnología para el Gamer Real
 </footer>
 
+<script>
+    let currentSlide = 0;
+    const slider = document.getElementById('videoSlider');
+    const slides = document.querySelectorAll('.video-item');
+    const totalSlides = slides.length;
+
+    function moveSlide(direction) {
+        currentSlide = (currentSlide + direction + totalSlides) % totalSlides;
+        slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+    }
+
+    let autoPlay = setInterval(() => moveSlide(1), 5000);
+
+    function manualMove(direction) {
+        clearInterval(autoPlay);
+        moveSlide(direction);
+        autoPlay = setInterval(() => moveSlide(1), 8000);
+    }
+</script>
 </body>
 </html>
