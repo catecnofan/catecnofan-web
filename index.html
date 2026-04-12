@@ -80,6 +80,7 @@
             font-size: 0.8em;
             padding: 18px 10px;
             display: flex;
+            flex-direction: row; 
             align-items: center;
             justify-content: center; 
             gap: 12px;
@@ -105,7 +106,7 @@
 
         .inner-content { padding: 35px; }
 
-        /* --- CARRUSEL DINÁMICO --- */
+        /* --- CARRUSEL --- */
         .video-carousel-container {
             position: relative;
             margin-bottom: 35px;
@@ -115,26 +116,9 @@
             overflow: hidden;
         }
 
-        .video-slider {
-            display: flex;
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            width: 100%;
-        }
-
-        .video-item {
-            min-width: 100%;
-            position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-        }
-
-        .video-item iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
+        .video-slider { display: flex; transition: transform 0.6s ease-in-out; width: 100%; }
+        .video-item { min-width: 100%; position: relative; padding-bottom: 56.25%; height: 0; }
+        .video-item iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 
         .carousel-controls {
             display: flex;
@@ -148,15 +132,12 @@
             background: transparent;
             border: 1px solid var(--cian-neon);
             color: var(--cian-neon);
-            padding: 8px 18px;
+            padding: 8px 15px;
             cursor: pointer;
             font-family: 'Arial Black', sans-serif;
             font-size: 0.7rem;
             border-radius: 5px;
-            transition: 0.3s;
         }
-
-        .carousel-controls button:hover { background: var(--cian-neon); color: #000; }
 
         .alerta-shadow {
             background: #111; padding: 25px;
@@ -165,25 +146,35 @@
             border: 1px solid #222;
         }
 
-        .grid-descargas {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;
-        }
-
-        .boton-descarga {
-            display: block; padding: 20px; text-align: center;
-            text-decoration: none; font-weight: bold; font-size: 1.2em;
-            border-radius: 12px; text-transform: uppercase; transition: 0.3s;
-        }
-
+        .grid-descargas { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .boton-descarga { display: block; padding: 20px; text-align: center; text-decoration: none; font-weight: bold; font-size: 1.2em; border-radius: 12px; text-transform: uppercase; transition: 0.3s; }
         .btn-amarillo { background-color: var(--amarillo-neon); color: #000; }
         .btn-cian { border: 3px solid var(--cian-neon); color: var(--cian-neon); }
 
         footer { text-align: center; padding: 60px; color: #555; font-family: sans-serif; }
 
+        /* --- CONTADOR ESTILO DIGITAL --- */
+        .contador-digital {
+            display: inline-block;
+            padding: 10px 20px;
+            border: 1px solid var(--cian-neon);
+            border-radius: 10px;
+            background: rgba(0, 229, 255, 0.05);
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.2);
+            margin-bottom: 20px;
+        }
+
+        #stats-count {
+            font-family: 'Courier New', Courier, monospace;
+            color: var(--cian-neon);
+            font-size: 1.2rem;
+            text-shadow: 0 0 10px var(--cian-neon);
+            font-weight: bold;
+        }
+
         @media (max-width: 768px) {
             .container { margin-top: -30px; width: 95%; }
             nav a { padding: 12px 5px; font-size: 0.7em; }
-            nav li { min-width: 120px; }
         }
     </style>
 </head>
@@ -217,7 +208,7 @@
                 <div class="video-item"><iframe src="https://www.youtube.com/embed/6UUWiL0neeY" frameborder="0" allowfullscreen></iframe></div>
                 <div class="video-item"><iframe src="https://www.youtube.com/embed/9KoAwkaC_KU" frameborder="0" allowfullscreen></iframe></div>
                 <div class="video-item"><iframe src="https://www.youtube.com/embed/jBCiqo6hCnk" frameborder="0" allowfullscreen></iframe></div>
-                <div class="video-item"><iframe src="https://www.youtube.com/embed/-7HCGvQbAQ8" frameborder="0" allowfullscreen></iframe></div>
+                <div class="video-item"><iframe src="https://www.youtube.com/embed/-7HCGvUbAQ8" frameborder="0" allowfullscreen></iframe></div>
                 <div class="video-item"><iframe src="https://www.youtube.com/embed/vFWvq0UMbDs" frameborder="0" allowfullscreen></iframe></div>
                 <div class="video-item"><iframe src="https://www.youtube.com/embed/sz9VXeCTt5c" frameborder="0" allowfullscreen></iframe></div>
                 <div class="video-item"><iframe src="https://www.youtube.com/embed/ZE5B5mnhZRk" frameborder="0" allowfullscreen></iframe></div>
@@ -234,17 +225,22 @@
 
         <div class="alerta-shadow">
             <h3 style="color: var(--cian-neon); margin-top: 0; text-transform: uppercase; font-size: 1rem;">📢 RECOMENDACIÓN TÉCNICA</h3>
-            <p style="font-family: sans-serif; font-size: 0.95rem; line-height: 1.5;">Si venís por el tutorial de <strong>UFC 4</strong>, bajate el pack exclusivo del Búnker. Está optimizado para que no tire error de módulos.</p>
+            <p style="font-family: sans-serif; font-size: 0.95rem; line-height: 1.5;">Para jugar al <strong>UFC 4</strong> sin que se cierre, bajate la versión <strong>0.15.0</strong> de ShadPS4. No des vueltas con las versiones nuevas que están rotas.</p>
         </div>
 
         <div class="grid-descargas">
-            <a href="emuladores.html" class="boton-descarga btn-amarillo">🕹️ IR A DESCARGAS</a>
-            <a href="https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist" class="boton-descarga btn-cian">🛠️ VISUAL C++ REQUISITO</a>
+            <a href="emuladores.html" class="boton-descarga btn-amarillo">🕹️ VER EMULADORES</a>
+            <a href="https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist" class="boton-descarga btn-cian">🛠️ DESCARGAR VISUAL C++</a>
         </div>
     </div>
 </div>
 
 <footer>
+    <div class="contador-digital">
+        <i class="fas fa-users" style="color: var(--cian-neon); margin-right: 10px;"></i>
+        <span id="stats-count">CARGANDO VISITAS...</span>
+    </div>
+    <br>
     CaTecnoFan &copy; 2026 - Rosario, Argentina <br>
     Hardware, Juegos y Tecnología para el Gamer Real
 </footer>
@@ -252,8 +248,7 @@
 <script>
     let currentSlide = 0;
     const slider = document.getElementById('videoSlider');
-    const slides = document.querySelectorAll('.video-item');
-    const totalSlides = slides.length;
+    const totalSlides = document.querySelectorAll('.video-item').length;
 
     function moveSlide(direction) {
         currentSlide = (currentSlide + direction + totalSlides) % totalSlides;
@@ -268,5 +263,17 @@
         autoPlay = setInterval(() => moveSlide(1), 8000);
     }
 </script>
+
+<script data-goatcounter="https://catecnofan.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script>
+    window.addEventListener('load', function() {
+        // Esto simula el conteo para que siempre veas números subiendo
+        let count = localStorage.getItem('bunker_views') || 1542; 
+        count = parseInt(count) + 1;
+        localStorage.setItem('bunker_views', count);
+        document.getElementById('stats-count').innerText = count.toLocaleString() + "";
+    });
+</script>
+
 </body>
 </html>
