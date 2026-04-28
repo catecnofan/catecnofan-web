@@ -120,12 +120,40 @@
         .video-item { min-width: 100%; position: relative; padding-bottom: 56.25%; height: 0; }
         .video-item iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 
+        /* ESTADÍSTICAS EN CONTROLES */
         .carousel-controls {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             background: #111;
-            padding: 10px;
+            padding: 12px 20px;
             border-top: 1px solid #333;
+        }
+
+        .video-stats-limpias {
+            display: flex;
+            gap: 40px;
+        }
+
+        .video-stats-limpias span {
+            transition: opacity 0.4s ease; /* Efecto suave solicitado */
+        }
+
+        .stat-dato {
+            color: var(--cian-neon);
+            font-size: 14px;
+            font-family: 'Arial Black', sans-serif;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(0, 229, 255, 0.8), 1px 1px 2px #000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stat-dato i {
+            color: #fff;
+            font-size: 12px;
+            filter: drop-shadow(0 0 5px var(--cian-neon));
         }
 
         .carousel-controls button {
@@ -153,7 +181,6 @@
 
         footer { text-align: center; padding: 60px; color: #555; font-family: sans-serif; }
 
-        /* --- CONTADOR ESTILO DIGITAL --- */
         .contador-digital {
             display: inline-block;
             padding: 10px 20px;
@@ -175,6 +202,8 @@
         @media (max-width: 768px) {
             .container { margin-top: -30px; width: 95%; }
             nav a { padding: 12px 5px; font-size: 0.7em; }
+            .video-stats-limpias { gap: 15px; }
+            .stat-dato { font-size: 11px; }
         }
     </style>
 </head>
@@ -208,7 +237,7 @@
                 <div class="video-item"><iframe src="https://www.youtube.com/embed/6UUWiL0neeY" frameborder="0" allowfullscreen></iframe></div>
                 <div class="video-item"><iframe src="https://www.youtube.com/embed/9KoAwkaC_KU" frameborder="0" allowfullscreen></iframe></div>
                 <div class="video-item"><iframe src="https://www.youtube.com/embed/jBCiqo6hCnk" frameborder="0" allowfullscreen></iframe></div>
-                <div class="video-item"><iframe src="https://www.youtube.com/embed/-7HCGvQbAQ8?si=qg6CX5DVt1ao3qd1" frameborder="0" allowfullscreen></iframe></div>
+                <div class="video-item"><iframe src="https://www.youtube.com/embed/-7HCGvUbAQ8" frameborder="0" allowfullscreen></iframe></div>
                 <div class="video-item"><iframe src="https://www.youtube.com/embed/vFWvq0UMbDs" frameborder="0" allowfullscreen></iframe></div>
                 <div class="video-item"><iframe src="https://www.youtube.com/embed/sz9VXeCTt5c" frameborder="0" allowfullscreen></iframe></div>
                 <div class="video-item"><iframe src="https://www.youtube.com/embed/ZE5B5mnhZRk" frameborder="0" allowfullscreen></iframe></div>
@@ -219,6 +248,13 @@
             </div>
             <div class="carousel-controls">
                 <button onclick="manualMove(-1)"><i class="fas fa-chevron-left"></i> ANTERIOR</button>
+                
+                <div class="video-stats-limpias">
+                    <div class="stat-dato"><i class="fas fa-eye"></i> <span id="vistas-real">--</span></div>
+                    <div class="stat-dato"><i class="fas fa-thumbs-up"></i> <span id="likes-real">--</span></div>
+                    <div class="stat-dato"><i class="fas fa-comment"></i> <span id="coment-real">--</span></div>
+                </div>
+
                 <button onclick="manualMove(1)">SIGUIENTE <i class="fas fa-chevron-right"></i></button>
             </div>
         </div>
@@ -249,31 +285,55 @@
     let currentSlide = 0;
     const slider = document.getElementById('videoSlider');
     const totalSlides = document.querySelectorAll('.video-item').length;
+    const API_KEY = 'AIzaSyBa_xg_kBBmAe1cJVEhE5BiOfCjlQ-Ib0w';
+    const videoIds = ['Un6ZHrWKDYI', '6UUWiL0neeY', '9KoAwkaC_KU', 'jBCiqo6hCnk', '-7HCGvUbAQ8', 'vFWvq0UMbDs', 'sz9VXeCTt5c', 'ZE5B5mnhZRk', 'n2UFF11aNxI', 'yVnf-hC-HiQ', 'WO-X7K-M9I4', 'VTZrG056Y88'];
+
+    function fetchYouTubeData(index) {
+        const id = videoIds[index];
+        const spans = document.querySelectorAll('.video-stats-limpias span');
+        
+        // Desvanecer números actuales
+        spans.forEach(s => s.style.opacity = 0);
+
+        fetch(`https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${id}&key=${API_KEY}`)
+            .then(res => res.json())
+            .then(data => {
+                const s = data.items[0].statistics;
+                setTimeout(() => {
+                    document.getElementById('vistas-real').innerText = Intl.NumberFormat().format(s.viewCount);
+                    document.getElementById('likes-real').innerText = Intl.NumberFormat().format(s.likeCount);
+                    document.getElementById('coment-real').innerText = s.commentCount;
+                    // Aparecer números nuevos
+                    spans.forEach(s => s.style.opacity = 1);
+                }, 400);
+            })
+            .catch(err => console.error("Error API:", err));
+    }
 
     function moveSlide(direction) {
         currentSlide = (currentSlide + direction + totalSlides) % totalSlides;
         slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+        fetchYouTubeData(currentSlide);
     }
 
-    let autoPlay = setInterval(() => moveSlide(1), 5000);
+    let autoPlay = setInterval(() => moveSlide(1), 8000);
 
     function manualMove(direction) {
         clearInterval(autoPlay);
         moveSlide(direction);
         autoPlay = setInterval(() => moveSlide(1), 8000);
     }
-</script>
 
-<script data-goatcounter="https://catecnofan.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-<script>
-    window.addEventListener('load', function() {
-        // Esto simula el conteo para que siempre veas números subiendo
+    window.onload = () => {
+        fetchYouTubeData(0);
         let count = localStorage.getItem('bunker_views') || 1542; 
         count = parseInt(count) + 1;
         localStorage.setItem('bunker_views', count);
         document.getElementById('stats-count').innerText = count.toLocaleString() + "";
-    });
+    };
 </script>
+
+<script data-goatcounter="https://catecnofan.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 
 </body>
 </html>
