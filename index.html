@@ -6,90 +6,206 @@
     <title>CaTecnoFan | El Búnker del Gamer Real</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-    :root {
-        --cian-neon: #00e5ff;
-        --magenta-neon: #ff00ff;
-        --amarillo-neon: #ffff00;
-    }
-
-    body {
-        background-color: #080808;
-        color: #ffffff;
-        font-family: 'Arial Black', Gadget, sans-serif;
-        margin: 0;
-        padding: 0;
-        background-image: linear-gradient(rgba(0,0,0,0.96), rgba(0,0,0,0.96)), url('banner.png');
-        background-attachment: fixed;
-        background-size: cover;
-        background-position: center;
-    }
-
-    header { width: 100%; background-color: #000; text-align: center; overflow: hidden; }
-    .banner-img { width: 100%; height: auto; display: block; margin: 0 auto; }
-    .linea-magenta { width: 100%; height: 5px; background-color: var(--magenta-neon); box-shadow: 0px 0px 25px var(--magenta-neon); }
-
-    /* CONTENEDOR PRINCIPAL: Se ajusta según la pantalla */
-    .container {
-        max-width: 1000px;
-        margin: -80px auto 50px auto; 
-        background-color: rgba(10, 10, 10, 0.98);
-        border-radius: 20px;
-        border: 1px solid #333;
-        box-shadow: 0px 0px 60px rgba(0,0,0,1);
-        position: relative;
-        z-index: 10;
-        overflow: hidden;
-    }
-
-    nav { background-color: #1a1a1a; border-bottom: 2px solid var(--cian-neon); }
-    nav ul { list-style: none; margin: 0; padding: 0; display: flex; justify-content: center; flex-wrap: wrap; }
-    nav li { position: relative; flex: 1; min-width: 150px; border-right: 1px solid #333; }
-    nav a { color: white; text-decoration: none; text-transform: uppercase; font-size: 0.8em; padding: 18px 10px; display: flex; align-items: center; justify-content: center; gap: 12px; transition: 0.3s; }
-    nav a i { font-size: 1.2em; color: var(--cian-neon); }
-
-    .dropdown-content { display: none; position: absolute; background-color: #111; min-width: 220px; border: 1px solid var(--cian-neon); top: 100%; left: 0; z-index: 2000; }
-    .dropdown:hover .dropdown-content { display: block; }
-    .dropdown-content a { justify-content: flex-start; padding: 15px; border-bottom: 1px solid #222; }
-
-    .inner-content { padding: 35px; }
-
-    /* CARRUSEL RESPONSIVO */
-    .video-carousel-container { position: relative; margin-bottom: 35px; border: 3px solid var(--cian-neon); border-radius: 12px; overflow: hidden; }
-    .video-slider { display: flex; transition: transform 0.6s ease-in-out; width: 100%; }
-    .video-item { min-width: 100%; position: relative; padding-bottom: 56.25%; height: 0; }
-    .video-item iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-
-    .carousel-controls { display: flex; justify-content: space-between; align-items: center; background: #111; padding: 12px 20px; }
-    .video-stats-limpias { display: flex; gap: 40px; }
-    .stat-dato { color: var(--cian-neon); font-size: 14px; display: flex; align-items: center; gap: 10px; }
-
-    .alerta-shadow { background: #111; padding: 25px; border-left: 8px solid var(--cian-neon); margin-bottom: 35px; border-radius: 8px; }
-    .grid-descargas { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-    .boton-descarga { display: block; padding: 20px; text-align: center; text-decoration: none; font-weight: bold; border-radius: 12px; text-transform: uppercase; }
-    .btn-amarillo { background-color: var(--amarillo-neon); color: #000; }
-    .btn-cian { border: 3px solid var(--cian-neon); color: var(--cian-neon); }
-
-    footer { text-align: center; padding: 60px; color: #555; }
-
-    /* --- MAGIA PARA CELULARES --- */
-    @media (max-width: 768px) {
-        .container { 
-            margin: -30px 10px 30px 10px; /* Se achica el margen para que no tape el banner en el celu */
-            width: auto; 
+        :root {
+            --cian-neon: #00e5ff;
+            --magenta-neon: #ff00ff;
+            --amarillo-neon: #ffff00;
         }
+
+        body {
+            background-color: #080808;
+            color: #ffffff;
+            font-family: 'Arial Black', Gadget, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: linear-gradient(rgba(0,0,0,0.96), rgba(0,0,0,0.96)), url('banner.png');
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+        }
+
+        header {
+            width: 100%;
+            background-color: #000;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .banner-img { width: 100%; height: auto; display: block; margin: 0 auto; }
+
+        .linea-magenta {
+            width: 100%; height: 5px;
+            background-color: var(--magenta-neon);
+            box-shadow: 0px 0px 25px var(--magenta-neon);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: -80px auto 50px auto; 
+            background-color: rgba(10, 10, 10, 0.98);
+            border-radius: 20px;
+            border: 1px solid #333;
+            box-shadow: 0px 0px 60px rgba(0,0,0,1);
+            position: relative;
+            z-index: 10;
+            overflow: hidden;
+        }
+
+        nav {
+            background-color: #1a1a1a;
+            border-bottom: 2px solid var(--cian-neon);
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
         nav li { 
-            min-width: 50%; /* El menú se pone en dos columnas en vez de una larga */
-            border-bottom: 1px solid #333; 
+            position: relative; 
+            flex: 1; 
+            min-width: 150px;
+            border-right: 1px solid #333; 
         }
-        .inner-content { padding: 20px; }
-        .video-stats-limpias { 
-            gap: 15px; 
-            flex-direction: column; /* Las estadísticas se ponen una debajo de otra */
-            align-items: flex-start;
+        nav li:last-child { border-right: none; }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 0.8em;
+            padding: 18px 10px;
+            display: flex;
+            flex-direction: row; 
+            align-items: center;
+            justify-content: center; 
+            gap: 12px;
+            transition: 0.3s;
         }
-        .stat-dato { font-size: 11px; }
-    }
-</style>
+
+        nav a i { font-size: 1.2em; color: var(--cian-neon); width: 20px; text-align: center; }
+        nav a:hover { background-color: #252525; color: var(--cian-neon); }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #111;
+            min-width: 220px;
+            border: 1px solid var(--cian-neon);
+            top: 100%;
+            left: 0;
+            z-index: 2000;
+        }
+
+        .dropdown:hover .dropdown-content { display: block; }
+        .dropdown-content a { justify-content: flex-start; padding: 15px; border-bottom: 1px solid #222; }
+
+        .inner-content { padding: 35px; }
+
+        /* --- CARRUSEL --- */
+        .video-carousel-container {
+            position: relative;
+            margin-bottom: 35px;
+            border: 3px solid var(--cian-neon);
+            box-shadow: 0px 0px 20px rgba(0, 229, 255, 0.3);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .video-slider { display: flex; transition: transform 0.6s ease-in-out; width: 100%; }
+        .video-item { min-width: 100%; position: relative; padding-bottom: 56.25%; height: 0; }
+        .video-item iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+
+        /* ESTADÍSTICAS EN CONTROLES */
+        .carousel-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #111;
+            padding: 12px 20px;
+            border-top: 1px solid #333;
+        }
+
+        .video-stats-limpias {
+            display: flex;
+            gap: 40px;
+        }
+
+        .video-stats-limpias span {
+            transition: opacity 0.4s ease; /* Efecto suave solicitado */
+        }
+
+        .stat-dato {
+            color: var(--cian-neon);
+            font-size: 14px;
+            font-family: 'Arial Black', sans-serif;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(0, 229, 255, 0.8), 1px 1px 2px #000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stat-dato i {
+            color: #fff;
+            font-size: 12px;
+            filter: drop-shadow(0 0 5px var(--cian-neon));
+        }
+
+        .carousel-controls button {
+            background: transparent;
+            border: 1px solid var(--cian-neon);
+            color: var(--cian-neon);
+            padding: 8px 15px;
+            cursor: pointer;
+            font-family: 'Arial Black', sans-serif;
+            font-size: 0.7rem;
+            border-radius: 5px;
+        }
+
+        .alerta-shadow {
+            background: #111; padding: 25px;
+            border-left: 8px solid var(--cian-neon);
+            margin-bottom: 35px; border-radius: 8px;
+            border: 1px solid #222;
+        }
+
+        .grid-descargas { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .boton-descarga { display: block; padding: 20px; text-align: center; text-decoration: none; font-weight: bold; font-size: 1.2em; border-radius: 12px; text-transform: uppercase; transition: 0.3s; }
+        .btn-amarillo { background-color: var(--amarillo-neon); color: #000; }
+        .btn-cian { border: 3px solid var(--cian-neon); color: var(--cian-neon); }
+
+        footer { text-align: center; padding: 60px; color: #555; font-family: sans-serif; }
+
+        .contador-digital {
+            display: inline-block;
+            padding: 10px 20px;
+            border: 1px solid var(--cian-neon);
+            border-radius: 10px;
+            background: rgba(0, 229, 255, 0.05);
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.2);
+            margin-bottom: 20px;
+        }
+
+        #stats-count {
+            font-family: 'Courier New', Courier, monospace;
+            color: var(--cian-neon);
+            font-size: 1.2rem;
+            text-shadow: 0 0 10px var(--cian-neon);
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .container { margin-top: -30px; width: 95%; }
+            nav a { padding: 12px 5px; font-size: 0.7em; }
+            .video-stats-limpias { gap: 15px; }
+            .stat-dato { font-size: 11px; }
+        }
+    </style>
 </head>
 <body>
 
@@ -121,7 +237,7 @@
                 <div class="video-item"><iframe src="https://www.youtube.com/embed/6UUWiL0neeY" frameborder="0" allowfullscreen></iframe></div>
                 <div class="video-item"><iframe src="https://www.youtube.com/embed/9KoAwkaC_KU" frameborder="0" allowfullscreen></iframe></div>
                 <div class="video-item"><iframe src="https://www.youtube.com/embed/jBCiqo6hCnk" frameborder="0" allowfullscreen></iframe></div>
-                <div class="video-item"><iframe src="https://www.youtube.com/embed/-7HCGvQbAQ8?si=IXp8y5vg1IBihwRI" frameborder="0" allowfullscreen></iframe></div>
+                <div class="video-item"><iframe src="https://www.youtube.com/embed/-7HCGvUbAQ8" frameborder="0" allowfullscreen></iframe></div>
                 <div class="video-item"><iframe src="https://www.youtube.com/embed/vFWvq0UMbDs" frameborder="0" allowfullscreen></iframe></div>
                 <div class="video-item"><iframe src="https://www.youtube.com/embed/sz9VXeCTt5c" frameborder="0" allowfullscreen></iframe></div>
                 <div class="video-item"><iframe src="https://www.youtube.com/embed/ZE5B5mnhZRk" frameborder="0" allowfullscreen></iframe></div>
