@@ -287,26 +287,43 @@
     const slider = document.getElementById('videoSlider');
     const totalSlides = document.querySelectorAll('.video-item').length;
     const API_KEY = 'AIzaSyBa_xg_kBBmAe1cJVEhE5BiOfCjlQ-Ib0w';
-    const videoIds = ['Un6ZHrWKDYI', '6UUWiL0neeY', '9KoAwkaC_KU', 'jBCiqo6hCnk', '-7HCGvUbAQ8', 'vFWvq0UMbDs', 'sz9VXeCTt5c', 'ZE5B5mnhZRk', 'n2UFF11aNxI', 'yVnf-hC-HiQ', 'WO-X7K-M9I4', 'VTZrG056Y88'];
+
+    // LISTA CORREGIDA: Ahora tiene los 13 IDs correspondientes a los 13 videos del HTML
+    const videoIds = [
+        'Un6ZHrWKDYI', // Video 1
+        'UlxbEDFHn8I', // Video 2 (Este es el que faltaba y desfasaba todo)
+        '6UUWiL0neeY', // Video 3
+        '9KoAwkaC_KU', // Video 4
+        'jBCiqo6hCnk', // Video 5
+        '-7HCGvUbAQ8', // Video 6
+        'vFWvq0UMbDs', // Video 7
+        'sz9VXeCTt5c', // Video 8
+        'ZE5B5mnhZRk', // Video 9
+        'n2UFF11aNxI', // Video 10
+        'yVnf-hC-HiQ', // Video 11
+        'WO-X7K-M9I4', // Video 12
+        'VTZrG056Y88'  // Video 13
+    ];
 
     function fetchYouTubeData(index) {
         const id = videoIds[index];
         const spans = document.querySelectorAll('.video-stats-limpias span');
         
-        // Desvanecer números actuales
         spans.forEach(s => s.style.opacity = 0);
 
+        // Llamada a la API usando solo el ID limpio de la lista
         fetch(`https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${id}&key=${API_KEY}`)
             .then(res => res.json())
             .then(data => {
-                const s = data.items[0].statistics;
-                setTimeout(() => {
-                    document.getElementById('vistas-real').innerText = Intl.NumberFormat().format(s.viewCount);
-                    document.getElementById('likes-real').innerText = Intl.NumberFormat().format(s.likeCount);
-                    document.getElementById('coment-real').innerText = s.commentCount;
-                    // Aparecer números nuevos
-                    spans.forEach(s => s.style.opacity = 1);
-                }, 400);
+                if (data.items && data.items.length > 0) {
+                    const s = data.items[0].statistics;
+                    setTimeout(() => {
+                        document.getElementById('vistas-real').innerText = Intl.NumberFormat().format(s.viewCount);
+                        document.getElementById('likes-real').innerText = Intl.NumberFormat().format(s.likeCount);
+                        document.getElementById('coment-real').innerText = s.commentCount;
+                        spans.forEach(s => s.style.opacity = 1);
+                    }, 400);
+                }
             })
             .catch(err => console.error("Error API:", err));
     }
@@ -333,6 +350,8 @@
         document.getElementById('stats-count').innerText = count.toLocaleString() + "";
     };
 </script>
+
+http://googleusercontent.com/immersive_entry_chip/0
 
 <script data-goatcounter="https://catecnofan.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 
