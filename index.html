@@ -289,13 +289,20 @@
     const slider = document.getElementById('videoSlider');
     const totalSlides = document.querySelectorAll('.video-item').length;
     const API_KEY = 'AIzaSyBa_xg_kBBmAe1cJVEhE5BiOfCjlQ-Ib0w';
-    const videoIds = ['Un6ZHrWKDYI', 'UlxbEDFHn8I', '6UUWiL0neeY', '9KoAwkaC_KU', 'jBCiqo6hCnk', '-7HCGvQbAQ8', 'vFWvq0UMbDs', 'sz9VXeCTt5c', 'ZE5B5mnhZRk', 'n2UFF11aNxI', 'yVnf-hC-HiQ', 'WO-X7K-M9I4', 'VTZrG056Y88', 'V_YbQ7DJPWs'];
+    const videoIds = ['Un6ZHrWKDYI', '6UUWiL0neeY', '9KoAwkaC_KU', 'jBCiqo6hCnk', '-7HCGvUbAQ8', 'vFWvq0UMbDs', 'sz9VXeCTt5c', 'ZE5B5mnhZRk', 'n2UFF11aNxI', 'yVnf-hC-HiQ', 'WO-X7K-M9I4', 'VTZrG056Y88'];
+
+    // 1. Definimos el autoPlay en una variable para poder matarlo
+    let autoPlay = setInterval(() => moveSlide(1), 8000);
+
+    // 2. FUNCIÓN CLAVE: Frena el carrusel para siempre
+    function detenerCarrusel() {
+        console.log("CaTecnoFan: Usuario mirando video, frenando carrusel...");
+        clearInterval(autoPlay);
+    }
 
     function fetchYouTubeData(index) {
         const id = videoIds[index];
         const spans = document.querySelectorAll('.video-stats-limpias span');
-        
-        // Desvanecer números actuales
         spans.forEach(s => s.style.opacity = 0);
 
         fetch(`https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${id}&key=${API_KEY}`)
@@ -306,7 +313,6 @@
                     document.getElementById('vistas-real').innerText = Intl.NumberFormat().format(s.viewCount);
                     document.getElementById('likes-real').innerText = Intl.NumberFormat().format(s.likeCount);
                     document.getElementById('coment-real').innerText = s.commentCount;
-                    // Aparecer números nuevos
                     spans.forEach(s => s.style.opacity = 1);
                 }, 400);
             })
@@ -319,23 +325,26 @@
         fetchYouTubeData(currentSlide);
     }
 
-    let autoPlay = setInterval(() => moveSlide(1), 8000);
-
     function manualMove(direction) {
-        clearInterval(autoPlay);
+        detenerCarrusel(); // Si el usuario toca manual, también frenamos el auto
         moveSlide(direction);
-        autoPlay = setInterval(() => moveSlide(1), 8000);
     }
 
     window.onload = () => {
         fetchYouTubeData(0);
+        
+        // 3. EVENTOS DE SEGURIDAD: Si el mouse entra al carrusel, se frena
+        const container = document.querySelector('.video-carousel-container');
+        container.addEventListener('mouseenter', detenerCarrusel);
+        container.addEventListener('mousedown', detenerCarrusel);
+
+        // Contador de visitas local
         let count = localStorage.getItem('bunker_views') || 1542; 
         count = parseInt(count) + 1;
         localStorage.setItem('bunker_views', count);
         document.getElementById('stats-count').innerText = count.toLocaleString() + "";
     };
 </script>
-
 <script data-goatcounter="https://catecnofan.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 
 </body>
