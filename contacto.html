@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto | CaTecnoFan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --cian-neon: #00e5ff;
+            --magenta-neon: #ff00ff;
+            --amarillo-neon: #ffff00;
+        }
+html {
+    overflow-y: scroll;
+}
+        body {
+            background-color: #080808;
+            color: #ffffff;
+            font-family: 'Arial Black', Gadget, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: linear-gradient(rgba(0,0,0,0.96), rgba(0,0,0,0.96)), url('banner.png');
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+        }
+nav a i { font-size: 1.2em; color: var(--cian-neon); width: 20px; text-align: center; }
+        nav a:hover { background-color: #252525; color: var(--cian-neon); }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #111;
+            min-width: 220px;
+            border: 1px solid var(--cian-neon);
+            top: 100%;
+            left: 0;
+            z-index: 2000;
+        }
+
+        .dropdown:hover .dropdown-content { display: block; }
+        .dropdown-content a { justify-content: flex-start; padding: 15px; border-bottom: 1px solid #222; }
+
+        .inner-content { padding: 35px; }
+
+        header { width: 100%; background-color: #000; text-align: center; overflow: hidden; }
+        .banner-img { width: 100%; height: auto; display: block; margin: 0 auto; }
+        .linea-magenta { width: 100%; height: 5px; background-color: var(--magenta-neon); box-shadow: 0px 0px 25px var(--magenta-neon); }
+
+        .container {
+            max-width: 1000px;
+            margin: -80px auto 50px auto; 
+            background-color: rgba(10, 10, 10, 0.98);
+            border-radius: 20px;
+            border: 1px solid #333;
+            box-shadow: 0px 0px 60px rgba(0,0,0,1);
+            position: relative;
+            z-index: 10;
+            overflow: hidden;
+        }
+
+        nav { background-color: #1a1a1a; border-bottom: 2px solid var(--cian-neon); }
+        nav ul { list-style: none; margin: 0; padding: 0; display: flex; justify-content: center; flex-wrap: wrap; }
+        nav li { position: relative; flex: 1; min-width: 150px; border-right: 1px solid #333; }
+        nav li:last-child { border-right: none; }
+        nav a { color: white; text-decoration: none; text-transform: uppercase; font-size: 0.8em; padding: 18px 10px; display: flex; align-items: center; justify-content: center; gap: 12px; transition: 0.3s; }
+        nav a i { color: var(--cian-neon); font-size: 1.2em; }
+        nav a:hover { background-color: #252525; color: var(--cian-neon); }
+
+        .inner-content { padding: 35px; }
+        h2 { color: var(--cian-neon); text-transform: uppercase; margin-bottom: 30px; text-shadow: 0 0 10px rgba(0, 229, 255, 0.3); text-align: center; }
+
+        /* ESTILOS ESPECÍFICOS DEL FORMULARIO */
+        .contact-wrapper {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .contact-info h3 { color: var(--amarillo-neon); text-transform: uppercase; font-size: 1.2em; margin-bottom: 15px; }
+        .contact-info p { font-family: sans-serif; color: #ccc; line-height: 1.6; margin-bottom: 25px; }
+
+        .social-links { display: flex; flex-direction: column; gap: 15px; }
+        .social-item { 
+            display: flex; 
+            align-items: center; 
+            gap: 15px; 
+            text-decoration: none; 
+            color: white; 
+            font-family: sans-serif;
+            transition: 0.3s;
+        }
+        .social-item i { font-size: 1.5em; width: 30px; text-align: center; }
+        .social-item:hover { color: var(--cian-neon); transform: translateX(5px); }
+
+        .contact-form {
+            background: #111;
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid #333;
+            border-top: 4px solid var(--magenta-neon);
+        }
+
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; color: var(--cian-neon); font-size: 0.8em; margin-bottom: 8px; text-transform: uppercase; }
+        
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            background: #080808;
+            border: 1px solid #444;
+            color: white;
+            border-radius: 6px;
+            font-family: sans-serif;
+            box-sizing: border-box; /* Para que el padding no rompa el ancho */
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--cian-neon);
+            box-shadow: 0 0 10px rgba(0, 229, 255, 0.2);
+        }
+
+        .btn-submit {
+            width: 100%;
+            background-color: transparent;
+            color: var(--magenta-neon);
+            border: 2px solid var(--magenta-neon);
+            padding: 15px;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 1em;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: 0.3s;
+            font-family: 'Arial Black', sans-serif;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--magenta-neon);
+            color: #000;
+            box-shadow: 0 0 20px var(--magenta-neon);
+        }
+
+        footer { text-align: center; padding: 60px; color: #555; font-family: sans-serif; font-size: 0.9em; }
+
+        @media (max-width: 768px) { .container { margin-top: -30px; width: 95%; } nav li { min-width: 120px; } }
+    </style>
+</head>
+<body>
+
+<header>
+    <img src="banner.png" alt="CaTecnoFan Banner" class="banner-img">
+    <div class="linea-magenta"></div>
+</header>
+
+<div class="container">
+    <nav>
+        <ul>
+            <li><a href="index.html"><i class="fas fa-home"></i> INICIO</a></li>
+            <li class="dropdown">
+                <a href="#"><i class="fas fa-download"></i> DESCARGAS ▼</a>
+                <div class="dropdown-content">
+                    <a href="emuladores.html"><i class="fas fa-gamepad"></i> EMULADORES</a>
+                    <a href="utilidades.html"><i class="fas fa-tools"></i> UTILIDADES</a>
+                </div>
+            </li>
+            <li><a href="https://www.youtube.com/@CaTecnoFan" target="_blank"><i class="fab fa-youtube"></i> YOUTUBE</a></li>
+            <li><a href="contacto.html"><i class="fas fa-envelope"></i> CONTACTO</a></li>
+        </ul>
+    </nav>
+
+
+    <div class="inner-content">
+        <h2>📩 Contacto</h2>
+        
+        <div class="contact-wrapper">
+            <!-- Columna Izquierda: Info y Redes -->
+            <div class="contact-info">
+                <h3>¿Tenés dudas técnicas?</h3>
+                <p>Si necesitás ayuda con algún emulador o tenés una propuesta, mandame un mensaje. Respondo lo más rápido que el lag me permite.</p>
+                
+                <div class="social-links">
+                    <a href="https://www.youtube.com/@CaTecnoFan" class="social-item" target="_blank">
+                        <i class="fab fa-youtube" style="color: #ff0000;"></i> YouTube /CaTecnoFan
+                    </a>
+                    <a href="#" class="social-item">
+                        <i class="fab fa-instagram" style="color: var(--magenta-neon);"></i> @CaTecnoFan
+                    </a>
+                    <a href="#" class="social-item">
+                        <i class="fab fa-discord" style="color: #5865F2;"></i> Comunidad Discord
+                    </a>
+                </div>
+            </div>
+
+            <!-- Columna Derecha: Formulario -->
+            <div class="contact-form">
+                <form action="#" method="POST">
+                    <div class="form-group">
+                        <label for="nombre">Nombre / Alias</label>
+                        <input type="text" id="nombre" name="nombre" placeholder="Tu nombre..." required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="tu@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="mensaje">Mensaje</label>
+                        <textarea id="mensaje" name="mensaje" rows="5" placeholder="¿En qué puedo ayudarte?" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit">Enviar Mensaje</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    CaTecnoFan &copy; 2026 - Rosario, Argentina <br>
+    Hardware, Juegos y Tecnología para el Gamer Real
+</footer>
+
+</body>
+</html>
