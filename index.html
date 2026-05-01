@@ -234,10 +234,11 @@
         <div class="video-carousel-container">
             <div class="video-slider" id="videoSlider">
                 <div class="video-item"><iframe src="https://www.youtube.com/embed/Un6ZHrWKDYI" frameborder="0" allowfullscreen></iframe></div>
+                <div class="video-item"><iframe src="https://www.youtube.com/embed/UlxbEDFHn8I?si=0b2wBOcuO_RQqGLk" frameborder="0" allowfullscreen></iframe></div>
                 <div class="video-item"><iframe src="https://www.youtube.com/embed/6UUWiL0neeY" frameborder="0" allowfullscreen></iframe></div>
                 <div class="video-item"><iframe src="https://www.youtube.com/embed/9KoAwkaC_KU" frameborder="0" allowfullscreen></iframe></div>
                 <div class="video-item"><iframe src="https://www.youtube.com/embed/jBCiqo6hCnk" frameborder="0" allowfullscreen></iframe></div>
-                <div class="video-item"><iframe src="https://www.youtube.com/embed/-7HCGvUbAQ8" frameborder="0" allowfullscreen></iframe></div>
+                <div class="video-item"><iframe src="https://www.youtube.com/embed/-7HCGvQbAQ8?si=A_QVYocHFmwF7S7l" frameborder="0" allowfullscreen></iframe></div>
                 <div class="video-item"><iframe src="https://www.youtube.com/embed/vFWvq0UMbDs" frameborder="0" allowfullscreen></iframe></div>
                 <div class="video-item"><iframe src="https://www.youtube.com/embed/sz9VXeCTt5c" frameborder="0" allowfullscreen></iframe></div>
                 <div class="video-item"><iframe src="https://www.youtube.com/embed/ZE5B5mnhZRk" frameborder="0" allowfullscreen></iframe></div>
@@ -246,7 +247,7 @@
                 <div class="video-item"><iframe src="https://www.youtube.com/embed/WO-X7K-M9I4" frameborder="0" allowfullscreen></iframe></div>
                 <div class="video-item"><iframe src="https://www.youtube.com/embed/VTZrG056Y88" frameborder="0" allowfullscreen></iframe></div>
                 <div class="video-item"><iframe src="https://www.youtube.com/embed/V_YbQ7DJPWs?si=2qiUh9NNzOesf3-C" frameborder="0" allowfullscreen></iframe></div>
-                https://www.youtube.com/embed/V_YbQ7DJPWs?si=2qiUh9NNzOesf3-C
+                
             </div>
             <div class="carousel-controls">
                 <button onclick="manualMove(-1)"><i class="fas fa-chevron-left"></i> ANTERIOR</button>
@@ -288,7 +289,7 @@
     const slider = document.getElementById('videoSlider');
     const totalSlides = document.querySelectorAll('.video-item').length;
     const API_KEY = 'AIzaSyBa_xg_kBBmAe1cJVEhE5BiOfCjlQ-Ib0w';
-    const videoIds = ['Un6ZHrWKDYI', '6UUWiL0neeY', '9KoAwkaC_KU', 'jBCiqo6hCnk', '-7HCGvUbAQ8', 'vFWvq0UMbDs', 'sz9VXeCTt5c', 'ZE5B5mnhZRk', 'n2UFF11aNxI', 'yVnf-hC-HiQ', 'WO-X7K-M9I4', 'VTZrG056Y88', 'V_YbQ7DJPWs'];
+    const videoIds = ['Un6ZHrWKDYI', 'UlxbEDFHn8I', '6UUWiL0neeY', '9KoAwkaC_KU', 'jBCiqo6hCnk', '-7HCGvUbAQ8', 'vFWvq0UMbDs', 'sz9VXeCTt5c', 'ZE5B5mnhZRk', 'n2UFF11aNxI', 'yVnf-hC-HiQ', 'WO-X7K-M9I4', 'VTZrG056Y88', 'V_YbQ7DJPWs'];
 
     function fetchYouTubeData(index) {
         const id = videoIds[index];
