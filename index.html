@@ -107,8 +107,47 @@
         .stat-dato i { color: #fff; font-size: 12px; filter: drop-shadow(0 0 5px var(--cian-neon)); }
         .carousel-controls button { background: transparent; border: 1px solid var(--cian-neon); color: var(--cian-neon); padding: 8px 15px; cursor: pointer; font-family: 'Arial Black', sans-serif; font-size: 0.7rem; border-radius: 5px; }
 
-        /* --- SECCIONES RESTAURADAS --- */
+        /* --- ESTILOS DE NOTICIAS --- */
         .alerta-shadow { background: #111; padding: 25px; border-left: 8px solid var(--cian-neon); margin-bottom: 35px; border-radius: 8px; border: 1px solid #222; }
+        .noticia-item { border-bottom: 1px solid #333; padding: 15px 0; margin-bottom: 10px; }
+        .noticia-item:last-child { border-bottom: none; }
+        .noticia-titulo { color: var(--amarillo-neon); font-size: 1rem; margin-bottom: 2px; text-transform: uppercase; }
+        .noticia-fecha { color: #888; font-family: sans-serif; font-size: 0.75rem; margin-bottom: 8px; display: block; font-weight: normal; }
+        .noticia-cuerpo { font-family: sans-serif; font-size: 0.95rem; line-height: 1.5; color: #ccc; }
+
+        /* --- ESTILOS PANEL ADMIN --- */
+        #admin-panel {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #111;
+            border: 3px solid var(--magenta-neon);
+            padding: 30px;
+            z-index: 20000;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 15px;
+            box-shadow: 0 0 50px rgba(255, 0, 255, 0.4);
+        }
+        #admin-panel h2 { color: var(--magenta-neon); margin-top: 0; }
+        #admin-panel input, #admin-panel textarea {
+            width: 100%;
+            background: #222;
+            border: 1px solid #444;
+            color: #fff;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .admin-btns { display: flex; gap: 10px; }
+        .btn-admin { flex: 1; padding: 10px; border: none; cursor: pointer; font-weight: bold; text-transform: uppercase; border-radius: 5px; }
+        .btn-save { background: var(--cian-neon); color: #000; }
+        .btn-close { background: #444; color: #fff; }
+        .btn-delete { background: #ff0000; color: #fff; font-size: 0.7em; margin-top: 5px; padding: 3px 8px; }
+
         .grid-descargas { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
         .boton-descarga { display: block; padding: 20px; text-align: center; text-decoration: none; font-weight: bold; font-size: 1.2em; border-radius: 12px; text-transform: uppercase; transition: 0.3s; }
         .btn-amarillo { background-color: var(--amarillo-neon); color: #000; }
@@ -133,6 +172,18 @@
     </a>
 </aside>
 
+    <div id="admin-panel">
+    <h2>📡 PANEL DE NOTICIAS</h2>
+    <input type="text" id="news-title" placeholder="Título de la noticia">
+    <textarea id="news-content" rows="4" placeholder="Contenido de la noticia..."></textarea>
+    <div class="admin-btns">
+        <button class="btn-admin btn-save" onclick="saveNews()">PUBLICAR</button>
+        <button class="btn-admin btn-close" onclick="toggleAdmin()">CERRAR</button>
+    </div>
+    <hr style="border: 1px solid #333; margin: 20px 0;">
+    <div id="admin-news-list"></div>
+</div>
+    
 <header>
     <img src="banner.png" alt="CaTecnoFan Banner" class="banner-img">
     <div class="linea-magenta"></div>
@@ -256,10 +307,100 @@
         autoPlayInterval = setInterval(() => moveSlide(1), 8000);
     }
 
+      // --- LÓGICA DE NOTICIAS ---
+    
+    function toggleAdmin() {
+        const panel = document.getElementById('admin-panel');
+        panel.style.display = (panel.style.display === 'block') ? 'none' : 'block';
+        if(panel.style.display === 'block') renderAdminList();
+    }
+
+    window.addEventListener('keydown', (e) => {
+        if (e.ctrlKey && e.altKey && e.key.toLowerCase() === 'a') {
+            e.preventDefault();
+            toggleAdmin();
+        }
+    });
+
+    function getFormattedDate() {
+        const fecha = new Date();
+        const dias = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+        const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+        
+        const diaSemana = dias[fecha.getDay()];
+        const diaNum = fecha.getDate();
+        const mes = meses[fecha.getMonth()];
+        const anio = fecha.getFullYear();
+        const horas = String(fecha.getHours()).padStart(2, '0');
+        const mins = String(fecha.getMinutes()).padStart(2, '0');
+
+        return `${diaSemana} ${diaNum} de ${mes} de ${anio} a las ${horas}:${mins}`;
+    }
+
+    function saveNews() {
+        const title = document.getElementById('news-title').value;
+        const content = document.getElementById('news-content').value;
+        if (!title || !content) return alert("Completá los campos");
+
+        const news = JSON.parse(localStorage.getItem('ctf_news') || '[]');
+        news.unshift({ 
+            id: Date.now(), 
+            title: title, 
+            content: content, 
+            date: getFormattedDate() 
+        });
+        localStorage.setItem('ctf_news', JSON.stringify(news));
+
+        document.getElementById('news-title').value = '';
+        document.getElementById('news-content').value = '';
+        
+        renderNews();
+        renderAdminList();
+    }
+
+    function deleteNews(id) {
+        let news = JSON.parse(localStorage.getItem('ctf_news') || '[]');
+        news = news.filter(n => n.id !== id);
+        localStorage.setItem('ctf_news', JSON.stringify(news));
+        renderNews();
+        renderAdminList();
+    }
+
+    function renderNews() {
+        const container = document.getElementById('noticias-container');
+        const news = JSON.parse(localStorage.getItem('ctf_news') || '[]');
+        
+        if (news.length === 0) {
+            container.innerHTML = '<p style="color:#555">No hay noticias por ahora.</p>';
+            return;
+        }
+
+        container.innerHTML = news.map(n => `
+            <div class="noticia-item">
+                <div class="noticia-titulo">${n.title}</div>
+                <span class="noticia-fecha">${n.date}</span>
+                <div class="noticia-cuerpo">${n.content}</div>
+            </div>
+        `).join('');
+    }
+
+    function renderAdminList() {
+        const list = document.getElementById('admin-news-list');
+        const news = JSON.parse(localStorage.getItem('ctf_news') || '[]');
+        list.innerHTML = news.map(n => `
+            <div style="font-size:0.8em; margin-bottom:10px; border-bottom:1px solid #222; padding-bottom:5px">
+                <b>${n.title}</b> <br> <span style="color:#666">${n.date}</span> <br>
+                <button class="btn-delete" onclick="deleteNews(${n.id})">Eliminar</button>
+            </div>
+        `).join('');
+    }
+
     window.onload = () => {
         window.currentSlide = 0;
         fetchYouTubeData(0);
         fetchGlobalStats();
+        renderNews();
+        
         let count = localStorage.getItem('bunker_views') || 1542; 
         count = parseInt(count) + 1;
         localStorage.setItem('bunker_views', count);
