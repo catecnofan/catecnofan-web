@@ -63,7 +63,6 @@
 
         .btn-subscribe:hover { transform: scale(1.05); background: #ff3333; box-shadow: 0 0 20px rgba(255, 0, 0, 0.8); }
 
-        /* --- ESTRUCTURA ORIGINAL RESTAURADA --- */
         header { width: 100%; background-color: #000; text-align: center; overflow: hidden; }
         .banner-img { width: 100%; height: auto; display: block; margin: 0 auto; }
         .linea-magenta { width: 100%; height: 5px; background-color: var(--magenta-neon); box-shadow: 0px 0px 25px var(--magenta-neon); }
@@ -107,13 +106,49 @@
         .stat-dato i { color: #fff; font-size: 12px; filter: drop-shadow(0 0 5px var(--cian-neon)); }
         .carousel-controls button { background: transparent; border: 1px solid var(--cian-neon); color: var(--cian-neon); padding: 8px 15px; cursor: pointer; font-family: 'Arial Black', sans-serif; font-size: 0.7rem; border-radius: 5px; }
 
-        /* --- ESTILOS DE NOTICIAS --- */
-        .alerta-shadow { background: #111; padding: 25px; border-left: 8px solid var(--cian-neon); margin-bottom: 35px; border-radius: 8px; border: 1px solid #222; }
-        .noticia-item { border-bottom: 1px solid #333; padding: 15px 0; margin-bottom: 10px; }
-        .noticia-item:last-child { border-bottom: none; }
-        .noticia-titulo { color: var(--amarillo-neon); font-size: 1rem; margin-bottom: 2px; text-transform: uppercase; }
-        .noticia-fecha { color: #888; font-family: sans-serif; font-size: 0.75rem; margin-bottom: 8px; display: block; font-weight: normal; }
-        .noticia-cuerpo { font-family: sans-serif; font-size: 0.95rem; line-height: 1.5; color: #ccc; }
+       /* --- ESTILOS DE NOTICIAS --- */
+.alerta-shadow { background: #111; padding: 25px; border-left: 8px solid var(--cian-neon); margin-bottom: 35px; border-radius: 8px; border: 1px solid #222; }
+
+/* 1. Mantenemos tus bordes pero fijamos la altura a 300px (ajustalo si querés) */
+.noticia-item { 
+    border-bottom: 1px solid #333; 
+    padding: 15px; 
+    margin-bottom: 10px; 
+    height: 300px; 
+    display: flex; 
+    flex-direction: column; 
+}
+
+.noticia-item:last-child { border-bottom: none; }
+.noticia-titulo { color: var(--amarillo-neon); font-size: 1rem; margin-bottom: 2px; text-transform: uppercase; flex-shrink: 0; }
+.noticia-fecha { color: #888; font-family: sans-serif; font-size: 0.75rem; margin-bottom: 8px; display: block; font-weight: normal; flex-shrink: 0; }
+
+/* 2. El cuerpo ahora tiene scroll interno si el texto es muy largo */
+.noticia-cuerpo { 
+    font-family: sans-serif; 
+    font-size: 0.95rem; 
+    line-height: 1.5; 
+    color: #ccc; 
+    white-space: pre-line; 
+    overflow-y: auto; /* Activa el scroll */
+    flex-grow: 1;    /* Ocupa el espacio sobrante */
+    padding-right: 5px; 
+}
+
+/* 3. Tus links impecables: Rosa Pastel al pasar el mouse y sin subrayado */
+.noticia-cuerpo a { color: var(--cian-neon); text-decoration: none; font-weight: bold; }
+.noticia-cuerpo a:hover { color: #ffb3ff !important; text-decoration: none; text-shadow: none; }
+
+/* 4. Estilo del scroll interno para que sea Cian como el canal */
+.noticia-cuerpo::-webkit-scrollbar { width: 4px; }
+.noticia-cuerpo::-webkit-scrollbar-thumb { background: var(--cian-neon); border-radius: 10px; }
+
+        /* PAGINACIÓN AGREGADA */
+        .paginacion-cont { display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 20px; padding-top: 20px; border-top: 1px solid #222; }
+        .btn-nro { background: #1a1a1a; border: 1px solid #444; color: #fff; padding: 8px 14px; cursor: pointer; border-radius: 4px; font-family: 'Arial Black'; transition: 0.3s; font-size: 0.8rem; }
+        .btn-nro:hover:not(:disabled) { border-color: var(--cian-neon); color: var(--cian-neon); }
+        .btn-nro.active { background: var(--cian-neon); color: #000; border-color: var(--cian-neon); }
+        .btn-nro:disabled { opacity: 0.2; cursor: not-allowed; }
 
         /* --- ESTILOS PANEL ADMIN --- */
         #admin-panel {
@@ -146,7 +181,7 @@
         .btn-admin { flex: 1; padding: 10px; border: none; cursor: pointer; font-weight: bold; text-transform: uppercase; border-radius: 5px; }
         .btn-save { background: var(--cian-neon); color: #000; }
         .btn-close { background: #444; color: #fff; }
-        .btn-delete { background: #ff0000; color: #fff; font-size: 0.7em; margin-top: 5px; padding: 3px 8px; }
+        .btn-delete { background: #ff0000; color: #fff; font-size: 0.7em; margin-top: 5px; padding: 3px 8px; border: none; cursor: pointer; border-radius: 3px;}
 
         .grid-descargas { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
         .boton-descarga { display: block; padding: 20px; text-align: center; text-decoration: none; font-weight: bold; font-size: 1.2em; border-radius: 12px; text-transform: uppercase; transition: 0.3s; }
@@ -172,7 +207,7 @@
     </a>
 </aside>
 
-    <div id="admin-panel">
+<div id="admin-panel">
     <h2>📡 PANEL DE NOTICIAS</h2>
     <input type="text" id="news-title" placeholder="Título de la noticia">
     <textarea id="news-content" rows="4" placeholder="Contenido de la noticia..."></textarea>
@@ -238,6 +273,7 @@
         <div class="alerta-shadow">
             <h3 style="color: var(--cian-neon); margin-top: 0; text-transform: uppercase; font-size: 1rem;">📢 ÚLTIMAS NOTICIAS</h3>
             <div id="noticias-container"></div>
+            <div id="paginacion-cont" class="paginacion-cont"></div>
         </div>
 
         <div class="grid-descargas">
@@ -256,156 +292,174 @@
     CaTecnoFan &copy; 2026 - Rosario, Argentina <br>
     Hardware, Juegos y Tecnología para el Gamer Real
 </footer>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+import {
+    getFirestore,
+    collection,
+    addDoc,
+    getDocs,
+    deleteDoc,
+    doc,
+    query,
+    orderBy,
+    getDoc,
+    updateDoc,
+    increment
+} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
-<script>
-    const API_KEY = 'AIzaSyBa_xg_kBBmAe1cJVEhE5BiOfCjlQ-Ib0w';
-    const CHANNEL_ID = 'UCG_8fY6lpJwWW0cut5Z5dfA'; 
+/* ================= CONFIGURACIÓN FIREBASE ================= */
+const firebaseConfig = {
+    apiKey: "AIzaSyBa_xg_kBBmAe1cJVEhE5BiOfCjlQ-Ib0w", 
+    authDomain: "catecnofan-web.firebaseapp.com",
+    projectId: "catecnofan-web",
+    storageBucket: "catecnofan-web.appspot.com",
+    messagingSenderId: "670781631971",
+    appId: "1:670781631971:web:7fa547d5392149c05304d6"
+};
 
-    async function fetchGlobalStats() {
-        try {
-            const res = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${CHANNEL_ID}&key=${API_KEY}`);
-            const data = await res.json();
-            if (data.items && data.items.length > 0) {
-                const s = data.items[0].statistics;
-                document.getElementById('subs-count').innerText = (s.subscriberCount / 1000).toFixed(1) + "K";
-                document.getElementById('views-total-count').innerText = Intl.NumberFormat().format(s.viewCount);
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+/* ================= YOUTUBE CONFIG ================= */
+const API_KEY = 'AIzaSyBa_xg_kBBmAe1cJVEhE5BiOfCjlQ-Ib0w';
+const CHANNEL_ID = 'UCG_8fY6lpJwWW0cut5Z5dfA';
+let currentSlide = 0;
+
+async function fetchGlobalStats() {
+    try {
+        const res = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${CHANNEL_ID}&key=${API_KEY}`);
+        const data = await res.json();
+        const s = data?.items?.[0]?.statistics;
+        if (s) {
+            document.getElementById('subs-count').innerText = (s.subscriberCount / 1000).toFixed(1) + "K";
+            document.getElementById('views-total-count').innerText = Intl.NumberFormat().format(s.viewCount);
+        }
+    } catch (e) { console.error(e); }
+}
+
+function fetchYouTubeData(index) {
+    const videoIds = ['Un6ZHrWKDYI','UlxbEDFHn8I','6UUWiL0neeY','9KoAwkaC_KU','jBCiqo6hCnk','-7HCGvQbAQ8','vFWvq0UMbDs','sz9VXeCTt5c','ZE5B5mnhZRk','n2UFF11aNxI','yVnf-hC-HiQ','WO-X7K-M9I4','VTZrG056Y88','V_YbQ7DJPWs','OAm9Njw31CY'];
+    const id = videoIds[index];
+    if (!id) return;
+    fetch(`https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${id}&key=${API_KEY}`)
+        .then(res => res.json())
+        .then(data => {
+            const s = data?.items?.[0]?.statistics;
+            if (s) {
+                document.getElementById('vistas-real').innerText = Intl.NumberFormat().format(s.viewCount || 0);
+                document.getElementById('likes-real').innerText = Intl.NumberFormat().format(s.likeCount || 0);
+                document.getElementById('coment-real').innerText = Intl.NumberFormat().format(s.commentCount || 0);
             }
-        } catch (e) { console.error(e); }
-    }
+        }).catch(() => {});
+}
 
-    function fetchYouTubeData(index) {
-        const videoIds = ['Un6ZHrWKDYI', 'UlxbEDFHn8I', '6UUWiL0neeY', '9KoAwkaC_KU', 'jBCiqo6hCnk', '-7HCGvQbAQ8', 'vFWvq0UMbDs', 'sz9VXeCTt5c', 'ZE5B5mnhZRk', 'n2UFF11aNxI', 'yVnf-hC-HiQ', 'WO-X7K-M9I4', 'VTZrG056Y88', 'V_YbQ7DJPWs', 'OAm9Njw31CY'];
-        const id = videoIds[index];
-        const spans = document.querySelectorAll('.video-stats-limpias span');
-        spans.forEach(s => s.style.opacity = 0);
-        fetch(`https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${id}&key=${API_KEY}`)
-            .then(res => res.json()).then(data => {
-                const s = data.items[0].statistics;
-                setTimeout(() => {
-                    document.getElementById('vistas-real').innerText = Intl.NumberFormat().format(s.viewCount);
-                    document.getElementById('likes-real').innerText = Intl.NumberFormat().format(s.likeCount);
-                    document.getElementById('coment-real').innerText = s.commentCount;
-                    spans.forEach(s => s.style.opacity = 1);
-                }, 400);
-            });
-    }
+/* ================= CAROUSEL ================= */
+function moveSlide(direction) {
+    const slider = document.getElementById('videoSlider');
+    const items = document.querySelectorAll('.video-item');
+    currentSlide = (currentSlide + direction + items.length) % items.length;
+    slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+    fetchYouTubeData(currentSlide);
+}
+let autoPlayInterval = setInterval(() => moveSlide(1), 8000);
+window.manualMove = (dir) => { clearInterval(autoPlayInterval); moveSlide(dir); autoPlayInterval = setInterval(() => moveSlide(1), 8000); }
 
-    function moveSlide(direction) {
-        let slider = document.getElementById('videoSlider');
-        let total = document.querySelectorAll('.video-item').length;
-        window.currentSlide = ( (window.currentSlide || 0) + direction + total) % total;
-        slider.style.transform = `translateX(-${window.currentSlide * 100}%)`;
-        fetchYouTubeData(window.currentSlide);
-    }
+/* ================= NOTICIAS ================= */
+let noticias = [];
+let paginaActual = 1;
+const porPagina = 3;
 
-    // --- ARREGLO AUTO-PLAY ---
-    let autoPlayInterval = setInterval(() => moveSlide(1), 8000);
+async function loadNewsData() {
+    const q = query(collection(db, "news"), orderBy("date", "desc"));
+    const snapshot = await getDocs(q);
+    noticias = [];
+    snapshot.forEach(d => noticias.push({ id: d.id, ...d.data() }));
+    renderNews();
+    if (document.getElementById('admin-panel').style.display === 'block') renderAdminList();
+}
 
-    function manualMove(direction) { 
-        clearInterval(autoPlayInterval); // Reset del tiempo si el usuario toca manual
-        moveSlide(direction); 
-        autoPlayInterval = setInterval(() => moveSlide(1), 8000);
-    }
+function renderNews() {
+    const container = document.getElementById('noticias-container');
+    const start = (paginaActual - 1) * porPagina;
+    const slice = noticias.slice(start, start + porPagina);
+    container.innerHTML = slice.map(n => `
+        <div class="noticia-item">
+            <div class="noticia-titulo">${n.title}</div>
+            <span class="noticia-fecha">${new Date(n.date).toLocaleString()}</span>
+            <div class="noticia-cuerpo">${n.content.replace(/((https?:\/\/)[^\s]+)/g, '<a href="$1" target="_blank">$1</a>')}</div>
+        </div>`).join('');
+    renderPaginacion();
+}
 
-      // --- LÓGICA DE NOTICIAS ---
-    
-    function toggleAdmin() {
-        const panel = document.getElementById('admin-panel');
-        panel.style.display = (panel.style.display === 'block') ? 'none' : 'block';
-        if(panel.style.display === 'block') renderAdminList();
-    }
+function renderPaginacion() {
+    const pag = document.getElementById('paginacion-cont');
+    const total = Math.ceil(noticias.length / porPagina);
+    let html = "";
+    for (let i = 1; i <= total; i++) html += `<button class="btn-nro ${i === paginaActual ? 'active' : ''}" onclick="goPage(${i})">${i}</button>`;
+    pag.innerHTML = html;
+}
 
-    window.addEventListener('keydown', (e) => {
-        if (e.ctrlKey && e.altKey && e.key.toLowerCase() === 'a') {
-            e.preventDefault();
-            toggleAdmin();
-        }
-    });
+window.goPage = (p) => { paginaActual = p; renderNews(); }
 
-    function getFormattedDate() {
-        const fecha = new Date();
-        const dias = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
-        const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-        
-        const diaSemana = dias[fecha.getDay()];
-        const diaNum = fecha.getDate();
-        const mes = meses[fecha.getMonth()];
-        const anio = fecha.getFullYear();
-        const horas = String(fecha.getHours()).padStart(2, '0');
-        const mins = String(fecha.getMinutes()).padStart(2, '0');
-
-        return `${diaSemana} ${diaNum} de ${mes} de ${anio} a las ${horas}:${mins}`;
-    }
-
-    function saveNews() {
-        const title = document.getElementById('news-title').value;
-        const content = document.getElementById('news-content').value;
-        if (!title || !content) return alert("Completá los campos");
-
-        const news = JSON.parse(localStorage.getItem('ctf_news') || '[]');
-        news.unshift({ 
-            id: Date.now(), 
-            title: title, 
-            content: content, 
-            date: getFormattedDate() 
+/* ================= CONTADOR GLOBAL ================= */
+async function handleCounter() {
+    const counterDoc = doc(db, "stats", "visitas");
+    try {
+        // Le sumamos 1 al campo 'count' que creaste en Firebase
+        await updateDoc(counterDoc, {
+            count: increment(1)
         });
-        localStorage.setItem('ctf_news', JSON.stringify(news));
-
-        document.getElementById('news-title').value = '';
-        document.getElementById('news-content').value = '';
-        
-        renderNews();
-        renderAdminList();
-    }
-
-    function deleteNews(id) {
-        let news = JSON.parse(localStorage.getItem('ctf_news') || '[]');
-        news = news.filter(n => n.id !== id);
-        localStorage.setItem('ctf_news', JSON.stringify(news));
-        renderNews();
-        renderAdminList();
-    }
-
-    function renderNews() {
-        const container = document.getElementById('noticias-container');
-        const news = JSON.parse(localStorage.getItem('ctf_news') || '[]');
-        
-        if (news.length === 0) {
-            container.innerHTML = '<p style="color:#555">No hay noticias por ahora.</p>';
-            return;
+        // Traemos el número actualizado para mostrarlo
+        const snap = await getDoc(counterDoc);
+        if (snap.exists()) {
+            document.getElementById('stats-count').innerText = snap.data().count;
         }
-
-        container.innerHTML = news.map(n => `
-            <div class="noticia-item">
-                <div class="noticia-titulo">${n.title}</div>
-                <span class="noticia-fecha">${n.date}</span>
-                <div class="noticia-cuerpo">${n.content}</div>
-            </div>
-        `).join('');
+    } catch (e) {
+        console.error("Error en contador:", e);
     }
+}
 
-    function renderAdminList() {
-        const list = document.getElementById('admin-news-list');
-        const news = JSON.parse(localStorage.getItem('ctf_news') || '[]');
-        list.innerHTML = news.map(n => `
-            <div style="font-size:0.8em; margin-bottom:10px; border-bottom:1px solid #222; padding-bottom:5px">
-                <b>${n.title}</b> <br> <span style="color:#666">${n.date}</span> <br>
-                <button class="btn-delete" onclick="deleteNews(${n.id})">Eliminar</button>
-            </div>
-        `).join('');
+/* ================= PANEL ADMIN ================= */
+window.saveNews = async () => {
+    const title = document.getElementById('news-title').value;
+    const content = document.getElementById('news-content').value;
+    if (!title || !content) return alert("Completá todo");
+    await addDoc(collection(db, "news"), { title, content, date: Date.now() });
+    document.getElementById('news-title').value = '';
+    document.getElementById('news-content').value = '';
+    loadNewsData();
+}
+
+window.deleteNews = async (id) => {
+    if (confirm("¿Borrar noticia?")) { await deleteDoc(doc(db, "news", id)); loadNewsData(); }
+}
+
+async function renderAdminList() {
+    const list = document.getElementById('admin-news-list');
+    list.innerHTML = noticias.map(n => `<div style="font-size:0.8em;margin-bottom:10px;border-bottom:1px solid #222;padding-bottom:5px;"><b>${n.title}</b><br><button class="btn-delete" onclick="deleteNews('${n.id}')">Eliminar</button></div>`).join('');
+}
+
+window.toggleAdmin = () => {
+    const p = document.getElementById('admin-panel');
+    p.style.display = p.style.display === 'block' ? 'none' : 'block';
+    if (p.style.display === 'block') renderAdminList();
+}
+
+document.addEventListener('keydown', (e) => {
+    if (e.ctrlKey && e.altKey && e.key.toLowerCase() === 'a') { 
+        e.preventDefault();
+        window.toggleAdmin();
     }
+});
 
-    window.onload = () => {
-        window.currentSlide = 0;
-        fetchYouTubeData(0);
-        fetchGlobalStats();
-        renderNews();
-        
-        let count = localStorage.getItem('bunker_views') || 1542; 
-        count = parseInt(count) + 1;
-        localStorage.setItem('bunker_views', count);
-        document.getElementById('stats-count').innerText = count.toLocaleString() + "";
-    };
+/* ================= INIT ================= */
+window.onload = () => { 
+    fetchGlobalStats(); 
+    fetchYouTubeData(0); 
+    loadNewsData(); 
+    handleCounter(); // <--- ESTO ES LO QUE HACE ANDAR EL CONTADOR
+};
 </script>
 </body>
 </html>
