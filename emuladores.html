@@ -114,8 +114,32 @@ nav a i { font-size: 1.2em; color: var(--cian-neon); width: 20px; text-align: ce
             font-size: 0.85em;
             transition: 0.3s;
         }
+/* Esto es fundamental para que se deslice y no salte */
+html {
+  scroll-behavior: smooth;
+}
 
-        .btn-drive:hover { background-color: var(--cian-neon); color: #000; }
+/* El efecto de zoom que pediste */
+.resaltado-temporal {
+  animation: zoomHighlight 2.5s ease-in-out;
+  outline: none;
+  z-index: 10;
+  position: relative;
+}
+
+@keyframes zoomHighlight {
+  0%, 100% { 
+    transform: scale(1); 
+    box-shadow: none; 
+    border: 3px solid transparent;
+  }
+  30%, 70% { 
+    transform: scale(1.15); /* Zoom in */
+    box-shadow: 0 0 40px rgba(255, 204, 0, 0.7);
+    border: 3px solid #ffcc00; /* Amarillo */
+  }
+}
+.btn-drive:hover { background-color: var(--cian-neon); color: #000; }
 
         footer { text-align: center; padding: 60px; color: #555; font-family: sans-serif; font-size: 0.9em; }
 
@@ -149,79 +173,129 @@ nav a i { font-size: 1.2em; color: var(--cian-neon); width: 20px; text-align: ce
         <h2>🕹️ Catálogo de Emuladores</h2>
         
         <div class="emu-grid">
-            <div class="emu-card">
-                <h3>PS4 - ShadPS4</h3>
-                <p>Incluye SHADPS4 y módulos del sistema (Sys Modules).</p>
-                <a href="https://drive.google.com/uc?export=download&id=15XjMfwATwdla0X0QIoqwA5R1IPjOmJ8o" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
-            </div>
-
-            <div class="emu-card">
-                <h3>SWITCH - Ryujinx</h3>
-                <p>Incluye Ryujinx , firmware y keys.</p>
-                <a href="https://drive.google.com/uc?export=download&id=13QekCivMkrH3FSDkzNN7JxNa-FuKo-QJ" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
-            </div>
-
-            <div class="emu-card">
-                <h3>PS3 - RPCS3</h3>
-                <p>Incluye Rpcs3 y UPDAT.</p>
-                <a href="https://drive.google.com/uc?id=1eEfr8p06qsJaeo1k-tSMYwVELcx7BKfE&export=download" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
-            </div>
-
-            <div class="emu-card">
-                <h3>SWITCH - Yuzu</h3>
-                <p>Incluye YUZU , firmware y keys.</p>
-                <a href="https://drive.google.com/drive/folders/1eV86pkkbqWX-YRRb5mz4dR4ur6gMud_q?usp=sharing" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
-            </div>
-
-            <div class="emu-card">
-                <h3>SWITCH - Eden</h3>
-                <p>Emulador con sus Keys y Firmware.</p>
-                <a href="https://drive.google.com/drive/folders/1Sghb34WWN5wdC04U9ya0oID43XpOqcYT?usp=sharing" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
-            </div>
-
-            <div class="emu-card">
-                <h3>SWITCH - Citron</h3>
-                <p>Emulador, Keys , Firmware y Link a ROMS.</p>
-                <a href="https://drive.google.com/drive/folders/18Em67vkKinohUZpmgg6czjIhEL4VxzPB?usp=drive_link" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
-            </div>
-
-            <div class="emu-card">
-                <h3>SWITCH ANDROID - Citron APK</h3>
-                <p>Emulador, Keys , Firmware y Link a ROMS</p>
-                <a href="https://drive.google.com/drive/folders/1_BBh-pJelJFDXJGc5H-i2r1V8McCLqcu?usp=drive_link" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
-            </div>
-
-            <div class="emu-card">
-                <h3>Nintendo 64 / Dreamcast</h3>
-                <p>Emulador N64 y Sega Dreamcast con ROMS</p>
-                <a href="https://drive.google.com/uc?export=download&id=1CWOFhYgXTDfNvxLGdU64ZGIAqXrf3351" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
-            </div>
-
-             <div class="emu-card">
-                <h3>RETROBAT</h3>
-                <p>Todos tus emuladores en un solo lugar.</p>
-                <a href="https://drive.google.com/drive/folders/1pmw9lznfAtoJ3tr9Rgfg541eQVTekNC3?usp=sharing" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
-            </div>
-
-            <div class="emu-card">
-                <h3>BB Launcher</h3>
-                <p>Version utilizada en el tutorial de Bloodborne.</p>
-                <a href="https://drive.google.com/uc?id=16Bdoei9pR1Et1FCcVmdfyG0I15VZSoqc" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
-            </div>
-
-             <div class="emu-card">
-                <h3>Shadlix</h3>
-                <p>Version utilizada en el tutorial de UFC4.</p>
-                <a href="https://drive.google.com/uc?id=11mOVG93aNFH7AqvzwutkC35RpX08h607" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
-            </div>
-        </div>
+    <div class="emu-card" id="shadps4">
+        <h3>PS4 - ShadPS4</h3>
+        <p>Incluye SHADPS4 y módulos del sistema (Sys Modules).</p>
+        <a href="https://drive.google.com/uc?export=download&id=15XjMfwATwdla0X0QIoqwA5R1IPjOmJ8o" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
     </div>
+
+    <div class="emu-card" id="ryujinx">
+        <h3>SWITCH - Ryujinx</h3>
+        <p>Incluye Ryujinx , firmware y keys.</p>
+        <a href="https://drive.google.com/uc?export=download&id=13QekCivMkrH3FSDkzNN7JxNa-FuKo-QJ" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
+    </div>
+
+    <div class="emu-card" id="rpcs3">
+        <h3>PS3 - RPCS3</h3>
+        <p>Incluye Rpcs3 y UPDAT.</p>
+        <a href="https://drive.google.com/uc?id=1eEfr8p06qsJaeo1k-tSMYwVELcx7BKfE&export=download" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
+    </div>
+
+    <div class="emu-card" id="yuzu">
+        <h3>SWITCH - Yuzu</h3>
+        <p>Incluye YUZU , firmware y keys.</p>
+        <a href="https://drive.google.com/drive/folders/1eV86pkkbqWX-YRRb5mz4dR4ur6gMud_q?usp=sharing" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
+    </div>
+
+    <div class="emu-card" id="eden">
+        <h3>SWITCH - Eden</h3>
+        <p>Emulador con sus Keys y Firmware.</p>
+        <a href="https://drive.google.com/drive/folders/1Sghb34WWN5wdC04U9ya0oID43XpOqcYT?usp=sharing" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
+    </div>
+
+    <div class="emu-card" id="citron">
+        <h3>SWITCH - Citron</h3>
+        <p>Emulador, Keys , Firmware y Link a ROMS.</p>
+        <a href="https://drive.google.com/drive/folders/18Em67vkKinohUZpmgg6czjIhEL4VxzPB?usp=drive_link" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
+    </div>
+
+    <div class="emu-card" id="citron-apk">
+        <h3>SWITCH ANDROID - Citron APK</h3>
+        <p>Emulador, Keys , Firmware y Link a ROMS</p>
+        <a href="https://drive.google.com/drive/folders/1_BBh-pJelJFDXJGc5H-i2r1V8McCLqcu?usp=drive_link" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
+    </div>
+
+    <div class="emu-card" id="n64-dreamcast">
+        <h3>Nintendo 64 / Dreamcast</h3>
+        <p>Emulador N64 y Sega Dreamcast con ROMS</p>
+        <a href="https://drive.google.com/uc?export=download&id=1CWOFhYgXTDfNvxLGdU64ZGIAqXrf3351" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
+    </div>
+
+    <div class="emu-card" id="retrobat">
+        <h3>RETROBAT</h3>
+        <p>Todos tus emuladores en un solo lugar.</p>
+        <a href="https://drive.google.com/drive/folders/1pmw9lznfAtoJ3tr9Rgfg541eQVTekNC3?usp=sharing" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
+    </div>
+
+    <div class="emu-card" id="bb-launcher">
+        <h3>BB Launcher</h3>
+        <p>Version utilizada en el tutorial de Bloodborne.</p>
+        <a href="https://drive.google.com/uc?id=16Bdoei9pR1Et1FCcVmdfyG0I15VZSoqc" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
+    </div>
+
+    <div class="emu-card" id="shadlix">
+        <h3>Shadlix</h3>
+        <p>Version utilizada en el tutorial de UFC4.</p>
+        <a href="https://drive.google.com/uc?id=11mOVG93aNFH7AqvzwutkC35RpX08h607" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
+    </div>
+</div>
+        </div>
 </div>
 
 <footer>
     CaTecnoFan &copy; 2026 - Rosario, Argentina <br>
     Hardware, Juegos y Tecnología para el Gamer Real
 </footer>
+<script>
+
+const hash = window.location.hash;
+
+if (hash) {
+    history.replaceState(
+        null,
+        null,
+        window.location.pathname
+    );
+}
+
+window.addEventListener("load", () => {
+
+    if (hash) {
+
+        setTimeout(() => {
+
+            const target = document.querySelector(hash);
+
+            if (target) {
+
+                // Posición REAL del elemento
+                const y =
+                    target.getBoundingClientRect().top
+                    + window.pageYOffset
+                    - 120;
+
+                // Scroll manual
+                window.scrollTo({
+                    top: y,
+                    behavior: "smooth"
+                });
+
+                // Glow / zoom
+                target.classList.add("resaltado-temporal");
+
+                setTimeout(() => {
+                    target.classList.remove("resaltado-temporal");
+                }, 3000);
+
+            }
+
+        }, 1000);
+
+    }
+
+});
+
+</script>
 
 </body>
 </html>
