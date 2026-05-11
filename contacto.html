@@ -174,40 +174,52 @@ nav a i { font-size: 1.2em; color: var(--cian-neon); width: 20px; text-align: ce
     </nav>
 
 
-    <div class="inner-content">
-        <h2>📩 Contacto</h2>
+<div class="inner-content">
+    <h2 style="text-shadow: 0 0 15px var(--cian-neon);">📩 CONTACTO</h2>
+    
+    <div class="contact-wrapper" style="display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 40px; align-items: start;">
         
-        <div class="contact-wrapper">
-            <!-- Columna Izquierda: Info y Redes -->
-            <div class="contact-info">
-                <h3>¿Tenés dudas técnicas?</h3>
-                <p>Si necesitás ayuda con algún emulador o tenés una propuesta, mandame un mensaje. Respondo lo más rápido que el lag me permite.</p>
-                
-                <div class="social-links">
-                    <a href="https://www.youtube.com/@CaTecnoFan" class="social-item" target="_blank">
-                        <i class="fab fa-youtube" style="color: #ff0000;"></i> YouTube /CaTecnoFan
-                    </a>
-                </div>
+        <div class="contact-info">
+            <h3 style="color: var(--amarillo-neon); text-transform: uppercase; font-size: 1.2em; margin-bottom: 25px; text-shadow: 0 0 10px var(--amarillo-neon);">
+                PREGUNTAS FRECUENTES
+            </h3>
+            
+            <div style="margin-bottom: 25px;">
+                <p style="color: var(--cian-neon); font-size: 0.9em; text-transform: uppercase; margin-bottom: 5px; font-weight: bold; text-shadow: 0 0 8px var(--cian-neon);">¿Respondés siempre?</p>
+                <p style="font-family: sans-serif; color: #fff; font-size: 0.95em; margin: 0; line-height: 1.5;">Cuando puedo, sí. Trato de dar una mano a todos.</p>
             </div>
 
-            <!-- Columna Derecha: Formulario -->
-            <div class="contact-form">
-                <form action="https://formspree.io/f/xykolkzl" method="POST">
-                    <div class="form-group">
-                        <label for="nombre">Nombre / Alias</label>
-                        <input type="text" id="nombre" name="nombre" placeholder="Tu nombre..." required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" placeholder="tu@email.com" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="mensaje">Mensaje</label>
-                        <textarea id="mensaje" name="mensaje" rows="5" placeholder="¿En qué puedo ayudarte?" required></textarea>
-                    </div>
-                    <button type="submit" class="btn-submit">Enviar Mensaje</button>
-                </form>
+            <div style="margin-bottom: 25px;">
+                <p style="color: var(--cian-neon); font-size: 0.9em; text-transform: uppercase; margin-bottom: 5px; font-weight: bold; text-shadow: 0 0 8px var(--cian-neon);">¿Ayudás con todo?</p>
+                <p style="font-family: sans-serif; color: #fff; font-size: 0.95em; margin: 0; line-height: 1.5;">Sí, siempre que sea un tema técnico de configuración.</p>
             </div>
+
+            <div style="margin-bottom: 35px;">
+                <p style="color: var(--cian-neon); font-size: 0.9em; text-transform: uppercase; margin-bottom: 5px; font-weight: bold; text-shadow: 0 0 8px var(--cian-neon);">¿Es gratis?</p>
+                <p style="font-family: sans-serif; color: #fff; font-size: 0.95em; margin: 0; line-height: 1.5;">Sí, esto es por y para la comunidad gamer.</p>
+            </div>
+
+            
+        </div>
+
+        <div class="contact-form">
+            <form action="https://formspree.io/f/xykolkzl" method="POST">
+                <input type="hidden" name="_next" value="https://tuweb.com/gracias.html">
+                
+                <div class="form-group">
+                    <label for="nombre">NOMBRE / ALIAS</label>
+                    <input type="text" id="nombre" name="nombre" placeholder="Tu nombre..." required>
+                </div>
+                <div class="form-group">
+                    <label for="email">EMAIL</label>
+                    <input type="email" id="email" name="email" placeholder="tu@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="mensaje">MENSAJE</label>
+                    <textarea id="mensaje" name="mensaje" rows="6" placeholder="¿En qué puedo ayudarte?" required></textarea>
+                </div>
+                <button type="submit" class="btn-submit">ENVIAR MENSAJE</button>
+            </form>
         </div>
     </div>
 </div>
