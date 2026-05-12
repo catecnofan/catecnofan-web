@@ -25,6 +25,59 @@ html {
             background-size: cover;
             background-position: center;
         }
+        .bunker-dashboard {
+    position: fixed;
+    top: 50%;
+    left: calc(50% + 650px); 
+    transform: translate(-50%, -50%);
+    width: 140px;
+    background: rgba(10, 10, 10, 0.9);
+    border: 2px solid #00e5ff;
+    border-radius: 15px;
+    padding: 20px 10px;
+    box-shadow: 0 0 25px rgba(0, 229, 255, 0.3);
+    z-index: 10000;
+    text-align: center;
+    backdrop-filter: blur(5px);
+}
+
+.dash-label {
+    font-size: 0.6em;
+    color: #888;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.dash-value {
+    font-size: 0.9em;
+    color: #fff;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-weight: bold;
+}
+
+.btn-subscribe {
+    display: block;
+    background: #ff0000;
+    color: white;
+    text-decoration: none;
+    font-size: 0.65em;
+    padding: 8px 5px;
+    border-radius: 5px;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+@media (max-width: 1350px) {
+    .bunker-dashboard {
+        display: none;
+    }
+}
 nav a i { font-size: 1.2em; color: var(--cian-neon); width: 20px; text-align: center; }
         nav a:hover { background-color: #252525; color: var(--cian-neon); }
 
@@ -150,8 +203,56 @@ nav a i { font-size: 1.2em; color: var(--cian-neon); width: 20px; text-align: ce
         @media (max-width: 768px) { .container { margin-top: -30px; width: 95%; } nav li { min-width: 120px; } }
     </style>
 </head>
-<body>
+    <script>
+const API_KEY = 'AIzaSyBa_xg_kBBmAe1cJVEhE5BiOfCjlQ-Ib0w';
+const CHANNEL_ID = 'UCG_8fY6lpJwWW0cut5Z5dfA';
 
+async function fetchGlobalStats() {
+    try {
+        const res = await fetch(
+            `https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${CHANNEL_ID}&key=${API_KEY}`
+        );
+
+        const data = await res.json();
+        const s = data?.items?.[0]?.statistics;
+
+        if (s) {
+            document.getElementById('subs-count').innerText =
+                (s.subscriberCount / 1000).toFixed(1) + "K";
+
+            document.getElementById('views-total-count').innerText =
+                Intl.NumberFormat().format(s.viewCount);
+        }
+
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+fetchGlobalStats();
+</script>
+<body>
+<aside class="bunker-dashboard">
+    <span class="dash-label">YouTube Subs</span>
+
+    <div class="dash-value">
+        <i class="fab fa-youtube" style="color:#ff0000;"></i>
+        <span id="subs-count">679</span>
+    </div>
+
+    <span class="dash-label">Total Views</span>
+
+    <div class="dash-value">
+        <i class="fas fa-play-circle" style="color:#00e5ff;"></i>
+        <span id="views-total-count">120K+</span>
+    </div>
+
+    <a href="https://www.youtube.com/@CaTecnoFan?sub_confirmation=1"
+       target="_blank"
+       class="btn-subscribe">
+       SUSCRIBIRSE
+    </a>
+</aside>
 <header>
     <img src="banner.png" alt="CaTecnoFan Banner" class="banner-img">
     <div class="linea-magenta"></div>
