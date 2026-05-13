@@ -164,11 +164,40 @@ nav a i { font-size: 1.2em; color: var(--cian-neon); width: 20px; text-align: ce
             font-size: 0.85em;
             transition: 0.3s;
         }
+/* Esto es fundamental para que se deslice y no salte */
+html {
+  scroll-behavior: smooth;
+}
+
+/* El efecto de zoom que pediste */
+.resaltado-temporal {
+  animation: zoomHighlight 2.5s ease-in-out;
+  outline: none;
+  z-index: 10;
+  position: relative;
+}
+
+@keyframes zoomHighlight {
+  0%, 100% { 
+    transform: scale(1); 
+    box-shadow: none; 
+    border: 3px solid transparent;
+  }
+  30%, 70% { 
+    transform: scale(1.15); /* Zoom in */
+    box-shadow: 0 0 40px rgba(255, 204, 0, 0.7);
+    border: 3px solid #ffcc00; /* Amarillo */
+  }
+}
 
         .btn-drive:hover { background-color: var(--cian-neon); color: #000; }
 
         footer { text-align: center; padding: 60px; color: #555; font-family: sans-serif; font-size: 0.9em; }
 
+          /* ESTILOS DEL CONTADOR AGREGADOS AL FINAL DEL HEAD */
+        .contador-digital { display: inline-block; padding: 10px 20px; border: 1px solid var(--cian-neon); border-radius: 10px; background: rgba(0, 229, 255, 0.05); box-shadow: 0 0 15px rgba(0, 229, 255, 0.2); margin-bottom: 20px; }
+        #stats-count { font-family: 'Courier New', Courier, monospace; color: var(--cian-neon); font-size: 1.2rem; text-shadow: 0 0 10px var(--cian-neon); font-weight: bold; 
+                      
         @media (max-width: 768px) { .container { margin-top: -30px; width: 95%; } nav li { min-width: 120px; } }
     </style>
 </head>
@@ -246,7 +275,7 @@ fetchGlobalStats();
    <div class="inner-content">
     <h2>⚙️ Catalogo de utilidades</h2>
     
-    <div class="emu-grid">
+    <div class="emu-grid" id="visual">
         <div class="emu-card">
             <h3>Visual C++</h3>
             <p>Librerias fundamentales para ejecutar programas.</p>
@@ -313,9 +342,68 @@ fetchGlobalStats();
 </div>
 
 <footer>
+    <div class="contador-digital">
+        <i class="fas fa-users" style="color: var(--cian-neon); margin-right: 10px;"></i>
+        <span id="stats-count">--</span>
+    </div>
+    <br>
     CaTecnoFan &copy; 2026 - Rosario, Argentina <br>
     Hardware, Juegos y Tecnología para el Gamer Real
 </footer>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+import { getFirestore, doc, getDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
+const firebaseConfig = {
+    apiKey: "AIzaSyBa_xg_kBBmAe1cJVEhE5BiOfCjlQ-Ib0w", 
+    authDomain: "catecnofan-web.firebaseapp.com",
+    projectId: "catecnofan-web",
+    storageBucket: "catecnofan-web.appspot.com",
+    messagingSenderId: "670781631971",
+    appId: "1:670781631971:web:7fa547d5392149c05304d6"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+async function handleCounter() {
+    const counterDoc = doc(db, "stats", "visitas");
+    try {
+        await updateDoc(counterDoc, { count: increment(1) });
+        const snap = await getDoc(counterDoc);
+        if (snap.exists()) {
+            document.getElementById('stats-count').innerText = snap.data().count;
+        }
+    } catch (e) { console.error("Error en contador:", e); }
+}
+
+// MANTENEMOS TU LÓGICA DE SCROLL TAL CUAL ESTABA
+const hash = window.location.hash;
+
+if (hash) {
+    history.replaceState(null, null, window.location.pathname);
+}
+
+window.addEventListener("load", () => {
+    handleCounter(); // LLAMAMOS AL CONTADOR AL CARGAR
+
+    if (hash) {
+        setTimeout(() => {
+            const target = document.querySelector(hash);
+            if (target) {
+                const y = target.getBoundingClientRect().top + window.pageYOffset - 120;
+                window.scrollTo({
+                    top: y,
+                    behavior: "smooth"
+                });
+                target.classList.add("resaltado-temporal");
+                setTimeout(() => {
+                    target.classList.remove("resaltado-temporal");
+                }, 3000);
+            }
+        }, 1000);
+    }
+});
+</script>
 </body>
 </html>
