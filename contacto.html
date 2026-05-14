@@ -199,6 +199,10 @@ nav a i { font-size: 1.2em; color: var(--cian-neon); width: 20px; text-align: ce
         }
 
         footer { text-align: center; padding: 60px; color: #555; font-family: sans-serif; font-size: 0.9em; }
+        
+.contador-digital { display: inline-block; padding: 10px 20px; border: 1px solid var(--cian-neon); border-radius: 10px; background: rgba(0, 229, 255, 0.05); box-shadow: 0 0 15px rgba(0, 229, 255, 0.2); margin-bottom: 20px; }
+        #stats-count { font-family: 'Courier New', Courier, monospace; color: var(--cian-neon); font-size: 1.2rem; text-shadow: 0 0 10px var(--cian-neon); font-weight: bold; }
+
 
         @media (max-width: 768px) { .container { margin-top: -30px; width: 95%; } nav li { min-width: 120px; } }
     </style>
@@ -326,7 +330,13 @@ fetchGlobalStats();
 </div>
 
 </div> 
-</div> <footer style="text-align: center; padding: 60px; color: #555; font-family: sans-serif; font-size: 0.9em;">
+</div> 
+    <footer style="text-align: center; padding: 60px; color: #555; font-family: sans-serif; font-size: 0.9em;">
+            <div class="contador-digital">
+        <i class="fas fa-users" style="color: var(--cian-neon); margin-right: 10px;"></i>
+        <span id="stats-count">--</span>
+    </div>
+        <br>
     CaTecnoFan &copy; 2026 - Rosario, Argentina <br>
     Hardware, Juegos y Tecnología para el Gamer Real
 </footer>
@@ -356,6 +366,40 @@ fetchGlobalStats();
       alert('Hubo un error al enviar el mensaje.');
     }
   });
+</script>
+    <script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+import { getFirestore, doc, getDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+const firebaseConfig = {
+    apiKey: "TU_API_KEY",
+    authDomain: "catecnofan-web.firebaseapp.com",
+    projectId: "catecnofan-web",
+    storageBucket: "catecnofan-web.appspot.com",
+    messagingSenderId: "670781631971",
+    appId: "1:670781631971:web:7fa547d5392149c05304d6"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+async function handleCounter() {
+    const counterDoc = doc(db, "stats", "visitas");
+
+    try {
+        await updateDoc(counterDoc, { count: increment(1) });
+
+        const snap = await getDoc(counterDoc);
+
+        if (snap.exists()) {
+            document.getElementById('stats-count').innerText = snap.data().count;
+        }
+    } catch (e) {
+        console.error("Error en contador:", e);
+    }
+}
+
+handleCounter();
 </script>
 </body>
 </html>
