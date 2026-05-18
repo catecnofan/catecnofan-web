@@ -451,12 +451,20 @@ function renderNews() {
     const container = document.getElementById('noticias-container');
     const start = (paginaActual - 1) * porPagina;
     const slice = noticias.slice(start, start + porPagina);
-    container.innerHTML = slice.map(n => `
+    container.innerHTML = slice.map(n => {
+        // 1. Primero convertimos el formato [CLICK AQUÍ](link)
+        let textoProcesado = n.content.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+        
+        // 2. Después convertimos los links sueltos tradicionales (evitando pisar lo anterior)
+        textoProcesado = textoProcesado.replace(/(?<!=["'])(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank">$1</a>');
+
+        return `
         <div class="noticia-item">
             <div class="noticia-titulo">${n.title}</div>
             <span class="noticia-fecha">${new Date(n.date).toLocaleString()}</span>
-            <div class="noticia-cuerpo">${n.content.replace(/((https?:\/\/)[^\s]+)/g, '<a href="$1" target="_blank">$1</a>')}</div>
-        </div>`).join('');
+            <div class="noticia-cuerpo">${textoProcesado}</div>
+        </div>`;
+    }).join('');
     renderPaginacion();
 }
 
