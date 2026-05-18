@@ -334,6 +334,32 @@
     CaTecnoFan &copy; 2026 - Rosario, Argentina <br>
     Hardware, Juegos y Tecnología para el Gamer Real
 </footer>
+    <script>
+    const mapaBuscador = {
+        "shadps4": "shadps4",
+        "ps4": "shadps4",
+        "bloodborne": "shadps4",
+        "ufc": "shadps4",
+        "ufc 4": "shadps4",
+        "rpcs3": "rpcs3",
+        "ps3": "rpcs3",
+        "ryujinx": "ryujinx",
+        "yuzu": "yuzu",
+        "switch": "ryujinx"
+    };
+
+    document.getElementById('bunker-search').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            let valorInput = e.target.value.toLowerCase().trim();
+            
+            if (mapaBuscador[valorInput]) {
+                window.location.href = "emuladores.html#" + mapaBuscador[valorInput];
+            } else {
+                alert("No encontré ese emulador o juego en el búnker, che. Probá con shadps4, ufc, bloodborne, rpcs3...");
+            }
+        }
+    });
+</script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
 import {
