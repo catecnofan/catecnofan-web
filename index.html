@@ -24,6 +24,39 @@
             background-size: cover;
             background-position: center;
         }
+    /* --- BARRA DE BÚSQUEDA --- */
+    .buscador-bunker {
+        text-align: center;
+        margin-bottom: 35px;
+        position: relative;
+    }
+
+.buscador-bunker input {
+        width: 100%;
+        max-width: 100%; /* <-- Cambiamos 500px por 100% para que use todo el espacio */
+        box-sizing: border-box; /* <-- Esto evita que el padding rompa los bordes en celulares */
+        padding: 14px 25px;
+        font-size: 1rem;
+        font-family: 'Arial Black', sans-serif;
+        border: 2px solid #222;
+        border-radius: 30px;
+        background-color: #0d0d0d;
+        color: #fff;
+        outline: none;
+        transition: 0.3s ease-in-out;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        text-align: center;
+    }
+    .buscador-bunker input:focus {
+        border-color: var(--cian-neon);
+        box-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
+    }
+
+    .buscador-bunker input::placeholder {
+        color: #555;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+    }
 
         /* --- WIDGET FLOTANTE (POSICIÓN CALCULADA) --- */
         .bunker-dashboard {
@@ -240,7 +273,11 @@
             <li><a href="contacto.html"><i class="fas fa-envelope"></i> CONTACTO</a></li>
         </ul>
     </nav>
-
+    <div class="inner-content">
+        <div class="buscador-bunker">
+    <span style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); font-size: 1.2rem; z-index: 5; pointer-events: none;">🔍</span>
+    <input type="text" id="bunker-search" placeholder="BUSCAR EMULADOR O JUEGO...">
+</div>
     <div class="inner-content">
         <div class="video-carousel-container">
             <div class="video-slider" id="videoSlider">
@@ -261,6 +298,8 @@
                 <div class="video-item"><iframe src="https://www.youtube.com/embed/OAm9Njw31CY?si=KE1kFdgoAyC3wuIe" frameborder="0" allowfullscreen></iframe></div>
                 <div class="video-item"><iframe src="https://www.youtube.com/embed/4Pm8gx_A8oA?si=K-75np9xqHtlqKvY" frameborder="0" allowfullscreen></iframe></div>
                 <div class="video-item"><iframe src="https://www.youtube.com/embed/AH69J6lvCVY?si=5gU6FEaL288HxpCe" frameborder="0" allowfullscreen></iframe></div>
+                <div class="video-item"><iframe src="https://www.youtube.com/embed/bQy8vu6ZgBI?si=LTv_T1Fz1L3EV16o" frameborder="0" allowfullscreen></iframe></div>
+                <div class="video-item"><iframe src="https://www.youtube.com/embed/tQ_QE3EJN00?si=G3_Fvmi0KXEJv13Y" frameborder="0" allowfullscreen></iframe></div>
             </div>
             <div class="carousel-controls">
                 <button onclick="manualMove(-1)"><i class="fas fa-chevron-left"></i> ANTERIOR</button>
@@ -342,7 +381,7 @@ async function fetchGlobalStats() {
 }
 
 function fetchYouTubeData(index) {
-    const videoIds = ['Un6ZHrWKDYI','UlxbEDFHn8I','6UUWiL0neeY','9KoAwkaC_KU','jBCiqo6hCnk','-7HCGvQbAQ8','vFWvq0UMbDs','sz9VXeCTt5c','ZE5B5mnhZRk','n2UFF11aNxI','yVnf-hC-HiQ','WO-X7K-M9I4','VTZrG056Y88','V_YbQ7DJPWs','OAm9Njw31CY','4Pm8gx_A8oA','AH69J6lvCVY'];
+    const videoIds = ['Un6ZHrWKDYI','UlxbEDFHn8I','6UUWiL0neeY','9KoAwkaC_KU','jBCiqo6hCnk','-7HCGvQbAQ8','vFWvq0UMbDs','sz9VXeCTt5c','ZE5B5mnhZRk','n2UFF11aNxI','yVnf-hC-HiQ','WO-X7K-M9I4','VTZrG056Y88','V_YbQ7DJPWs','OAm9Njw31CY','4Pm8gx_A8oA','AH69J6lvCVY','bQy8vu6ZgBI','tQ_QE3EJN00'];
     const id = videoIds[index];
     if (!id) return;
     fetch(`https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${id}&key=${API_KEY}`)
