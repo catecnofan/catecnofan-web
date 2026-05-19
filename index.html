@@ -24,6 +24,64 @@
             background-size: cover;
             background-position: center;
         }
+        /* Estilos del contenedor del cartel */
+#custom-alert {
+    border: 2px solid #ffeb3b; /* Borde amarillo/neón */
+    background: #121212;       /* Fondo oscuro como el búnker */
+    color: #ffffff;            /* Texto blanco */
+    border-radius: 8px;
+    padding: 25px;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(255, 235, 59, 0.3);
+}
+
+/* El fondo que bloquea el resto de la página web */
+#custom-alert::backdrop {
+    background-color: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(4px); /* Desenfoca lo de atrás para que resalte más */
+}
+
+#custom-alert h3 {
+    color: #ffeb3b;
+    margin-top: 0;
+    font-size: 1.4rem;
+}
+
+.lista-emuladores {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+    text-align: left;
+    display: inline-block;
+}
+
+.lista-emuladores li {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+}
+
+.instruccion {
+    font-size: 0.9rem;
+    color: #aaaaaa;
+}
+
+/* Botón de cierre con tu onda */
+#close-alert-btn {
+    background: #ffeb3b;
+    color: #000000;
+    border: none;
+    padding: 10px 20px;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: background 0.2s;
+}
+
+#close-alert-btn:hover {
+    background: #ddbe1a;
+}
     /* --- BARRA DE BÚSQUEDA --- */
     .buscador-bunker {
         text-align: center;
@@ -415,19 +473,45 @@
     const mapaBuscador = {
         "shadps4": "shadps4",
         "ps4": "shadps4",
-        "bloodborne": "shadps4",
-        "ufc": "shadps4",
-        "ufc 4": "shadps4",
+        "bloodborne": "bb-launcher",
+        "ufc": "shadlix",
+        "ufc 4": "shadlix",
         "rpcs3": "rpcs3",
         "ps3": "rpcs3",
         "ryujinx": "ryujinx",
         "yuzu": "yuzu",
-        "switch": "ryujinx"
+        "eden": "eden",
+        "citron": "citron",
+        "citron-apk": "citron-apk",
+        "citron android": "citron-apk",
+        "switch android": "citron-apk",
+        "nintendo 64": "n64-dreamcast",
+        "sega dreamcast": "n64-dreamcast",
+        "dreamccast": "n64-dreamcast",
+        "retrobat": "retrobat",
+        "bblauncher": "bblauncher",
+        "shadlix": "shadlix",
+        "xbox 360": "xenia",
+        "xenia": "xenia",
+        "xbox": "xenia"
     };
+// Capturamos el modal y el botón de cerrar en variables
+const elModal = document.getElementById('custom-alert');
+const botonCerrar = document.getElementById('close-alert-btn');
 
+// Función para cerrar el modal cuando hacen clic en el botón
+if (botonCerrar) {
+    botonCerrar.addEventListener('click', () => elModal.close());
+}
     document.getElementById('bunker-search').addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
             let valorInput = e.target.value.toLowerCase().trim();
+
+// Si busca switch, abrimos TU cartel personalizado
+        if (valorInput === "switch" || valorInput === "nintendo switch") {
+            elModal.showModal(); // 🟢 Abre el cartel fachero
+            return; 
+        }
             
             if (mapaBuscador[valorInput]) {
                 window.location.href = "emuladores.html#" + mapaBuscador[valorInput];
@@ -656,5 +740,22 @@ window.onload = () => {
     handleCounter(); // <--- ESTO ES LO QUE HACE ANDAR EL CONTADOR
 };
 </script>
+    <!-- Cartel flotante con diseño personalizado -->
+<dialog id="custom-alert">
+    <div class="modal-content">
+        <h3>🎮 ¡Opciones para Nintendo Switch!</h3>
+        <p>En el búnker tenés varias alternativas disponibles para esta consola:</p>
+        
+        <ul class="lista-emuladores">
+            <li><strong>Ryujinx</strong> (PC)</li>
+            <li><strong>Yuzu</strong> (PC)</li>
+            <li><strong>Citron</strong> (Android)</li>
+        </ul>
+        
+        <p class="instruccion">Buscá el nombre de cualquiera de ellos directamente para ir a su sección.</p>
+        
+        <button id="close-alert-btn">Entendido, che</button>
+    </div>
+</dialog>
 </body>
 </html>
