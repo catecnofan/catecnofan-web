@@ -538,7 +538,10 @@ function renderNews() {
         return `
         <div class="noticia-item">
             <div class="noticia-titulo">${n.title}</div>
-            <span class="noticia-fecha">${new Date(n.date).toLocaleString()}</span>
+                <span class="noticia-fecha">
+        ${new Date(n.date).toLocaleString()}
+        ${n.updatedAt ? " • editado" : ""}
+    </span>
             <div class="noticia-cuerpo">${textoProcesado}</div>
         </div>`;
     }).join('');
@@ -579,7 +582,25 @@ window.saveNews = async () => {
     const title = document.getElementById('news-title').value;
     const content = document.getElementById('news-content').value;
     if (!title || !content) return alert("Completá todo");
-    await addDoc(collection(db, "news"), { title, content, date: Date.now() });
+
+    if (window.editingId) {
+        // 👉 ESTÁS EDITANDO
+        await updateDoc(doc(db, "news", window.editingId), {
+            title,
+            content,
+            updatedAt: Date.now()
+        });
+
+        window.editingId = null;
+    } else {
+        // 👉 ESTÁS CREANDO NUEVA
+        await addDoc(collection(db, "news"), {
+            title,
+            content,
+            date: Date.now()
+        });
+    }
+
     document.getElementById('news-title').value = '';
     document.getElementById('news-content').value = '';
     loadNewsData();
@@ -591,8 +612,28 @@ window.deleteNews = async (id) => {
 
 async function renderAdminList() {
     const list = document.getElementById('admin-news-list');
-    list.innerHTML = noticias.map(n => `<div style="font-size:0.8em;margin-bottom:10px;border-bottom:1px solid #222;padding-bottom:5px;"><b>${n.title}</b><br><button class="btn-delete" onclick="deleteNews('${n.id}')">Eliminar</button></div>`).join('');
+
+    list.innerHTML = noticias.map(n => `
+        <div style="font-size:0.8em;margin-bottom:10px;border-bottom:1px solid #222;padding-bottom:8px;">
+            <b>${n.title}</b><br>
+
+            <button class="btn-delete" onclick="deleteNews('${n.id}')">Eliminar</button>
+            <button class="btn-admin btn-save" style="margin-left:5px;" onclick="editNews('${n.id}')">
+                Editar
+            </button>
+        </div>
+    `).join('');
 }
+window.editNews = (id) => {
+    const n = noticias.find(x => x.id === id);
+    if (!n) return;
+
+    document.getElementById('news-title').value = n.title;
+    document.getElementById('news-content').value = n.content;
+
+    // guardamos modo edición
+    window.editingId = id;
+};
 
 window.toggleAdmin = () => {
     const p = document.getElementById('admin-panel');
