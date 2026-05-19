@@ -30,6 +30,84 @@
         margin-bottom: 35px;
         position: relative;
     }
+        .btn-primario {
+    position: relative;
+    background: transparent;
+    border: 2px solid rgba(255, 140, 0, 0.7); /* naranja */
+    color: #ff8c00;
+    font-weight: bold;
+    overflow: hidden;
+    transition: all 0.25s ease;
+}
+
+/* hover elegante */
+.btn-primario:hover {
+    color: #000;
+    background: rgba(255, 140, 0, 0.15);
+    border-color: #ff8c00;
+    transform: translateY(-2px);
+    box-shadow: 0 0 15px rgba(255, 140, 0, 0.3);
+}
+
+/* shine */
+.btn-primario::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -120%;
+    width: 120%;
+    height: 100%;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255, 140, 0, 0.25),
+        transparent
+    );
+    transition: all 0.6s ease;
+}
+
+.btn-primario:hover::before {
+    left: 120%;
+}.btn-secundario {
+    position: relative;
+    background: transparent;
+    border: 2px solid rgba(0, 229, 255, 0.6);
+    color: var(--cian-neon);
+    font-weight: bold;
+    overflow: hidden;
+    transition: all 0.25s ease;
+}
+
+/* hover elegante */
+.btn-secundario:hover {
+    color: #000;
+    background: rgba(0, 229, 255, 0.15);
+    border-color: var(--cian-neon);
+    transform: translateY(-2px);
+    box-shadow: 0 0 15px rgba(0, 229, 255, 0.3);
+}
+
+/* línea de energía sutil */
+.btn-secundario::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -120%;
+    width: 120%;
+    height: 100%;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(0, 229, 255, 0.25),
+        transparent
+    );
+    transition: all 0.6s ease;
+}
+
+/* animación tipo “shine” */
+.btn-secundario:hover::before {
+    left: 120%;
+}
 
 .buscador-bunker input {
         width: 100%;
@@ -318,8 +396,8 @@
         </div>
 
         <div class="grid-descargas">
-            <a href="emuladores.html" class="boton-descarga btn-amarillo">🕹️ VER EMULADORES</a>
-            <a href="https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist" class="boton-descarga btn-cian">🛠️ DESCARGAR VISUAL C++</a>
+            <a href="https://ko-fi.com/catecnofan" class="boton-descarga btn-secundario">❤️ SUPPORT THE CHANNEL</a>
+            <a href="https://cafecito.app/catecnofan" class="boton-descarga btn-primario">☕ INVITAME UN CAFECITO</a>
         </div>
     </div>
 </div>
