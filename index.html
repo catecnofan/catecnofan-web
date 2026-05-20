@@ -469,7 +469,7 @@
     CaTecnoFan &copy; 2026 - Rosario, Argentina <br>
     Hardware, Juegos y Tecnología para el Gamer Real
 </footer>
-    <script>
+<script>
     const mapaBuscador = {
         "shadps4": "shadps4",
         "ps4": "shadps4",
@@ -495,23 +495,29 @@
         "xenia": "xenia",
         "xbox": "xenia"
     };
-// Capturamos el modal y el botón de cerrar en variables
-const elModal = document.getElementById('custom-alert');
-const botonCerrar = document.getElementById('close-alert-btn');
 
-// Función para cerrar el modal cuando hacen clic en el botón
-if (botonCerrar) {
-    botonCerrar.addEventListener('click', () => elModal.close());
-}
+    // Función para cerrar el cartel (con diseño seguro por si se ejecuta antes)
+    document.addEventListener('click', function(e) {
+        if (e.target && e.target.id === 'close-alert-btn') {
+            const elModal = document.getElementById('custom-alert');
+            if (elModal) elModal.close();
+        }
+    });
+
     document.getElementById('bunker-search').addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
             let valorInput = e.target.value.toLowerCase().trim();
 
-// Si busca switch, abrimos TU cartel personalizado
-        if (valorInput === "switch" || valorInput === "nintendo switch") {
-            elModal.showModal(); // 🟢 Abre el cartel fachero
-            return; 
-        }
+            // Si busca switch, capturamos el modal que ya existe abajo en el HTML
+            if (valorInput === "switch" || valorInput === "nintendo switch") {
+                const elModal = document.getElementById('custom-alert');
+                if (elModal) {
+                    elModal.showModal(); // 🟢 Ahora sí lo encuentra y abre de una
+                } else {
+                    alert("No se encontró el contenedor del cartel en la página.");
+                }
+                return; 
+            }
             
             if (mapaBuscador[valorInput]) {
                 window.location.href = "emuladores.html#" + mapaBuscador[valorInput];
