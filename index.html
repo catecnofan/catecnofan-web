@@ -1,46 +1,51 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <link rel="icon" type="image/png" href="iconodef.png">
+<link rel="icon" type="image/png" href="iconodef.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CaTecnoFan | El Búnker del Gamer Real</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        :root {
-            --cian-neon: #00e5ff;
-            --magenta-neon: #ff00ff;
-            --amarillo-neon: #ffff00;
-        }
-
-        body {
-            background-color: #080808;
-            color: #ffffff;
-            font-family: 'Arial Black', Gadget, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-image: linear-gradient(rgba(0,0,0,0.96), rgba(0,0,0,0.96)), url('banner.png');
-            background-attachment: fixed;
-            background-size: cover;
-            background-position: center;
-        }
+    <link rel="stylesheet" href="login.css">
+<style>
+    :root {
+        --cian-neon: #00e5ff;
+        --magenta-neon: #ff00ff;
+        --amarillo-neon: #ffff00;
+    }
+ 
+html {
+    overflow-y: scroll;
+}
+ 
+    body {
+        background-color: #080808;
+        color: #ffffff;
+        font-family: 'Arial Black', Gadget, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-image: linear-gradient(rgba(0,0,0,0.96), rgba(0,0,0,0.96)), url('banner.png');
+        background-attachment: fixed;
+        background-size: cover;
+        background-position: center;
+    }
+ 
     /* --- BARRA DE BÚSQUEDA --- */
     .buscador-bunker {
         text-align: center;
         margin-bottom: 35px;
         position: relative;
     }
-        .btn-primario {
+ 
+.btn-primario {
     position: relative;
     background: transparent;
-    border: 2px solid rgba(255, 140, 0, 0.7); /* naranja */
+    border: 2px solid rgba(255, 140, 0, 0.7);
     color: #ff8c00;
     font-weight: bold;
     overflow: hidden;
     transition: all 0.25s ease;
 }
-
-/* hover elegante */
 .btn-primario:hover {
     color: #000;
     background: rgba(255, 140, 0, 0.15);
@@ -48,8 +53,6 @@
     transform: translateY(-2px);
     box-shadow: 0 0 15px rgba(255, 140, 0, 0.3);
 }
-
-/* shine */
 .btn-primario::before {
     content: "";
     position: absolute;
@@ -57,18 +60,14 @@
     left: -120%;
     width: 120%;
     height: 100%;
-    background: linear-gradient(
-        120deg,
-        transparent,
-        rgba(255, 140, 0, 0.25),
-        transparent
-    );
+    background: linear-gradient(120deg, transparent, rgba(255, 140, 0, 0.25), transparent);
     transition: all 0.6s ease;
 }
-
 .btn-primario:hover::before {
     left: 120%;
-}.btn-secundario {
+}
+ 
+.btn-secundario {
     position: relative;
     background: transparent;
     border: 2px solid rgba(0, 229, 255, 0.6);
@@ -77,8 +76,6 @@
     overflow: hidden;
     transition: all 0.25s ease;
 }
-
-/* hover elegante */
 .btn-secundario:hover {
     color: #000;
     background: rgba(0, 229, 255, 0.15);
@@ -86,8 +83,6 @@
     transform: translateY(-2px);
     box-shadow: 0 0 15px rgba(0, 229, 255, 0.3);
 }
-
-/* línea de energía sutil */
 .btn-secundario::before {
     content: "";
     position: absolute;
@@ -95,24 +90,17 @@
     left: -120%;
     width: 120%;
     height: 100%;
-    background: linear-gradient(
-        120deg,
-        transparent,
-        rgba(0, 229, 255, 0.25),
-        transparent
-    );
+    background: linear-gradient(120deg, transparent, rgba(0, 229, 255, 0.25), transparent);
     transition: all 0.6s ease;
 }
-
-/* animación tipo “shine” */
 .btn-secundario:hover::before {
     left: 120%;
 }
-
+ 
 .buscador-bunker input {
         width: 100%;
-        max-width: 100%; /* <-- Cambiamos 500px por 100% para que use todo el espacio */
-        box-sizing: border-box; /* <-- Esto evita que el padding rompa los bordes en celulares */
+        max-width: 100%;
+        box-sizing: border-box;
         padding: 14px 25px;
         font-size: 1rem;
         font-family: 'Arial Black', sans-serif;
@@ -129,186 +117,164 @@
         border-color: var(--cian-neon);
         box-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
     }
-
     .buscador-bunker input::placeholder {
         color: #555;
         font-size: 0.9rem;
         text-transform: uppercase;
     }
-
-        /* --- WIDGET FLOTANTE (POSICIÓN CALCULADA) --- */
-        .bunker-dashboard {
-            position: fixed;
-            top: 50%;
-            left: calc(50% + 650px); 
-            transform: translate(-50%, -50%);
-            width: 140px;
-            background: rgba(10, 10, 10, 0.9);
-            border: 2px solid var(--cian-neon);
-            border-radius: 15px;
-            padding: 20px 10px;
-            box-shadow: 0 0 25px rgba(0, 229, 255, 0.3);
-            z-index: 10000;
-            text-align: center;
-            backdrop-filter: blur(5px);
-        }
-
-        .dash-label { font-size: 0.6em; color: #888; text-transform: uppercase; margin-bottom: 5px; display: block; }
-        .dash-value { font-size: 0.9em; color: #fff; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: bold; }
-        
-        .btn-subscribe {
-            display: block;
-            background: #ff0000;
-            color: white;
-            text-decoration: none;
-            font-size: 0.65em;
-            padding: 8px 5px;
-            border-radius: 5px;
-            text-transform: uppercase;
-            font-weight: bold;
-            margin-top: 10px;
-            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
-            transition: 0.3s;
-            border: none;
-            cursor: pointer;
-        }
-
-        .btn-subscribe:hover { transform: scale(1.05); background: #ff3333; box-shadow: 0 0 20px rgba(255, 0, 0, 0.8); }
-
-        header { width: 100%; background-color: #000; text-align: center; overflow: hidden; }
-        .banner-img { width: 100%; height: auto; display: block; margin: 0 auto; }
-        .linea-magenta { width: 100%; height: 5px; background-color: var(--magenta-neon); box-shadow: 0px 0px 25px var(--magenta-neon); }
-
-        .container {
-            max-width: 1000px;
-            margin: -80px auto 50px auto; 
-            background-color: rgba(10, 10, 10, 0.98);
-            border-radius: 20px;
-            border: 1px solid #333;
-            box-shadow: 0px 0px 60px rgba(0,0,0,1);
-            position: relative;
-            z-index: 10;
-            overflow: hidden;
-        }
-
-        nav { background-color: #1a1a1a; border-bottom: 2px solid var(--cian-neon); }
-        nav ul { list-style: none; margin: 0; padding: 0; display: flex; justify-content: center; flex-wrap: wrap; }
-        nav li { position: relative; flex: 1; min-width: 150px; border-right: 1px solid #333; }
-        nav li:last-child { border-right: none; }
-        nav a { color: white; text-decoration: none; text-transform: uppercase; font-size: 0.8em; padding: 18px 10px; display: flex; align-items: center; justify-content: center; gap: 12px; transition: 0.3s; }
-        nav a i { font-size: 1.2em; color: var(--cian-neon); width: 20px; text-align: center; }
-        nav a:hover { background-color: #252525; color: var(--cian-neon); }
-
-        .dropdown-content { display: none; position: absolute; background-color: #111; min-width: 220px; border: 1px solid var(--cian-neon); top: 100%; left: 0; z-index: 2000; }
-        .dropdown:hover .dropdown-content { display: block; }
-        .dropdown-content a { justify-content: flex-start; padding: 15px; border-bottom: 1px solid #222; }
-
-        .inner-content { padding: 35px; }
-
-        /* --- CARRUSEL ORIGINAL CON NEÓN --- */
-        .video-carousel-container { position: relative; margin-bottom: 35px; border: 3px solid var(--cian-neon); box-shadow: 0px 0px 20px rgba(0, 229, 255, 0.3); border-radius: 12px; overflow: hidden; }
-        .video-slider { display: flex; transition: transform 0.6s ease-in-out; width: 100%; }
-        .video-item { min-width: 100%; position: relative; padding-bottom: 56.25%; height: 0; }
-        .video-item iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-
-        .carousel-controls { display: flex; justify-content: space-between; align-items: center; background: #111; padding: 12px 20px; border-top: 1px solid #333; }
-        .video-stats-limpias { display: flex; gap: 40px; }
-        .video-stats-limpias span { transition: opacity 0.4s ease; }
-        .stat-dato { color: var(--cian-neon); font-size: 14px; font-family: 'Arial Black', sans-serif; font-weight: bold; text-shadow: 0 0 10px rgba(0, 229, 255, 0.8), 1px 1px 2px #000; display: flex; align-items: center; gap: 10px; }
-        .stat-dato i { color: #fff; font-size: 12px; filter: drop-shadow(0 0 5px var(--cian-neon)); }
-        .carousel-controls button { background: transparent; border: 1px solid var(--cian-neon); color: var(--cian-neon); padding: 8px 15px; cursor: pointer; font-family: 'Arial Black', sans-serif; font-size: 0.7rem; border-radius: 5px; }
-
-       /* --- ESTILOS DE NOTICIAS --- */
-.alerta-shadow { background: #111; padding: 25px; border-left: 8px solid var(--cian-neon); margin-bottom: 35px; border-radius: 8px; border: 1px solid #222; }
-
-/* 1. Mantenemos tus bordes pero fijamos la altura a 300px (ajustalo si querés) */
-.noticia-item { 
-    border-bottom: 1px solid #333; 
-    padding: 15px; 
-    margin-bottom: 10px; 
-    height: 300px; 
-    display: flex; 
-    flex-direction: column; 
-}
-
-.noticia-item:last-child { border-bottom: none; }
-.noticia-titulo { color: var(--amarillo-neon); font-size: 1rem; margin-bottom: 2px; text-transform: uppercase; flex-shrink: 0; }
-.noticia-fecha { color: #888; font-family: sans-serif; font-size: 0.75rem; margin-bottom: 8px; display: block; font-weight: normal; flex-shrink: 0; }
-
-/* 2. El cuerpo ahora tiene scroll interno si el texto es muy largo */
-.noticia-cuerpo { 
-    font-family: sans-serif; 
-    font-size: 0.95rem; 
-    line-height: 1.5; 
-    color: #ccc; 
-    white-space: pre-line; 
-    overflow-y: auto; /* Activa el scroll */
-    flex-grow: 1;    /* Ocupa el espacio sobrante */
-    padding-right: 5px; 
-}
-
-/* 3. Tus links impecables: Rosa Pastel al pasar el mouse y sin subrayado */
-.noticia-cuerpo a { color: var(--cian-neon); text-decoration: none; font-weight: bold; }
-.noticia-cuerpo a:hover { color: #ffb3ff !important; text-decoration: none; text-shadow: none; }
-
-/* 4. Estilo del scroll interno para que sea Cian como el canal */
-.noticia-cuerpo::-webkit-scrollbar { width: 4px; }
-.noticia-cuerpo::-webkit-scrollbar-thumb { background: var(--cian-neon); border-radius: 10px; }
-
-        /* PAGINACIÓN AGREGADA */
-        .paginacion-cont { display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 20px; padding-top: 20px; border-top: 1px solid #222; }
-        .btn-nro { background: #1a1a1a; border: 1px solid #444; color: #fff; padding: 8px 14px; cursor: pointer; border-radius: 4px; font-family: 'Arial Black'; transition: 0.3s; font-size: 0.8rem; }
-        .btn-nro:hover:not(:disabled) { border-color: var(--cian-neon); color: var(--cian-neon); }
-        .btn-nro.active { background: var(--cian-neon); color: #000; border-color: var(--cian-neon); }
-        .btn-nro:disabled { opacity: 0.2; cursor: not-allowed; }
-
-        /* --- ESTILOS PANEL ADMIN --- */
-        #admin-panel {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: #111;
-            border: 3px solid var(--magenta-neon);
-            padding: 30px;
-            z-index: 20000;
-            width: 90%;
-            max-width: 500px;
-            border-radius: 15px;
-            box-shadow: 0 0 50px rgba(255, 0, 255, 0.4);
-        }
-        #admin-panel h2 { color: var(--magenta-neon); margin-top: 0; }
-        #admin-panel input, #admin-panel textarea {
-            width: 100%;
-            background: #222;
-            border: 1px solid #444;
-            color: #fff;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-        .admin-btns { display: flex; gap: 10px; }
-        .btn-admin { flex: 1; padding: 10px; border: none; cursor: pointer; font-weight: bold; text-transform: uppercase; border-radius: 5px; }
-        .btn-save { background: var(--cian-neon); color: #000; }
-        .btn-close { background: #444; color: #fff; }
-        .btn-delete { background: #ff0000; color: #fff; font-size: 0.7em; margin-top: 5px; padding: 3px 8px; border: none; cursor: pointer; border-radius: 3px;}
-
-        .grid-descargas { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-        .boton-descarga { display: block; padding: 20px; text-align: center; text-decoration: none; font-weight: bold; font-size: 1.2em; border-radius: 12px; text-transform: uppercase; transition: 0.3s; }
-        .btn-amarillo { background-color: var(--amarillo-neon); color: #000; }
-        .btn-cian { border: 3px solid var(--cian-neon); color: var(--cian-neon); }
-
-        footer { text-align: center; padding: 60px; color: #555; font-family: sans-serif; }
-        .contador-digital { display: inline-block; padding: 10px 20px; border: 1px solid var(--cian-neon); border-radius: 10px; background: rgba(0, 229, 255, 0.05); box-shadow: 0 0 15px rgba(0, 229, 255, 0.2); margin-bottom: 20px; }
-        #stats-count { font-family: 'Courier New', Courier, monospace; color: var(--cian-neon); font-size: 1.2rem; text-shadow: 0 0 10px var(--cian-neon); font-weight: bold; }
-
+ 
+    /* --- WIDGET FLOTANTE --- */
+    .bunker-dashboard {
+        position: fixed;
+        top: 50%;
+        left: calc(50% + 650px); 
+        transform: translate(-50%, -50%);
+        width: 140px;
+        background: rgba(10, 10, 10, 0.9);
+        border: 2px solid var(--cian-neon);
+        border-radius: 15px;
+        padding: 20px 10px;
+        box-shadow: 0 0 25px rgba(0, 229, 255, 0.3);
+        z-index: 10000;
+        text-align: center;
+        backdrop-filter: blur(5px);
+    }
+ 
+    .dash-label { font-size: 0.6em; color: #888; text-transform: uppercase; margin-bottom: 5px; display: block; }
+    .dash-value { font-size: 0.9em; color: #fff; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: bold; }
+    
+    .btn-subscribe {
+        display: block;
+        background: #ff0000;
+        color: white;
+        text-decoration: none;
+        font-size: 0.65em;
+        padding: 8px 5px;
+        border-radius: 5px;
+        text-transform: uppercase;
+        font-weight: bold;
+        margin-top: 10px;
+        box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+        transition: 0.3s;
+        border: none;
+        cursor: pointer;
+    }
+    .btn-subscribe:hover { transform: scale(1.05); background: #ff3333; box-shadow: 0 0 20px rgba(255, 0, 0, 0.8); }
+ 
+    header { width: 100%; background-color: #000; text-align: center; overflow: hidden; }
+    .banner-img { width: 100%; height: auto; display: block; margin: 0 auto; }
+    .linea-magenta { width: 100%; height: 5px; background-color: var(--magenta-neon); box-shadow: 0px 0px 25px var(--magenta-neon); }
+ 
+    .container {
+        max-width: 1000px;
+        margin: -80px auto 50px auto; 
+        background-color: rgba(10, 10, 10, 0.98);
+        border-radius: 20px;
+        border: 1px solid #333;
+        box-shadow: 0px 0px 60px rgba(0,0,0,1);
+        position: relative;
+        z-index: 10;
+        overflow: hidden;
+    }
+ 
+    nav { background-color: #1a1a1a; border-bottom: 2px solid var(--cian-neon); }
+    nav ul { list-style: none; margin: 0; padding: 0; display: flex; justify-content: center; flex-wrap: wrap; }
+    nav li { position: relative; flex: 1; min-width: 150px; border-right: 1px solid #333; }
+    nav li:last-child { border-right: none; }
+    nav a { color: white; text-decoration: none; text-transform: uppercase; font-size: 0.8em; padding: 18px 10px; display: flex; align-items: center; justify-content: center; gap: 12px; transition: 0.3s; }
+    nav a i { font-size: 1.2em; color: var(--cian-neon); width: 20px; text-align: center; }
+    nav a:hover { background-color: #252525; color: var(--cian-neon); }
+ 
+    .dropdown-content { display: none; position: absolute; background-color: #111; min-width: 220px; border: 1px solid var(--cian-neon); top: 100%; left: 0; z-index: 2000; }
+    .dropdown:hover .dropdown-content { display: block; }
+    .dropdown-content a { justify-content: flex-start; padding: 15px; border-bottom: 1px solid #222; }
+ 
+    .inner-content { padding: 35px; }
+ 
+    .video-carousel-container { position: relative; margin-bottom: 35px; border: 3px solid var(--cian-neon); box-shadow: 0px 0px 20px rgba(0, 229, 255, 0.3); border-radius: 12px; overflow: hidden; }
+    .video-slider { display: flex; transition: transform 0.6s ease-in-out; width: 100%; }
+    .video-item { min-width: 100%; position: relative; padding-bottom: 56.25%; height: 0; }
+    .video-item iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+ 
+    .carousel-controls { display: flex; justify-content: space-between; align-items: center; background: #111; padding: 12px 20px; border-top: 1px solid #333; }
+    .video-stats-limpias { display: flex; gap: 40px; }
+    .video-stats-limpias span { transition: opacity 0.4s ease; }
+    .stat-dato { color: var(--cian-neon); font-size: 14px; font-family: 'Arial Black', sans-serif; font-weight: bold; text-shadow: 0 0 10px rgba(0, 229, 255, 0.8), 1px 1px 2px #000; display: flex; align-items: center; gap: 10px; }
+    .stat-dato i { color: #fff; font-size: 12px; filter: drop-shadow(0 0 5px var(--cian-neon)); }
+    .carousel-controls button { background: transparent; border: 1px solid var(--cian-neon); color: var(--cian-neon); padding: 8px 15px; cursor: pointer; font-family: 'Arial Black', sans-serif; font-size: 0.7rem; border-radius: 5px; }
+ 
+    .alerta-shadow { background: #111; padding: 25px; border-left: 8px solid var(--cian-neon); margin-bottom: 35px; border-radius: 8px; border: 1px solid #222; }
+    .noticia-item { border-bottom: 1px solid #333; padding: 15px; margin-bottom: 10px; height: 300px; display: flex; flex-direction: column; }
+    .noticia-item:last-child { border-bottom: none; }
+    .noticia-titulo { color: var(--amarillo-neon); font-size: 1rem; margin-bottom: 2px; text-transform: uppercase; flex-shrink: 0; }
+    .noticia-fecha { color: #888; font-family: sans-serif; font-size: 0.75rem; margin-bottom: 8px; display: block; font-weight: normal; flex-shrink: 0; }
+    .noticia-cuerpo { font-family: sans-serif; font-size: 0.95rem; line-height: 1.5; color: #ccc; white-space: pre-line; overflow-y: auto; flex-grow: 1; padding-right: 5px; }
+    .noticia-cuerpo a { color: var(--cian-neon); text-decoration: none; font-weight: bold; }
+    .noticia-cuerpo a:hover { color: #ffb3ff !important; }
+    .noticia-cuerpo::-webkit-scrollbar { width: 4px; }
+    .noticia-cuerpo::-webkit-scrollbar-thumb { background: var(--cian-neon); border-radius: 10px; }
+ 
+    .paginacion-cont { display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 20px; padding-top: 20px; border-top: 1px solid #222; }
+    .btn-nro { background: #1a1a1a; border: 1px solid #444; color: #fff; padding: 8px 14px; cursor: pointer; border-radius: 4px; font-family: 'Arial Black'; transition: 0.3s; font-size: 0.8rem; }
+    .btn-nro:hover:not(:disabled) { border-color: var(--cian-neon); color: var(--cian-neon); }
+    .btn-nro.active { background: var(--cian-neon); color: #000; border-color: var(--cian-neon); }
+    .btn-nro:disabled { opacity: 0.2; cursor: not-allowed; }
+ 
+    /* --- ESTILOS PANEL ADMIN --- */
+    #admin-panel {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #111;
+        border: 3px solid var(--magenta-neon);
+        padding: 30px;
+        z-index: 20000;
+        width: 90%;
+        max-width: 500px;
+        border-radius: 15px;
+        box-shadow: 0 0 50px rgba(255, 0, 255, 0.4);
+    }
+    #admin-panel h2 { color: var(--magenta-neon); margin-top: 0; }
+    #admin-panel input, #admin-panel textarea {
+        width: 100%;
+        background: #222;
+        border: 1px solid #444;
+        color: #fff;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+    .admin-btns { display: flex; gap: 10px; }
+    .btn-admin { flex: 1; padding: 10px; border: none; cursor: pointer; font-weight: bold; text-transform: uppercase; border-radius: 5px; }
+    .btn-save { background: var(--cian-neon); color: #000; }
+    .btn-close { background: #444; color: #fff; }
+    .btn-delete { background: #ff0000; color: #fff; font-size: 0.7em; margin-top: 5px; padding: 3px 8px; border: none; cursor: pointer; border-radius: 3px; }
+ 
+    .grid-descargas { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+    .boton-descarga { display: block; padding: 20px; text-align: center; text-decoration: none; font-weight: bold; font-size: 1.2em; border-radius: 12px; text-transform: uppercase; transition: 0.3s; }
+    .btn-amarillo { background-color: var(--amarillo-neon); color: #000; }
+    .btn-cian { border: 3px solid var(--cian-neon); color: var(--cian-neon); }
+ 
+    footer { text-align: center; padding: 60px; color: #555; font-family: sans-serif; }
+    .contador-digital { display: inline-block; padding: 10px 20px; border: 1px solid var(--cian-neon); border-radius: 10px; background: rgba(0, 229, 255, 0.05); box-shadow: 0 0 15px rgba(0, 229, 255, 0.2); margin-bottom: 20px; }
+    #stats-count { font-family: 'Courier New', Courier, monospace; color: var(--cian-neon); font-size: 1.2rem; text-shadow: 0 0 10px var(--cian-neon); font-weight: bold; }
+ 
     @media (max-width: 768px) { .container { margin-top: -30px; width: 95%; } nav li { min-width: 120px; } }
-    </style>
+ 
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active {
+        -webkit-text-fill-color: white !important;
+        transition: background-color 9999s ease-in-out 0s;
+    }
+</style>
 </head>
 <body>
-
+ 
 <aside class="bunker-dashboard">
     <span class="dash-label">YouTube Subs</span>
     <div class="dash-value"><i class="fab fa-youtube" style="color:#ff0000;"></i> <span id="subs-count">--</span></div>
@@ -318,7 +284,7 @@
         <i class="fas fa-plus"></i> SUSCRIBIRSE
     </a>
 </aside>
-
+ 
 <div id="admin-panel">
     <h2>📡 PANEL DE NOTICIAS</h2>
     <input type="text" id="news-title" placeholder="Título de la noticia">
@@ -330,12 +296,13 @@
     <hr style="border: 1px solid #333; margin: 20px 0;">
     <div id="admin-news-list"></div>
 </div>
-    
+ 
 <header>
+    <div id="login-container"></div>
     <img src="banner.png" alt="CaTecnoFan Banner" class="banner-img">
     <div class="linea-magenta"></div>
 </header>
-
+ 
 <div class="container">
     <nav>
         <ul>
@@ -349,13 +316,16 @@
             </li>
             <li><a href="https://www.youtube.com/@CaTecnoFan" target="_blank"><i class="fab fa-youtube"></i> YOUTUBE</a></li>
             <li><a href="contacto.html"><i class="fas fa-envelope"></i> CONTACTO</a></li>
+            <li><a href="comunidad.html"><i class="fas fa-comments"></i> COMUNIDAD</a></li>
         </ul>
     </nav>
+ 
     <div class="inner-content">
         <div class="buscador-bunker">
-    <span style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); font-size: 1.2rem; z-index: 5; pointer-events: none;">🔍</span>
-    <input type="text" id="bunker-search" placeholder="BUSCAR EMULADOR JUEGO O CONSOLA...">
-</div>
+            <span style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); font-size: 1.2rem; z-index: 5; pointer-events: none;">🔍</span>
+            <input type="text" id="bunker-search" placeholder="BUSCAR EMULADOR JUEGO O CONSOLA...">
+        </div>
+ 
         <div class="video-carousel-container">
             <div class="video-slider" id="videoSlider">
                 <div class="video-item"><iframe src="https://www.youtube.com/embed/Un6ZHrWKDYI" frameborder="0" allowfullscreen></iframe></div>
@@ -392,20 +362,20 @@
                 <button onclick="manualMove(1)">SIGUIENTE <i class="fas fa-chevron-right"></i></button>
             </div>
         </div>
-
+ 
         <div class="alerta-shadow">
             <h3 style="color: var(--cian-neon); margin-top: 0; text-transform: uppercase; font-size: 1rem;">📢 ÚLTIMAS NOTICIAS</h3>
             <div id="noticias-container"></div>
             <div id="paginacion-cont" class="paginacion-cont"></div>
         </div>
-
+ 
         <div class="grid-descargas">
             <a href="https://ko-fi.com/catecnofan" class="boton-descarga btn-secundario">❤️ SUPPORT THE CHANNEL</a>
             <a href="https://cafecito.app/catecnofan" class="boton-descarga btn-primario">☕ INVITAME UN CAFECITO</a>
         </div>
     </div>
 </div>
-
+ 
 <footer>
     <div class="contador-digital">
         <i class="fas fa-users" style="color: var(--cian-neon); margin-right: 10px;"></i>
@@ -415,6 +385,7 @@
     CaTecnoFan &copy; 2026 - Rosario, Argentina <br>
     Hardware, Juegos y Tecnología para el Gamer Real
 </footer>
+ 
 <script>
     const mapaBuscador = {
         "shadps4": "shadps4",
@@ -434,7 +405,7 @@
         "switch android": "citron-apk",
         "nintendo 64": "n64-dreamcast",
         "sega dreamcast": "n64-dreamcast",
-        "dreamccast": "n64-dreamcast",
+        "dreamcast": "n64-dreamcast",
         "retrobat": "retrobat",
         "bblauncher": "bblauncher",
         "shadlix": "shadlix",
@@ -442,18 +413,16 @@
         "xenia": "xenia",
         "xbox": "xenia"
     };
-
+ 
     document.getElementById('bunker-search').addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
             let valorInput = e.target.value.toLowerCase().trim();
-            
-            // 🟢 LO ÚNICO NUEVO: Un cartel directo si buscan switch
+ 
             if (valorInput === "switch" || valorInput === "nintendo switch") {
                 alert("🎮 Para Switch tenés: Eden (PC), Ryujinx (PC), Yuzu (PC) y Citron (Android). Buscá el nombre de cualquiera de ellos directamente.");
                 return;
             }
-            
-            // Tu redirección de siempre, intacta
+ 
             if (mapaBuscador[valorInput]) {
                 window.location.href = "emuladores.html#" + mapaBuscador[valorInput];
             } else {
@@ -462,6 +431,7 @@
         }
     });
 </script>
+ 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
 import {
@@ -477,25 +447,23 @@ import {
     updateDoc,
     increment
 } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
-
-/* ================= CONFIGURACIÓN FIREBASE ================= */
+ 
 const firebaseConfig = {
-    apiKey: "AIzaSyBa_xg_kBBmAe1cJVEhE5BiOfCjlQ-Ib0w", 
+    apiKey: "AIzaSyBa_xg_kBBmAe1cJVEhE5BiOfCjlQ-Ib0w",
     authDomain: "catecnofan-web.firebaseapp.com",
     projectId: "catecnofan-web",
     storageBucket: "catecnofan-web.appspot.com",
     messagingSenderId: "670781631971",
     appId: "1:670781631971:web:7fa547d5392149c05304d6"
 };
-
+ 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-
-/* ================= YOUTUBE CONFIG ================= */
+ 
 const API_KEY = 'AIzaSyBa_xg_kBBmAe1cJVEhE5BiOfCjlQ-Ib0w';
 const CHANNEL_ID = 'UCG_8fY6lpJwWW0cut5Z5dfA';
 let currentSlide = 0;
-
+ 
 async function fetchGlobalStats() {
     try {
         const res = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${CHANNEL_ID}&key=${API_KEY}`);
@@ -507,7 +475,7 @@ async function fetchGlobalStats() {
         }
     } catch (e) { console.error(e); }
 }
-
+ 
 function fetchYouTubeData(index) {
     const videoIds = ['Un6ZHrWKDYI','UlxbEDFHn8I','6iYHssA7ADM','AT1_tCjPGh4','6UUWiL0neeY','9KoAwkaC_KU','jBCiqo6hCnk','-7HCGvQbAQ8','vFWvq0UMbDs','sz9VXeCTt5c','ZE5B5mnhZRk','n2UFF11aNxI','yVnf-hC-HiQ','WO-X7K-M9I4','VTZrG056Y88','V_YbQ7DJPWs','OAm9Njw31CY','4Pm8gx_A8oA','AH69J6lvCVY','bQy8vu6ZgBI','tQ_QE3EJN00','XVCuPzPuhds','fbrR_cKxRCI'];
     const id = videoIds[index];
@@ -523,8 +491,7 @@ function fetchYouTubeData(index) {
             }
         }).catch(() => {});
 }
-
-/* ================= CAROUSEL ================= */
+ 
 function moveSlide(direction) {
     const slider = document.getElementById('videoSlider');
     const items = document.querySelectorAll('.video-item');
@@ -533,13 +500,12 @@ function moveSlide(direction) {
     fetchYouTubeData(currentSlide);
 }
 let autoPlayInterval = setInterval(() => moveSlide(1), 8000);
-window.manualMove = (dir) => { clearInterval(autoPlayInterval); moveSlide(dir); autoPlayInterval = setInterval(() => moveSlide(1), 8000); }
-
-/* ================= NOTICIAS ================= */
+window.manualMove = (dir) => { clearInterval(autoPlayInterval); moveSlide(dir); autoPlayInterval = setInterval(() => moveSlide(1), 8000); };
+ 
 let noticias = [];
 let paginaActual = 1;
 const porPagina = 3;
-
+ 
 async function loadNewsData() {
     const q = query(collection(db, "news"), orderBy("date", "desc"));
     const snapshot = await getDocs(q);
@@ -548,31 +514,27 @@ async function loadNewsData() {
     renderNews();
     if (document.getElementById('admin-panel').style.display === 'block') renderAdminList();
 }
-
+ 
 function renderNews() {
     const container = document.getElementById('noticias-container');
     const start = (paginaActual - 1) * porPagina;
     const slice = noticias.slice(start, start + porPagina);
     container.innerHTML = slice.map(n => {
-        // 1. Primero convertimos el formato [CLICK AQUÍ](link)
         let textoProcesado = n.content.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
-        
-        // 2. Después convertimos los links sueltos tradicionales (evitando pisar lo anterior)
         textoProcesado = textoProcesado.replace(/(?<!=["'])(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank">$1</a>');
-
         return `
         <div class="noticia-item">
             <div class="noticia-titulo">${n.title}</div>
-                <span class="noticia-fecha">
-        ${new Date(n.date).toLocaleString()}
-        ${n.updatedAt ? " • editado" : ""}
-    </span>
+            <span class="noticia-fecha">
+                ${new Date(n.date).toLocaleString()}
+                ${n.updatedAt ? " • editado" : ""}
+            </span>
             <div class="noticia-cuerpo">${textoProcesado}</div>
         </div>`;
     }).join('');
     renderPaginacion();
 }
-
+ 
 function renderPaginacion() {
     const pag = document.getElementById('paginacion-cont');
     const total = Math.ceil(noticias.length / porPagina);
@@ -580,106 +542,78 @@ function renderPaginacion() {
     for (let i = 1; i <= total; i++) html += `<button class="btn-nro ${i === paginaActual ? 'active' : ''}" onclick="goPage(${i})">${i}</button>`;
     pag.innerHTML = html;
 }
-
+ 
 window.goPage = (p) => { paginaActual = p; renderNews(); }
-
-/* ================= CONTADOR GLOBAL ================= */
+ 
 async function handleCounter() {
     const counterDoc = doc(db, "stats", "visitas");
     try {
-        // Le sumamos 1 al campo 'count' que creaste en Firebase
-        await updateDoc(counterDoc, {
-            count: increment(1)
-        });
-        // Traemos el número actualizado para mostrarlo
+        await updateDoc(counterDoc, { count: increment(1) });
         const snap = await getDoc(counterDoc);
         if (snap.exists()) {
             document.getElementById('stats-count').innerText = snap.data().count;
         }
-    } catch (e) {
-        console.error("Error en contador:", e);
-    }
+    } catch (e) { console.error("Error en contador:", e); }
 }
-
-
-/* ================= PANEL ADMIN ================= */
+ 
 window.saveNews = async () => {
     const title = document.getElementById('news-title').value;
     const content = document.getElementById('news-content').value;
     if (!title || !content) return alert("Completá todo");
-
     if (window.editingId) {
-        // 👉 ESTÁS EDITANDO
-        await updateDoc(doc(db, "news", window.editingId), {
-            title,
-            content,
-            updatedAt: Date.now()
-        });
-
+        await updateDoc(doc(db, "news", window.editingId), { title, content, updatedAt: Date.now() });
         window.editingId = null;
     } else {
-        // 👉 ESTÁS CREANDO NUEVA
-        await addDoc(collection(db, "news"), {
-            title,
-            content,
-            date: Date.now()
-        });
+        await addDoc(collection(db, "news"), { title, content, date: Date.now() });
     }
-
     document.getElementById('news-title').value = '';
     document.getElementById('news-content').value = '';
     loadNewsData();
 }
-
+ 
 window.deleteNews = async (id) => {
     if (confirm("¿Borrar noticia?")) { await deleteDoc(doc(db, "news", id)); loadNewsData(); }
 }
-
+ 
 async function renderAdminList() {
     const list = document.getElementById('admin-news-list');
-
     list.innerHTML = noticias.map(n => `
         <div style="font-size:0.8em;margin-bottom:10px;border-bottom:1px solid #222;padding-bottom:8px;">
             <b>${n.title}</b><br>
-
             <button class="btn-delete" onclick="deleteNews('${n.id}')">Eliminar</button>
-            <button class="btn-admin btn-save" style="margin-left:5px;" onclick="editNews('${n.id}')">
-                Editar
-            </button>
+            <button class="btn-admin btn-save" style="margin-left:5px;" onclick="editNews('${n.id}')">Editar</button>
         </div>
     `).join('');
 }
+ 
 window.editNews = (id) => {
     const n = noticias.find(x => x.id === id);
     if (!n) return;
-
     document.getElementById('news-title').value = n.title;
     document.getElementById('news-content').value = n.content;
-
-    // guardamos modo edición
     window.editingId = id;
 };
-
+ 
 window.toggleAdmin = () => {
     const p = document.getElementById('admin-panel');
     p.style.display = p.style.display === 'block' ? 'none' : 'block';
     if (p.style.display === 'block') renderAdminList();
 }
-
+ 
 document.addEventListener('keydown', (e) => {
-    if (e.ctrlKey && e.altKey && e.key.toLowerCase() === 'a') { 
+    if (e.ctrlKey && e.altKey && e.key.toLowerCase() === 'a') {
         e.preventDefault();
         window.toggleAdmin();
     }
 });
-
-/* ================= INIT ================= */
-window.onload = () => { 
-    fetchGlobalStats(); 
-    fetchYouTubeData(0); 
-    loadNewsData(); 
-    handleCounter(); // <--- ESTO ES LO QUE HACE ANDAR EL CONTADOR
+ 
+window.onload = () => {
+    fetchGlobalStats();
+    fetchYouTubeData(0);
+    loadNewsData();
+    handleCounter();
 };
 </script>
+<script type="module" src="login.js"></script>
 </body>
 </html>
