@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Perfil | CaTecnoFan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="login.css">
+    <style>
+        :root {
+            --cian-neon: #00e5ff;
+            --magenta-neon: #ff00ff;
+            --amarillo-neon: #ffff00;
+        }
+        html { overflow-y: scroll; }
+        body {
+            background-color: #080808;
+            color: #ffffff;
+            font-family: 'Arial Black', Gadget, sans-serif;
+            margin: 0; padding: 0;
+            background-image: linear-gradient(rgba(0,0,0,0.96), rgba(0,0,0,0.96)), url('banner.png');
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .bunker-dashboard {
+            position: fixed; top: 50%; left: calc(50% + 650px);
+            transform: translate(-50%, -50%); width: 140px;
+            background: rgba(10,10,10,0.9); border: 2px solid #00e5ff;
+            border-radius: 15px; padding: 20px 10px;
+            box-shadow: 0 0 25px rgba(0,229,255,0.3);
+            z-index: 10000; text-align: center; backdrop-filter: blur(5px);
+        }
+        .dash-label { font-size: 0.6em; color: #888; text-transform: uppercase; margin-bottom: 5px; display: block; }
+        .dash-value { font-size: 0.9em; color: #fff; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: bold; }
+        .btn-subscribe { display: block; background: #ff0000; color: white; text-decoration: none; font-size: 0.65em; padding: 8px 5px; border-radius: 5px; text-transform: uppercase; font-weight: bold; margin-top: 10px; }
+        @media (max-width: 1350px) { .bunker-dashboard { display: none; } }
+
+        header { width: 100%; background-color: #000; text-align: center; overflow: hidden; }
+        .banner-img { width: 100%; height: auto; display: block; margin: 0 auto; }
+        .linea-magenta { width: 100%; height: 5px; background-color: var(--magenta-neon); box-shadow: 0px 0px 25px var(--magenta-neon); }
+
+        .container { max-width: 1000px; margin: -80px auto 50px auto; background-color: rgba(10,10,10,0.98); border-radius: 20px; border: 1px solid #333; box-shadow: 0px 0px 60px rgba(0,0,0,1); position: relative; z-index: 10; overflow: hidden; }
+
+        nav { background-color: #1a1a1a; border-bottom: 2px solid var(--cian-neon); }
+        nav ul { list-style: none; margin: 0; padding: 0; display: flex; justify-content: center; flex-wrap: wrap; }
+        nav li { position: relative; flex: 1; min-width: 150px; border-right: 1px solid #333; }
+        nav li:last-child { border-right: none; }
+        nav a { color: white; text-decoration: none; text-transform: uppercase; font-size: 0.8em; padding: 18px 10px; display: flex; align-items: center; justify-content: center; gap: 12px; transition: 0.3s; }
+        nav a i { font-size: 1.2em; color: var(--cian-neon); width: 20px; text-align: center; }
+        nav a:hover { background-color: #252525; color: var(--cian-neon); }
+        .dropdown-content { display: none; position: absolute; background-color: #111; min-width: 220px; border: 1px solid var(--cian-neon); top: 100%; left: 0; z-index: 2000; }
+        .dropdown:hover .dropdown-content { display: block; }
+        .dropdown-content a { justify-content: flex-start; padding: 15px; border-bottom: 1px solid #222; }
+
+        .inner-content { padding: 35px; }
+        h2 { color: var(--cian-neon); text-transform: uppercase; margin-bottom: 30px; text-shadow: 0 0 10px rgba(0,229,255,0.3); text-align: center; }
+
+        /* ===== PERFIL ===== */
+        .perfil-grid {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 30px;
+        }
+
+        /* Columna izquierda — avatar */
+        .perfil-avatar-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .avatar-wrapper {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            cursor: pointer;
+        }
+
+        .avatar-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid transparent;
+            background: linear-gradient(#080808, #080808) padding-box,
+                        linear-gradient(135deg, #00e5ff, #ff00ff) border-box;
+            display: block;
+        }
+
+        .avatar-inicial {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00e5ff, #ff00ff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: #000;
+            text-transform: uppercase;
+        }
+
+        .avatar-overlay {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.2s;
+            gap: 5px;
+        }
+        .avatar-wrapper:hover .avatar-overlay { opacity: 1; }
+        .avatar-overlay i { color: #00e5ff; font-size: 1.5rem; }
+        .avatar-overlay span { color: #00e5ff; font-size: 0.55rem; text-transform: uppercase; letter-spacing: 1px; }
+
+        #input-foto { display: none; }
+
+        .perfil-username {
+            font-size: 1.1rem;
+            color: #00e5ff;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(0,229,255,0.4);
+            text-align: center;
+        }
+
+        .perfil-email {
+            font-size: 0.65rem;
+            color: #555;
+            font-family: sans-serif;
+            text-align: center;
+            word-break: break-all;
+        }
+
+        .perfil-fecha {
+            font-size: 0.6rem;
+            color: #444;
+            font-family: sans-serif;
+            text-align: center;
+        }
+
+        /* Columna derecha — formulario */
+        .perfil-form-col {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .perfil-card {
+            background: #111;
+            border: 1px solid #222;
+            border-top: 3px solid var(--cian-neon);
+            border-radius: 12px;
+            padding: 25px;
+        }
+
+        .perfil-card h3 {
+            color: var(--amarillo-neon);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            margin: 0 0 20px 0;
+            letter-spacing: 1px;
+        }
+
+        .form-group { margin-bottom: 15px; }
+        .form-group label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--cian-neon);
+            font-size: 0.7rem;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px 14px;
+            background: #080808;
+            border: 1px solid #333;
+            color: white;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 0.85em;
+            font-family: sans-serif;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .form-group input:focus { border-color: var(--cian-neon); }
+        .form-group input:disabled {
+            color: #555;
+            cursor: not-allowed;
+        }
+
+        .btn-guardar {
+            width: 100%;
+            background: transparent;
+            color: var(--cian-neon);
+            border: 2px solid var(--cian-neon);
+            padding: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 6px;
+            font-size: 0.8em;
+            letter-spacing: 2px;
+            transition: all 0.2s ease;
+            font-family: 'Arial Black', sans-serif;
+        }
+        .btn-guardar:hover {
+            background: var(--cian-neon);
+            color: #000;
+            box-shadow: 0 0 15px rgba(0,229,255,0.4);
+        }
+        .btn-guardar:disabled { opacity: 0.4; cursor: not-allowed; }
+
+        .btn-guardar-magenta {
+            width: 100%;
+            background: transparent;
+            color: var(--magenta-neon);
+            border: 2px solid var(--magenta-neon);
+            padding: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 6px;
+            font-size: 0.8em;
+            letter-spacing: 2px;
+            transition: all 0.2s ease;
+            font-family: 'Arial Black', sans-serif;
+        }
+        .btn-guardar-magenta:hover {
+            background: var(--magenta-neon);
+            color: #000;
+            box-shadow: 0 0 15px rgba(255,0,255,0.4);
+        }
+
+        /* Mensaje feedback */
+        .msg-feedback {
+            display: none;
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 0.72rem;
+            font-family: sans-serif;
+            margin-top: 10px;
+            text-align: center;
+        }
+        .msg-feedback.ok { display: block; background: rgba(0,229,255,0.08); border: 1px solid var(--cian-neon); color: var(--cian-neon); }
+        .msg-feedback.error { display: block; background: rgba(255,68,68,0.08); border: 1px solid #ff4444; color: #ff4444; }
+
+        /* Spinner subida */
+        .upload-spinner {
+            display: none;
+            text-align: center;
+            color: #555;
+            font-size: 0.65rem;
+            font-family: sans-serif;
+            margin-top: 8px;
+        }
+        .upload-spinner.visible { display: block; }
+
+        /* No logueado */
+        #no-logueado {
+            display: none;
+            text-align: center;
+            padding: 60px 20px;
+            color: #555;
+            font-family: sans-serif;
+        }
+        #no-logueado i { font-size: 3rem; color: #222; margin-bottom: 20px; display: block; }
+        #no-logueado a { color: var(--cian-neon); text-decoration: none; }
+
+        footer { text-align: center; padding: 60px; color: #555; font-family: sans-serif; font-size: 0.9em; }
+        .contador-digital { display: inline-block; padding: 10px 20px; border: 1px solid var(--cian-neon); border-radius: 10px; background: rgba(0,229,255,0.05); box-shadow: 0 0 15px rgba(0,229,255,0.2); margin-bottom: 20px; }
+        #stats-count { font-family: 'Courier New', Courier, monospace; color: var(--cian-neon); font-size: 1.2rem; text-shadow: 0 0 10px var(--cian-neon); font-weight: bold; }
+
+        @media (max-width: 768px) {
+            .perfil-grid { grid-template-columns: 1fr; }
+            .container { margin-top: -30px; width: 95%; }
+        }
+
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus,
+        input:-webkit-autofill:active {
+            -webkit-text-fill-color: white !important;
+            -webkit-box-shadow: 0 0 0px 1000px #080808 inset !important;
+            transition: background-color 9999s ease-in-out 0s;
+        }
+    </style>
+</head>
+<script>
+const API_KEY_YT = 'AIzaSyBa_xg_kBBmAe1cJVEhE5BiOfCjlQ-Ib0w';
+const CHANNEL_ID = 'UCG_8fY6lpJwWW0cut5Z5dfA';
+async function fetchGlobalStats() {
+    try {
+        const res = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${CHANNEL_ID}&key=${API_KEY_YT}`);
+        const data = await res.json();
+        const s = data?.items?.[0]?.statistics;
+        if (s) {
+            document.getElementById('subs-count').innerText = (s.subscriberCount / 1000).toFixed(1) + "K";
+            document.getElementById('views-total-count').innerText = Intl.NumberFormat().format(s.viewCount);
+        }
+    } catch(e) {}
+}
+fetchGlobalStats();
+</script>
+<body>
+
+<aside class="bunker-dashboard">
+    <span class="dash-label">YouTube Subs</span>
+    <div class="dash-value"><i class="fab fa-youtube" style="color:#ff0000;"></i> <span id="subs-count">--</span></div>
+    <span class="dash-label">Total Views</span>
+    <div class="dash-value"><i class="fas fa-play-circle" style="color:#00e5ff;"></i> <span id="views-total-count">--</span></div>
+    <a href="https://www.youtube.com/@CaTecnoFan?sub_confirmation=1" target="_blank" class="btn-subscribe">SUSCRIBIRSE</a>
+</aside>
+
+<header>
+    <div id="login-container"></div>
+    <img src="banner.png" class="banner-img">
+    <div class="linea-magenta"></div>
+</header>
+
+<div class="container">
+    <nav>
+        <ul>
+            <li><a href="index.html"><i class="fas fa-home"></i> INICIO</a></li>
+            <li class="dropdown">
+                <a href="#"><i class="fas fa-download"></i> DESCARGAS ▼</a>
+                <div class="dropdown-content">
+                    <a href="emuladores.html"><i class="fas fa-gamepad"></i> EMULADORES</a>
+                    <a href="utilidades.html"><i class="fas fa-tools"></i> UTILIDADES</a>
+                </div>
+            </li>
+            <li><a href="https://www.youtube.com/@CaTecnoFan" target="_blank"><i class="fab fa-youtube"></i> YOUTUBE</a></li>
+            <li><a href="contacto.html"><i class="fas fa-envelope"></i> CONTACTO</a></li>
+            <li><a href="comunidad.html"><i class="fas fa-comments"></i> COMUNIDAD</a></li>
+        </ul>
+    </nav>
+
+    <div class="inner-content">
+        <h2><i class="fas fa-user-circle" style="font-size:0.8em; margin-right:10px;"></i>MI PERFIL</h2>
+
+        <div id="no-logueado">
+            <i class="fas fa-lock"></i>
+            <p>Tenés que estar logueado para ver tu perfil.</p>
+            <p><a href="index.html">Iniciá sesión desde el inicio</a></p>
+        </div>
+
+        <div id="perfil-contenido" style="display:none;">
+            <div class="perfil-grid">
+
+                <!-- Columna avatar -->
+                <div class="perfil-avatar-col">
+                    <div class="avatar-wrapper" onclick="document.getElementById('input-foto').click()">
+                        <div id="avatar-display"></div>
+                        <div class="avatar-overlay">
+                            <i class="fas fa-camera"></i>
+                            <span>Cambiar foto</span>
+                        </div>
+                    </div>
+                    <input type="file" id="input-foto" accept="image/*">
+                    <div class="upload-spinner" id="upload-spinner">
+                        <i class="fas fa-spinner fa-spin"></i> Subiendo foto...
+                    </div>
+                    <div class="perfil-username" id="display-username"></div>
+                    <div class="perfil-email" id="display-email"></div>
+                    <div class="perfil-fecha" id="display-fecha"></div>
+                </div>
+
+                <!-- Columna formulario -->
+                <div class="perfil-form-col">
+
+                    <div class="perfil-card">
+                        <h3><i class="fas fa-user" style="margin-right:8px;"></i>Datos del perfil</h3>
+                        <div class="form-group">
+                            <label><i class="fas fa-at"></i> Nombre de usuario</label>
+                            <input type="text" id="input-username" placeholder="Tu nombre de usuario" maxlength="20">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-envelope"></i> Email</label>
+                            <input type="email" id="input-email" disabled>
+                        </div>
+                        <button class="btn-guardar" id="btn-guardar-perfil" onclick="guardarPerfil()">
+                            <i class="fas fa-save"></i> GUARDAR CAMBIOS
+                        </button>
+                        <div class="msg-feedback" id="msg-perfil"></div>
+                    </div>
+
+                    <div class="perfil-card">
+                        <h3><i class="fas fa-lock" style="margin-right:8px;"></i>Cambiar contraseña</h3>
+                        <div class="form-group">
+                            <label><i class="fas fa-key"></i> Nueva contraseña</label>
+                            <input type="password" id="input-pass1" placeholder="Mínimo 6 caracteres">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-key"></i> Repetir contraseña</label>
+                            <input type="password" id="input-pass2" placeholder="Repetí la contraseña">
+                        </div>
+                        <button class="btn-guardar-magenta" onclick="cambiarPassword()">
+                            <i class="fas fa-shield-alt"></i> CAMBIAR CONTRASEÑA
+                        </button>
+                        <div class="msg-feedback" id="msg-pass"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="contador-digital">
+        <i class="fas fa-users" style="color: var(--cian-neon); margin-right: 10px;"></i>
+        <span id="stats-count">--</span>
+    </div>
+    <br>
+    CaTecnoFan &copy; 2026 - Rosario, Argentina <br>
+    Hardware, Juegos y Tecnología para el Gamer Real
+</footer>
+
+<script type="module">
+import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+import { getAuth, onAuthStateChanged, updateProfile, updatePassword } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyBSCwLvlIi75UodLbqtDK2HUiagmydoL8w",
+    authDomain: "catecnofan-web.firebaseapp.com",
+    projectId: "catecnofan-web",
+    storageBucket: "catecnofan-web.appspot.com",
+    messagingSenderId: "670781631971",
+    appId: "1:670781631971:web:7fa547d5392149c05304d6"
+};
+
+const app = getApps().find(a => a.name === "login") || initializeApp(firebaseConfig, "login");
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+const CLOUDINARY_CLOUD = "dhufpc8xi";
+const CLOUDINARY_PRESET = "catecnofan_avatars"; // upload preset sin firma
+
+// Contador
+async function handleCounter() {
+    try {
+        const counterDoc = doc(db, "stats", "visitas");
+        await updateDoc(counterDoc, { count: increment(1) });
+        const snap = await getDoc(counterDoc);
+        if (snap.exists()) document.getElementById('stats-count').innerText = snap.data().count;
+    } catch(e) {}
+}
+
+// Mostrar avatar
+function mostrarAvatar(photoURL, nombre) {
+    const div = document.getElementById('avatar-display');
+    if (photoURL) {
+        div.innerHTML = `<img class="avatar-img" src="${photoURL}" alt="Avatar">`;
+    } else {
+        const inicial = (nombre || '?').charAt(0).toUpperCase();
+        div.innerHTML = `<div class="avatar-inicial">${inicial}</div>`;
+    }
+}
+
+function mostrarMsg(id, texto, tipo) {
+    const el = document.getElementById(id);
+    el.textContent = texto;
+    el.className = 'msg-feedback ' + tipo;
+    setTimeout(() => { el.className = 'msg-feedback'; }, 4000);
+}
+
+// Auth state
+onAuthStateChanged(auth, (user) => {
+    if (!user) {
+        document.getElementById('no-logueado').style.display = 'block';
+        return;
+    }
+
+    document.getElementById('perfil-contenido').style.display = 'block';
+
+    const nombre = user.displayName || user.email.split('@')[0];
+    mostrarAvatar(user.photoURL, nombre);
+    document.getElementById('display-username').textContent = nombre;
+    document.getElementById('display-email').textContent = user.email;
+    document.getElementById('input-username').value = nombre;
+    document.getElementById('input-email').value = user.email;
+
+    const fecha = user.metadata?.creationTime
+        ? new Date(user.metadata.creationTime).toLocaleDateString('es-AR', { year: 'numeric', month: 'long', day: 'numeric' })
+        : '';
+    document.getElementById('display-fecha').textContent = fecha ? 'Miembro desde ' + fecha : '';
+
+    // Subida de foto
+    document.getElementById('input-foto').addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const spinner = document.getElementById('upload-spinner');
+        spinner.classList.add('visible');
+
+        try {
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('upload_preset', CLOUDINARY_PRESET);
+            formData.append('folder', 'avatares');
+
+            const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`, {
+                method: 'POST',
+                body: formData
+            });
+            const data = await res.json();
+
+            if (data.secure_url) {
+                await updateProfile(user, { photoURL: data.secure_url });
+                mostrarAvatar(data.secure_url, user.displayName);
+                mostrarMsg('msg-perfil', '✓ Foto actualizada', 'ok');
+            } else {
+                mostrarMsg('msg-perfil', 'Error al subir la imagen', 'error');
+            }
+        } catch(err) {
+            mostrarMsg('msg-perfil', 'Error: ' + err.message, 'error');
+        } finally {
+            spinner.classList.remove('visible');
+        }
+    });
+
+    window.guardarPerfil = async () => {
+        const nuevoNombre = document.getElementById('input-username').value.trim();
+        if (!nuevoNombre) { mostrarMsg('msg-perfil', 'El nombre no puede estar vacío', 'error'); return; }
+        if (!/^[a-zA-Z0-9_]{3,20}$/.test(nuevoNombre)) {
+            mostrarMsg('msg-perfil', 'Solo letras, números y guiones bajos (3-20 chars)', 'error');
+            return;
+        }
+        const btn = document.getElementById('btn-guardar-perfil');
+        btn.disabled = true;
+        try {
+            await updateProfile(user, { displayName: nuevoNombre });
+            document.getElementById('display-username').textContent = nuevoNombre;
+            mostrarMsg('msg-perfil', '✓ Perfil actualizado', 'ok');
+        } catch(e) {
+            mostrarMsg('msg-perfil', 'Error: ' + e.message, 'error');
+        } finally {
+            btn.disabled = false;
+        }
+    };
+
+    window.cambiarPassword = async () => {
+        const p1 = document.getElementById('input-pass1').value;
+        const p2 = document.getElementById('input-pass2').value;
+        if (!p1 || !p2) { mostrarMsg('msg-pass', 'Completá los dos campos', 'error'); return; }
+        if (p1 !== p2) { mostrarMsg('msg-pass', 'Las contraseñas no coinciden', 'error'); return; }
+        if (p1.length < 6) { mostrarMsg('msg-pass', 'Mínimo 6 caracteres', 'error'); return; }
+        try {
+            await updatePassword(user, p1);
+            document.getElementById('input-pass1').value = '';
+            document.getElementById('input-pass2').value = '';
+            mostrarMsg('msg-pass', '✓ Contraseña actualizada', 'ok');
+        } catch(e) {
+            if (e.code === 'auth/requires-recent-login') {
+                mostrarMsg('msg-pass', 'Cerrá sesión, volvé a entrar y reintentá', 'error');
+            } else {
+                mostrarMsg('msg-pass', 'Error: ' + e.message, 'error');
+            }
+        }
+    };
+});
+
+handleCounter();
+</script>
+<script type="module" src="login.js"></script>
+</body>
+</html>

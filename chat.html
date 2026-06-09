@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comunidad | CaTecnoFan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="login.css">
+    <style>
+        :root {
+            --cian-neon: #00e5ff;
+            --magenta-neon: #ff00ff;
+            --amarillo-neon: #ffff00;
+        }
+ 
+        html { overflow-y: scroll; scroll-behavior: smooth; }
+ 
+        body {
+            background-color: #080808;
+            color: #ffffff;
+            font-family: 'Arial Black', Gadget, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: linear-gradient(rgba(0,0,0,0.96), rgba(0,0,0,0.96)), url('banner.png');
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+        }
+ 
+        header { width: 100%; background-color: #000; text-align: center; overflow: hidden; }
+        .banner-img { width: 100%; height: auto; display: block; margin: 0 auto; }
+        .linea-magenta { width: 100%; height: 5px; background-color: var(--magenta-neon); box-shadow: 0px 0px 25px var(--magenta-neon); }
+ 
+        .container {
+            max-width: 1000px;
+            margin: -80px auto 50px auto;
+            background-color: rgba(10, 10, 10, 0.98);
+            border-radius: 20px;
+            border: 1px solid #333;
+            box-shadow: 0px 0px 60px rgba(0,0,0,1);
+            position: relative;
+            z-index: 10;
+            overflow: hidden;
+        }
+ 
+        nav { background-color: #1a1a1a; border-bottom: 2px solid var(--cian-neon); }
+        nav ul { list-style: none; margin: 0; padding: 0; display: flex; justify-content: center; flex-wrap: wrap; }
+        nav li { position: relative; flex: 1; min-width: 150px; border-right: 1px solid #333; }
+        nav li:last-child { border-right: none; }
+        nav a { color: white; text-decoration: none; text-transform: uppercase; font-size: 0.8em; padding: 18px 10px; display: flex; align-items: center; justify-content: center; gap: 12px; transition: 0.3s; }
+        nav a i { color: var(--cian-neon); font-size: 1.2em; }
+        nav a:hover { background-color: #252525; color: var(--cian-neon); }
+ 
+        .dropdown-content {
+            display: none; position: absolute; background-color: #111;
+            min-width: 220px; border: 1px solid var(--cian-neon); top: 100%; left: 0; z-index: 2000;
+        }
+        .dropdown:hover .dropdown-content { display: block; }
+        .dropdown-content a { justify-content: flex-start; padding: 15px; border-bottom: 1px solid #222; }
+ 
+        .nav-active { background-color: #111; color: var(--amarillo-neon) !important; }
+        .nav-active i { color: var(--amarillo-neon) !important; }
+ 
+        .inner-content { padding: 35px; }
+ 
+        h2 {
+            color: var(--cian-neon);
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
+            text-align: center;
+        }
+ 
+        /* ── Login wall ── */
+        .login-wall {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        .login-wall p {
+            font-family: sans-serif;
+            color: #aaa;
+            margin-bottom: 24px;
+            font-size: 0.95em;
+        }
+        .btn-login-wall {
+            display: inline-block;
+            background-color: transparent;
+            color: var(--cian-neon);
+            border: 2px solid var(--cian-neon);
+            padding: 12px 32px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 0.85em;
+            text-decoration: none;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+        .btn-login-wall:hover { background-color: var(--cian-neon); color: #000; }
+ 
+        /* ── User bar ── */
+        .user-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #111;
+            border-bottom: 1px solid #222;
+            padding: 10px 20px;
+            font-size: 0.8em;
+        }
+        .user-bar-name {
+            color: var(--cian-neon);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .user-dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: #00e676;
+            box-shadow: 0 0 6px #00e676;
+        }
+        .online-label { color: #555; font-family: sans-serif; font-size: 0.9em; }
+ 
+        /* ── Messages ── */
+        #messages {
+            height: 420px;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            background: #0a0a0a;
+        }
+        #messages::-webkit-scrollbar { width: 5px; }
+        #messages::-webkit-scrollbar-track { background: transparent; }
+        #messages::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+ 
+        .msg {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            max-width: 78%;
+        }
+        .msg.own {
+            flex-direction: row-reverse;
+            align-self: flex-end;
+        }
+ 
+        .avatar {
+            width: 34px; height: 34px;
+            border-radius: 50%;
+            background: #1a1040;
+            border: 1px solid var(--cian-neon);
+            color: var(--cian-neon);
+            font-size: 13px;
+            font-weight: 900;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+            text-transform: uppercase;
+        }
+        .msg.own .avatar {
+            background: #0d2020;
+            border-color: var(--amarillo-neon);
+            color: var(--amarillo-neon);
+        }
+ 
+        .bubble-wrap { display: flex; flex-direction: column; gap: 3px; }
+        .msg.own .bubble-wrap { align-items: flex-end; }
+ 
+        .msg-name {
+            font-size: 10px;
+            font-weight: 900;
+            color: var(--cian-neon);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+        .msg.own .msg-name { color: var(--amarillo-neon); }
+ 
+        .bubble {
+            background: #111;
+            border: 1px solid #2a2a2a;
+            border-left: 3px solid var(--cian-neon);
+            border-radius: 0 10px 10px 10px;
+            padding: 8px 14px;
+            font-size: 0.85em;
+            font-family: sans-serif;
+            font-weight: normal;
+            line-height: 1.5;
+            color: #e8e8e8;
+            word-break: break-word;
+        }
+        .msg.own .bubble {
+            border-left: 1px solid #2a2a2a;
+            border-right: 3px solid var(--amarillo-neon);
+            border-radius: 10px 0 10px 10px;
+        }
+ 
+        .msg-time { font-size: 10px; color: #444; font-family: 'Courier New', monospace; }
+ 
+        /* ── Input bar ── */
+        .input-bar {
+            display: flex;
+            gap: 10px;
+            padding: 16px 20px;
+            background: #111;
+            border-top: 1px solid #222;
+            align-items: center;
+        }
+        #msg-input {
+            flex: 1;
+            background: #0a0a0a;
+            border: 1px solid #333;
+            border-radius: 6px;
+            color: #fff;
+            font-family: sans-serif;
+            font-size: 0.9em;
+            padding: 10px 14px;
+            outline: none;
+            transition: border-color 0.3s;
+            resize: none;
+            height: 40px;
+        }
+        #msg-input:focus { border-color: var(--cian-neon); box-shadow: 0 0 8px rgba(0,229,255,0.15); }
+        #msg-input::placeholder { color: #444; }
+ 
+        #send-btn {
+            background: transparent;
+            color: var(--cian-neon);
+            border: 2px solid var(--cian-neon);
+            border-radius: 6px;
+            padding: 0 20px;
+            height: 40px;
+            font-family: 'Arial Black', sans-serif;
+            font-size: 0.8em;
+            font-weight: 900;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.3s;
+            white-space: nowrap;
+        }
+        #send-btn:hover { background: var(--cian-neon); color: #000; }
+        #send-btn:disabled { opacity: 0.3; cursor: default; }
+ 
+        /* ── Footer ── */
+        footer { text-align: center; padding: 60px; color: #555; font-family: sans-serif; font-size: 0.9em; }
+        .contador-digital {
+            display: inline-block;
+            padding: 10px 20px;
+            border: 1px solid var(--cian-neon);
+            border-radius: 10px;
+            background: rgba(0, 229, 255, 0.05);
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.2);
+            margin-bottom: 20px;
+        }
+        #stats-count {
+            font-family: 'Courier New', Courier, monospace;
+            color: var(--cian-neon);
+            font-size: 1.2rem;
+            text-shadow: 0 0 10px var(--cian-neon);
+            font-weight: bold;
+        }
+ 
+        /* ── Bunker dashboard ── */
+        .bunker-dashboard {
+            position: fixed;
+            top: 50%;
+            left: calc(50% + 650px);
+            transform: translate(-50%, -50%);
+            width: 140px;
+            background: rgba(10, 10, 10, 0.9);
+            border: 2px solid #00e5ff;
+            border-radius: 15px;
+            padding: 20px 10px;
+            box-shadow: 0 0 25px rgba(0, 229, 255, 0.3);
+            z-index: 10000;
+            text-align: center;
+            backdrop-filter: blur(5px);
+        }
+        .dash-label { font-size: 0.6em; color: #888; text-transform: uppercase; margin-bottom: 5px; display: block; }
+        .dash-value { font-size: 0.9em; color: #fff; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: bold; }
+        .btn-subscribe { display: block; background: #ff0000; color: white; text-decoration: none; font-size: 0.65em; padding: 8px 5px; border-radius: 5px; text-transform: uppercase; font-weight: bold; margin-top: 10px; }
+        @media (max-width: 1350px) { .bunker-dashboard { display: none; } }
+ 
+        /* ── Widget online ── */
+        .online-dashboard {
+            position: fixed;
+            top: 50%;
+            left: calc(50% - 650px);
+            transform: translate(-50%, -50%);
+            width: 150px;
+            background: rgba(10, 10, 10, 0.9);
+            border: 2px solid var(--magenta-neon);
+            border-radius: 15px;
+            padding: 16px 10px;
+            box-shadow: 0 0 25px rgba(255, 0, 255, 0.3);
+            z-index: 10000;
+            text-align: center;
+            backdrop-filter: blur(5px);
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+        .online-dashboard::-webkit-scrollbar { width: 3px; }
+        .online-dashboard::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        .online-title {
+            font-size: 0.6em;
+            color: #888;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            display: block;
+            letter-spacing: 1px;
+        }
+        .online-count-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255,0,255,0.08);
+            border: 1px solid var(--magenta-neon);
+            border-radius: 20px;
+            padding: 4px 10px;
+            font-size: 0.75em;
+            color: var(--magenta-neon);
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+        .online-dot-mg {
+            width: 7px; height: 7px;
+            border-radius: 50%;
+            background: #00e676;
+            box-shadow: 0 0 5px #00e676;
+            flex-shrink: 0;
+        }
+        .online-divider {
+            border: none;
+            border-top: 1px solid #222;
+            margin: 8px 0;
+        }
+        .online-user-item {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 5px 4px;
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+        .online-user-item:hover { background: rgba(255,0,255,0.05); }
+        .online-avatar-sm {
+            width: 26px; height: 26px;
+            border-radius: 50%;
+            background: #1a1040;
+            border: 1px solid var(--magenta-neon);
+            color: var(--magenta-neon);
+            font-size: 10px;
+            font-weight: 900;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+            text-transform: uppercase;
+        }
+        .online-name-sm {
+            font-size: 0.6em;
+            color: #ccc;
+            text-align: left;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 85px;
+        }
+        @media (max-width: 1350px) { .online-dashboard { display: none; } }
+ 
+        @media (max-width: 768px) {
+            .container { margin-top: -30px; width: 95%; }
+            nav li { min-width: 120px; }
+            #messages { height: 55vh; }
+            .msg { max-width: 92%; }
+        }
+    </style>
+<script>
+const API_KEY = 'AIzaSyBa_xg_kBBmAe1cJVEhE5BiOfCjlQ-Ib0w';
+const CHANNEL_ID = 'UCG_8fY6lpJwWW0cut5Z5dfA';
+async function fetchGlobalStats() {
+    try {
+        const res = await fetch(
+            `https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${CHANNEL_ID}&key=${API_KEY}`
+        );
+        const data = await res.json();
+        const s = data?.items?.[0]?.statistics;
+        if (s) {
+            document.getElementById('subs-count').innerText = (s.subscriberCount / 1000).toFixed(1) + "K";
+            document.getElementById('views-total-count').innerText = Intl.NumberFormat().format(s.viewCount);
+        }
+    } catch(e) { console.error(e); }
+}
+fetchGlobalStats();
+</script>
+</head>
+<body>
+ 
+<aside class="online-dashboard" id="online-dashboard">
+    <span class="online-title"><i class="fas fa-satellite-dish" style="color:var(--magenta-neon);margin-right:4px;"></i>Online</span>
+    <div class="online-count-badge">
+        <div class="online-dot-mg"></div>
+        <span id="online-total">0</span>
+    </div>
+    <hr class="online-divider">
+    <div id="online-list"></div>
+</aside>
+ 
+<aside class="bunker-dashboard">
+    <span class="dash-label">YouTube Subs</span>
+    <div class="dash-value">
+        <i class="fab fa-youtube" style="color:#ff0000;"></i>
+        <span id="subs-count">--</span>
+    </div>
+    <span class="dash-label">Total Views</span>
+    <div class="dash-value">
+        <i class="fas fa-play-circle" style="color:#00e5ff;"></i>
+        <span id="views-total-count">--</span>
+    </div>
+    <a href="https://www.youtube.com/@CaTecnoFan?sub_confirmation=1" target="_blank" class="btn-subscribe">SUSCRIBIRSE</a>
+</aside>
+ 
+<header>
+    <div id="login-container"></div>
+    <img src="banner.png" alt="CaTecnoFan Banner" class="banner-img">
+    <div class="linea-magenta"></div>
+</header>
+ 
+<div class="container">
+    <nav>
+        <ul>
+            <li><a href="index.html"><i class="fas fa-home"></i> INICIO</a></li>
+            <li class="dropdown">
+                <a href="#"><i class="fas fa-download"></i> DESCARGAS ▼</a>
+                <div class="dropdown-content">
+                    <a href="emuladores.html"><i class="fas fa-gamepad"></i> EMULADORES</a>
+                    <a href="utilidades.html"><i class="fas fa-tools"></i> UTILIDADES</a>
+                </div>
+            </li>
+            <li><a href="https://www.youtube.com/@CaTecnoFan" target="_blank"><i class="fab fa-youtube"></i> YOUTUBE</a></li>
+            <li><a href="contacto.html"><i class="fas fa-envelope"></i> CONTACTO</a></li>
+            <li><a href="chat.html" class="nav-active"><i class="fas fa-bolt"></i> COMUNIDAD</a></li>
+        </ul>
+    </nav>
+ 
+    <div class="inner-content">
+        <h2>⚡ Comunidad</h2>
+ 
+        <!-- Login wall -->
+        <div id="login-wall" class="login-wall" style="display:none;">
+            <p>Tenés que estar logueado para chatear con la comunidad.</p>
+            <a href="index.html" class="btn-login-wall"><i class="fas fa-sign-in-alt"></i> Ir al inicio e iniciar sesión</a>
+        </div>
+ 
+        <!-- Chat área -->
+        <div id="chat-area" style="display:none; border: 1px solid #222; border-radius: 12px; overflow: hidden;">
+ 
+            <div class="user-bar">
+                <div class="user-bar-name">
+                    <div class="user-dot"></div>
+                    <span id="user-info">—</span>
+                </div>
+                <span class="online-label"><i class="fas fa-satellite-dish" style="color:var(--cian-neon); margin-right:6px;"></i>Chat en vivo</span>
+            </div>
+ 
+            <div id="messages"></div>
+ 
+            <div class="input-bar">
+                <textarea id="msg-input" placeholder="Escribí un mensaje... (Enter para enviar)"></textarea>
+                <button id="send-btn"><i class="fas fa-paper-plane"></i> Enviar</button>
+            </div>
+ 
+        </div>
+    </div>
+</div>
+ 
+<footer>
+    <div class="contador-digital">
+        <i class="fas fa-users" style="color: var(--cian-neon); margin-right: 10px;"></i>
+        <span id="stats-count">--</span>
+    </div>
+    <br>
+    CaTecnoFan &copy; 2026 - Rosario, Argentina<br>
+    Hardware, Juegos y Tecnología para el Gamer Real
+</footer>
+ 
+<script type="module">
+import { initializeApp, getApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+import { getDatabase, ref, set, onValue, onDisconnect, serverTimestamp as rtServerTimestamp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-database.js";
+import {
+    getFirestore, collection, addDoc, query,
+    orderBy, limit, onSnapshot, serverTimestamp,
+    doc, getDoc, setDoc, updateDoc, increment
+} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+ 
+const firebaseConfig = {
+    apiKey: "AIzaSyBSCwLvlIi75UodLbqtDK2HUiagmydoL8w",
+    authDomain: "catecnofan-web.firebaseapp.com",
+    projectId: "catecnofan-web",
+    storageBucket: "catecnofan-web.appspot.com",
+    messagingSenderId: "670781631971",
+    appId: "1:670781631971:web:7fa547d5392149c05304d6"
+};
+ 
+let app;
+try {
+    app = getApp("login");
+} catch (e) {
+    app = initializeApp(firebaseConfig, "login");
+}
+const auth = getAuth(app);
+const db = getFirestore(app);
+const rtdb = getDatabase(app, "https://catecnofan-web-default-rtdb.firebaseio.com");
+ 
+const messagesEl = document.getElementById("messages");
+const inputEl = document.getElementById("msg-input");
+const sendBtn = document.getElementById("send-btn");
+const userInfoEl = document.getElementById("user-info");
+const loginWallEl = document.getElementById("login-wall");
+const chatAreaEl = document.getElementById("chat-area");
+ 
+let currentUser = null;
+ 
+// ── Contador de visitas ──
+async function handleCounter() {
+    const counterDoc = doc(db, "stats", "visitas");
+    try {
+        await updateDoc(counterDoc, { count: increment(1) });
+        const snap = await getDoc(counterDoc);
+        if (snap.exists()) {
+            document.getElementById("stats-count").innerText = snap.data().count;
+        }
+    } catch (e) {
+        console.error("Error en contador:", e);
+    }
+}
+ 
+window.addEventListener("load", handleCounter);
+ 
+// ── Auth ──
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        currentUser = user;
+        // Mismo método que perfil.html: displayName de Firebase Auth
+        const nombre = user.displayName || user.email.split("@")[0];
+        currentUser.chatName = nombre;
+        loginWallEl.style.display = "none";
+        chatAreaEl.style.display = "block";
+        userInfoEl.textContent = nombre;
+        listenMessages();
+        setupPresence(user);
+    } else {
+        loginWallEl.style.display = "block";
+        chatAreaEl.style.display = "none";
+    }
+});
+ 
+// ── Escucha mensajes ──
+function listenMessages() {
+    const q = query(
+        collection(db, "chat_general"),
+        orderBy("createdAt", "asc"),
+        limit(100)
+    );
+ 
+    onSnapshot(q, (snapshot) => {
+        snapshot.docChanges().forEach((change) => {
+            if (change.type === "added") renderMessage(change.doc.data());
+        });
+        scrollToBottom();
+    });
+}
+ 
+function renderMessage(data) {
+    const isOwn = currentUser && data.uid === currentUser.uid;
+    const div = document.createElement("div");
+    div.className = "msg" + (isOwn ? " own" : "");
+ 
+    const time = data.createdAt?.toDate
+        ? data.createdAt.toDate().toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" })
+        : "";
+ 
+    const avatar = (data.displayName || "?").charAt(0).toUpperCase();
+ 
+    div.innerHTML = `
+        <div class="avatar">${avatar}</div>
+        <div class="bubble-wrap">
+            <span class="msg-name">${escapeHtml(data.displayName || "Usuario")}</span>
+            <div class="bubble">${escapeHtml(data.text)}</div>
+            <span class="msg-time">${time}</span>
+        </div>
+    `;
+    messagesEl.appendChild(div);
+}
+ 
+// ── Presence ──
+function setupPresence(user) {
+    const nombre = user.displayName || user.email.split("@")[0];
+    const userRef = ref(rtdb, "presence/" + user.uid);
+ 
+    console.log("🟢 Presence: registrando", nombre, "uid:", user.uid);
+    set(userRef, { name: nombre, online: true })
+        .then(() => console.log("✅ set() OK"))
+        .catch(e => console.error("❌ set() error:", e));
+    onDisconnect(userRef).remove();
+ 
+    // Escuchar lista de online
+    const presenceRef = ref(rtdb, "presence");
+    onValue(presenceRef, (snapshot) => {
+        console.log("📡 onValue disparado, data:", snapshot.val());
+        const data = snapshot.val() || {};
+        const users = Object.entries(data);
+        document.getElementById("online-total").textContent = users.length;
+ 
+        const list = document.getElementById("online-list");
+        list.innerHTML = "";
+        users.forEach(([uid, u]) => {
+            const isMe = uid === user.uid;
+            const inicial = (u.name || "?").charAt(0).toUpperCase();
+            const item = document.createElement("div");
+            item.className = "online-user-item";
+            item.innerHTML = `
+                <div class="online-avatar-sm" style="${isMe ? "border-color:var(--amarillo-neon);color:var(--amarillo-neon);" : ""}">${inicial}</div>
+                <span class="online-name-sm" style="${isMe ? "color:var(--amarillo-neon);" : ""}">${escapeHtml(u.name || "Usuario")}${isMe ? " ★" : ""}</span>
+            `;
+            list.appendChild(item);
+        });
+    });
+}
+ 
+async function sendMessage() {
+    const text = inputEl.value.trim();
+    if (!text || !currentUser) return;
+    inputEl.value = "";
+    sendBtn.disabled = true;
+    try {
+        await addDoc(collection(db, "chat_general"), {
+            text,
+            uid: currentUser.uid,
+            displayName: currentUser.chatName || currentUser.email.split("@")[0],
+            createdAt: serverTimestamp()
+        });
+    } catch (e) {
+        console.error("Error al enviar:", e);
+    }
+    sendBtn.disabled = false;
+    inputEl.focus();
+}
+ 
+sendBtn.addEventListener("click", sendMessage);
+inputEl.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+});
+ 
+function scrollToBottom() { messagesEl.scrollTop = messagesEl.scrollHeight; }
+ 
+function escapeHtml(str) {
+    return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+</script>
+ 
+<script type="module" src="login.js"></script>
+</body>
+</html>
