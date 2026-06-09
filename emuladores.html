@@ -1,3 +1,6 @@
+
+raw
+Emuladores · HTML
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -6,258 +9,110 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catálogo de Emuladores | CaTecnoFan</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="login.css">
     <style>
         :root {
             --cian-neon: #00e5ff;
             --magenta-neon: #ff00ff;
             --amarillo-neon: #ffff00;
         }
-html {
-    overflow-y: scroll;
-}
+        html { overflow-y: scroll; scroll-behavior: smooth; }
         body {
-            background-color: #080808;
-            color: #ffffff;
+            background-color: #080808; color: #ffffff;
             font-family: 'Arial Black', Gadget, sans-serif;
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0;
             background-image: linear-gradient(rgba(0,0,0,0.96), rgba(0,0,0,0.96)), url('banner.png');
-            background-attachment: fixed;
-            background-size: cover;
-            background-position: center;
+            background-attachment: fixed; background-size: cover; background-position: center;
         }
-.bunker-dashboard {
-    position: fixed;
-    top: 50%;
-    left: calc(50% + 650px); 
-    transform: translate(-50%, -50%);
-    width: 140px;
-    background: rgba(10, 10, 10, 0.9);
-    border: 2px solid #00e5ff;
-    border-radius: 15px;
-    padding: 20px 10px;
-    box-shadow: 0 0 25px rgba(0, 229, 255, 0.3);
-    z-index: 10000;
-    text-align: center;
-    backdrop-filter: blur(5px);
-}
-
-.dash-label {
-    font-size: 0.6em;
-    color: #888;
-    text-transform: uppercase;
-    margin-bottom: 5px;
-    display: block;
-}
-
-.dash-value {
-    font-size: 0.9em;
-    color: #fff;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    font-weight: bold;
-}
-
-.btn-subscribe {
-    display: block;
-    background: #ff0000;
-    color: white;
-    text-decoration: none;
-    font-size: 0.65em;
-    padding: 8px 5px;
-    border-radius: 5px;
-    text-transform: uppercase;
-    font-weight: bold;
-    margin-top: 10px;
-}
-
-@media (max-width: 1350px) {
-    .bunker-dashboard {
-        display: none;
-    }
-}
-nav a i { font-size: 1.2em; color: var(--cian-neon); width: 20px; text-align: center; }
-        nav a:hover { background-color: #252525; color: var(--cian-neon); }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #111;
-            min-width: 220px;
-            border: 1px solid var(--cian-neon);
-            top: 100%;
-            left: 0;
-            z-index: 2000;
+        .bunker-dashboard {
+            position: fixed; top: 50%; left: calc(50% + 650px);
+            transform: translate(-50%, -50%); width: 140px;
+            background: rgba(10,10,10,0.9); border: 2px solid #00e5ff;
+            border-radius: 15px; padding: 20px 10px;
+            box-shadow: 0 0 25px rgba(0,229,255,0.3);
+            z-index: 10000; text-align: center; backdrop-filter: blur(5px);
         }
-
-        .dropdown:hover .dropdown-content { display: block; }
-        .dropdown-content a { justify-content: flex-start; padding: 15px; border-bottom: 1px solid #222; }
-
-        .inner-content { padding: 35px; }
-
+        .dash-label { font-size: 0.6em; color: #888; text-transform: uppercase; margin-bottom: 5px; display: block; }
+        .dash-value { font-size: 0.9em; color: #fff; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: bold; }
+        .btn-subscribe { display: block; background: #ff0000; color: white; text-decoration: none; font-size: 0.65em; padding: 8px 5px; border-radius: 5px; text-transform: uppercase; font-weight: bold; margin-top: 10px; }
+        @media (max-width: 1350px) { .bunker-dashboard { display: none; } }
+ 
         header { width: 100%; background-color: #000; text-align: center; overflow: hidden; }
         .banner-img { width: 100%; height: auto; display: block; margin: 0 auto; }
         .linea-magenta { width: 100%; height: 5px; background-color: var(--magenta-neon); box-shadow: 0px 0px 25px var(--magenta-neon); }
-
+ 
         .container {
-            max-width: 1000px;
-            margin: -80px auto 50px auto; 
-            background-color: rgba(10, 10, 10, 0.98);
-            border-radius: 20px;
-            border: 1px solid #333;
-            box-shadow: 0px 0px 60px rgba(0,0,0,1);
-            position: relative;
-            z-index: 10;
-            overflow: hidden;
+            max-width: 1000px; margin: -80px auto 50px auto;
+            background-color: rgba(10,10,10,0.98); border-radius: 20px;
+            border: 1px solid #333; box-shadow: 0px 0px 60px rgba(0,0,0,1);
+            position: relative; z-index: 10; overflow: hidden;
         }
-
         nav { background-color: #1a1a1a; border-bottom: 2px solid var(--cian-neon); }
         nav ul { list-style: none; margin: 0; padding: 0; display: flex; justify-content: center; flex-wrap: wrap; }
         nav li { position: relative; flex: 1; min-width: 150px; border-right: 1px solid #333; }
         nav li:last-child { border-right: none; }
         nav a { color: white; text-decoration: none; text-transform: uppercase; font-size: 0.8em; padding: 18px 10px; display: flex; align-items: center; justify-content: center; gap: 12px; transition: 0.3s; }
-        nav a i { color: var(--cian-neon); font-size: 1.2em; }
+        nav a i { font-size: 1.2em; color: var(--cian-neon); width: 20px; text-align: center; }
         nav a:hover { background-color: #252525; color: var(--cian-neon); }
-
+        .dropdown-content { display: none; position: absolute; background-color: #111; min-width: 220px; border: 1px solid var(--cian-neon); top: 100%; left: 0; z-index: 2000; }
+        .dropdown:hover .dropdown-content { display: block; }
+        .dropdown-content a { justify-content: flex-start; padding: 15px; border-bottom: 1px solid #222; }
+ 
         .inner-content { padding: 35px; }
-        h2 { color: var(--cian-neon); text-transform: uppercase; margin-bottom: 30px; text-shadow: 0 0 10px rgba(0, 229, 255, 0.3); text-align: center; }
-
-        /* GRILLA DINÁMICA */
-        .emu-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-        }
-
-        .emu-card {
-            background: #111;
-            border: 1px solid #333;
-            border-radius: 12px;
-            padding: 20px;
-            text-align: left;
-            transition: 0.3s;
-            border-left: 5px solid var(--cian-neon);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .emu-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--cian-neon);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-        }
-
+        h2 { color: var(--cian-neon); text-transform: uppercase; margin-bottom: 30px; text-shadow: 0 0 10px rgba(0,229,255,0.3); text-align: center; }
+ 
+        .emu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .emu-card { background: #111; border: 1px solid #333; border-radius: 12px; padding: 20px; text-align: left; transition: 0.3s; border-left: 5px solid var(--cian-neon); display: flex; flex-direction: column; justify-content: space-between; }
+        .emu-card:hover { transform: translateY(-5px); border-color: var(--cian-neon); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
         .emu-card h3 { color: var(--amarillo-neon); margin: 0 0 10px 0; font-size: 1em; text-transform: uppercase; }
         .emu-card p { font-family: sans-serif; font-size: 0.85em; color: #ccc; margin-bottom: 20px; line-height: 1.4; }
-
-        .btn-drive {
-            display: block;
-            background-color: transparent;
-            color: var(--cian-neon);
-            border: 2px solid var(--cian-neon);
-            padding: 10px;
-            text-align: center;
-            text-decoration: none;
-            border-radius: 6px;
-            font-weight: bold;
-            font-size: 0.85em;
-            transition: 0.3s;
+ 
+        .btn-drive { display: block; background-color: transparent; color: var(--cian-neon); border: 2px solid var(--cian-neon); padding: 10px; text-align: center; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 0.85em; transition: 0.3s; }
+        .btn-drive:hover { background-color: var(--cian-neon); color: #000; }
+ 
+        .resaltado-temporal { animation: zoomHighlight 2.5s ease-in-out; outline: none; z-index: 10; position: relative; }
+        @keyframes zoomHighlight {
+            0%, 100% { transform: scale(1); box-shadow: none; border: 3px solid transparent; }
+            30%, 70% { transform: scale(1.15); box-shadow: 0 0 40px rgba(255,204,0,0.7); border: 3px solid #ffcc00; }
         }
-/* Esto es fundamental para que se deslice y no salte */
-html {
-  scroll-behavior: smooth;
-}
-
-/* El efecto de zoom que pediste */
-.resaltado-temporal {
-  animation: zoomHighlight 2.5s ease-in-out;
-  outline: none;
-  z-index: 10;
-  position: relative;
-}
-
-@keyframes zoomHighlight {
-  0%, 100% { 
-    transform: scale(1); 
-    box-shadow: none; 
-    border: 3px solid transparent;
-  }
-  30%, 70% { 
-    transform: scale(1.15); /* Zoom in */
-    box-shadow: 0 0 40px rgba(255, 204, 0, 0.7);
-    border: 3px solid #ffcc00; /* Amarillo */
-  }
-}
-.btn-drive:hover { background-color: var(--cian-neon); color: #000; }
-
+ 
         footer { text-align: center; padding: 60px; color: #555; font-family: sans-serif; font-size: 0.9em; }
-
-        /* ESTILOS DEL CONTADOR AGREGADOS AL FINAL DEL HEAD */
-        .contador-digital { display: inline-block; padding: 10px 20px; border: 1px solid var(--cian-neon); border-radius: 10px; background: rgba(0, 229, 255, 0.05); box-shadow: 0 0 15px rgba(0, 229, 255, 0.2); margin-bottom: 20px; }
+        .contador-digital { display: inline-block; padding: 10px 20px; border: 1px solid var(--cian-neon); border-radius: 10px; background: rgba(0,229,255,0.05); box-shadow: 0 0 15px rgba(0,229,255,0.2); margin-bottom: 20px; }
         #stats-count { font-family: 'Courier New', Courier, monospace; color: var(--cian-neon); font-size: 1.2rem; text-shadow: 0 0 10px var(--cian-neon); font-weight: bold; }
-
         @media (max-width: 768px) { .container { margin-top: -30px; width: 95%; } nav li { min-width: 120px; } }
     </style>
 </head>
-    <script>
+<script>
 const API_KEY = 'AIzaSyBa_xg_kBBmAe1cJVEhE5BiOfCjlQ-Ib0w';
 const CHANNEL_ID = 'UCG_8fY6lpJwWW0cut5Z5dfA';
-
 async function fetchGlobalStats() {
     try {
-        const res = await fetch(
-            `https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${CHANNEL_ID}&key=${API_KEY}`
-        );
-
+        const res = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${CHANNEL_ID}&key=${API_KEY}`);
         const data = await res.json();
         const s = data?.items?.[0]?.statistics;
-
         if (s) {
-            document.getElementById('subs-count').innerText =
-                (s.subscriberCount / 1000).toFixed(1) + "K";
-
-            document.getElementById('views-total-count').innerText =
-                Intl.NumberFormat().format(s.viewCount);
+            document.getElementById('subs-count').innerText = (s.subscriberCount/1000).toFixed(1) + "K";
+            document.getElementById('views-total-count').innerText = Intl.NumberFormat().format(s.viewCount);
         }
-
-    } catch (e) {
-        console.error(e);
-    }
+    } catch(e) { console.error(e); }
 }
-
 fetchGlobalStats();
 </script>
 <body>
 <aside class="bunker-dashboard">
     <span class="dash-label">YouTube Subs</span>
-
-    <div class="dash-value">
-        <i class="fab fa-youtube" style="color:#ff0000;"></i>
-        <span id="subs-count">679</span>
-    </div>
-
+    <div class="dash-value"><i class="fab fa-youtube" style="color:#ff0000;"></i><span id="subs-count">--</span></div>
     <span class="dash-label">Total Views</span>
-
-    <div class="dash-value">
-        <i class="fas fa-play-circle" style="color:#00e5ff;"></i>
-        <span id="views-total-count">120K+</span>
-    </div>
-
-    <a href="https://www.youtube.com/@CaTecnoFan?sub_confirmation=1"
-       target="_blank"
-       class="btn-subscribe">
-       SUSCRIBIRSE
-    </a>
+    <div class="dash-value"><i class="fas fa-play-circle" style="color:#00e5ff;"></i><span id="views-total-count">--</span></div>
+    <a href="https://www.youtube.com/@CaTecnoFan?sub_confirmation=1" target="_blank" class="btn-subscribe">SUSCRIBIRSE</a>
 </aside>
+ 
 <header>
+    <div id="login-container"></div>
     <img src="banner.png" alt="CaTecnoFan Banner" class="banner-img">
     <div class="linea-magenta"></div>
 </header>
-
+ 
 <div class="container">
     <nav>
         <ul>
@@ -271,181 +126,139 @@ fetchGlobalStats();
             </li>
             <li><a href="https://www.youtube.com/@CaTecnoFan" target="_blank"><i class="fab fa-youtube"></i> YOUTUBE</a></li>
             <li><a href="contacto.html"><i class="fas fa-envelope"></i> CONTACTO</a></li>
+            <li><a href="comunidad.html"><i class="fas fa-comments"></i> COMUNIDAD</a></li>
         </ul>
     </nav>
-
+ 
     <div class="inner-content">
         <h2>🕹️ Catálogo de Emuladores</h2>
-        
         <div class="emu-grid">
-    <div class="emu-card" id="shadps4">
-        <h3>PS4 - ShadPS4</h3>
-        <p>Incluye SHADPS4, módulos del sistema (Sys Modules) y PKG Editor.</p>
-        <a href="https://download.catecnofan.com/CaTecnoFan-SHADPS4.FULL.PACK.zip" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
-    </div>
-
-    <div class="emu-card" id="ryujinx">
-        <h3>SWITCH - Ryujinx</h3>
-        <p>Incluye Ryujinx , firmware y keys.</p>
-        <a href="https://download.catecnofan.com/CaTecnoFan-RYUJINX.FULL.PACK.zip" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
-    </div>
-
-    <div class="emu-card" id="rpcs3">
-        <h3>PS3 - RPCS3</h3>
-        <p>Incluye Rpcs3 y UPDAT.</p>
-        <a href="https://download.catecnofan.com/CaTecnoFan-RPCS3.FULL.PACK.zip" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
-    </div>
-
-    <div class="emu-card" id="yuzu">
-        <h3>SWITCH - Yuzu</h3>
-        <p>Incluye YUZU , firmware y keys.</p>
-        <a href="https://download.catecnofan.com/CaTecnoFan-YUZU.FULL.PACK.zip" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
-    </div>
-
-    <div class="emu-card" id="eden">
-        <h3>SWITCH - Eden</h3>
-        <p>Emulador con sus Keys y Firmware.</p>
-        <a href="https://download.catecnofan.com/CaTecnoFan-EDEN.FULL.PACK.zip" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
-    </div>
-
-    <div class="emu-card" id="citron">
-        <h3>SWITCH - Citron</h3>
-        <p>Emulador, Keys , Firmware y Link a ROMS.</p>
-        <a href="https://download.catecnofan.com/CaTecnoFan-CITRON.FULL.PACK.zip" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
-    </div>
-
-    <div class="emu-card" id="citron-apk">
-        <h3>SWITCH ANDROID - Citron APK</h3>
-        <p>Emulador, Keys , Firmware y Link a ROMS</p>
-        <a href="https://download.catecnofan.com/CaTecnoFan-CITRON.APK.FULL.PACK.zip" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
-    </div>
-
-    <div class="emu-card" id="n64-dreamcast">
-        <h3>Nintendo 64 / Dreamcast</h3>
-        <p>Emulador N64 y Sega Dreamcast con ROMS</p>
-        <a href="https://download.catecnofan.com/CaTecnoFan-N64.y.Sega.dcast.FULL.PACK.zip.zip" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
-    </div>
-
-    <div class="emu-card" id="retrobat">
-        <h3>RETROBAT</h3>
-        <p>Todos tus emuladores en un solo lugar.</p>
-        <a href="https://download.catecnofan.com/CaTecnoFan-RETROBAT.FULL.PACK.zip" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
-    </div>
-
-    <div class="emu-card" id="bb-launcher">
-        <h3>BLoodborne FULL PACK</h3>
-        <p>Archivos utilizados en el tutorial de Bloodborne.</p>
-        <a href="https://download.catecnofan.com/CaTecnoFan.FULL.PACK.BLOODBORNE.zip" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
-    </div>
-
-    <div class="emu-card" id="shadlix">
-        <h3>UFC 4 FULL PACK</h3>
-        <p>Archivos utilizados en el tutorial de UFC 4.</p>
-        <a href="https://download.catecnofan.com/CaTecnoFan.FULL.PACK.UFC4.zip" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
-    </div>
-                <div class="emu-card" id="xenia">
-        <h3>XBOX 360 - XENIA MANAGER</h3>
-        <p>Launcher XBOX 360.</p>
-        <a href="https://download.catecnofan.com/xenia_manager.zip" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
-    </div>
-        <div class="emu-card" id="dlcbloodborne">
-        <h3>Bloodorne DLC`S</h3>
-        <p>Incluye The old hunters, Yahrnam y The hat DLC`S.</p>
-        <a href="https://download.catecnofan.com/CaTecnoFan-DLC-Bloodborne.zip" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
-    </div>
-        <div class="emu-card" id="ufc3">
-        <h3>UFC 3 FULL PACK</h3>
-        <p>Archivos utilizados en el tutorial UFC 3.</p>
-        <a href="https://download.catecnofan.com/CaTecnoFan-UFC3.FULL.PACK.zip" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
-    </div> 
-</div>
+            <div class="emu-card" id="shadps4">
+                <h3>PS4 - ShadPS4</h3>
+                <p>Incluye SHADPS4, módulos del sistema (Sys Modules) y PKG Editor.</p>
+                <a href="https://download.catecnofan.com/CaTecnoFan-SHADPS4.FULL.PACK.zip" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
+            </div>
+            <div class="emu-card" id="ryujinx">
+                <h3>SWITCH - Ryujinx</h3>
+                <p>Incluye Ryujinx , firmware y keys.</p>
+                <a href="https://download.catecnofan.com/CaTecnoFan-RYUJINX.FULL.PACK.zip" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
+            </div>
+            <div class="emu-card" id="rpcs3">
+                <h3>PS3 - RPCS3</h3>
+                <p>Incluye Rpcs3 y UPDAT.</p>
+                <a href="https://download.catecnofan.com/CaTecnoFan-RPCS3.FULL.PACK.zip" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
+            </div>
+            <div class="emu-card" id="yuzu">
+                <h3>SWITCH - Yuzu</h3>
+                <p>Incluye YUZU , firmware y keys.</p>
+                <a href="https://download.catecnofan.com/CaTecnoFan-YUZU.FULL.PACK.zip" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
+            </div>
+            <div class="emu-card" id="eden">
+                <h3>SWITCH - Eden</h3>
+                <p>Emulador con sus Keys y Firmware.</p>
+                <a href="https://download.catecnofan.com/CaTecnoFan-EDEN.FULL.PACK.zip" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
+            </div>
+            <div class="emu-card" id="citron">
+                <h3>SWITCH - Citron</h3>
+                <p>Emulador, Keys , Firmware y Link a ROMS.</p>
+                <a href="https://download.catecnofan.com/CaTecnoFan-CITRON.FULL.PACK.zip" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
+            </div>
+            <div class="emu-card" id="citron-apk">
+                <h3>SWITCH ANDROID - Citron APK</h3>
+                <p>Emulador, Keys , Firmware y Link a ROMS</p>
+                <a href="https://download.catecnofan.com/CaTecnoFan-CITRON.APK.FULL.PACK.zip" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
+            </div>
+            <div class="emu-card" id="n64-dreamcast">
+                <h3>Nintendo 64 / Dreamcast</h3>
+                <p>Emulador N64 y Sega Dreamcast con ROMS</p>
+                <a href="https://download.catecnofan.com/CaTecnoFan-N64.y.Sega.dcast.FULL.PACK.zip.zip" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
+            </div>
+            <div class="emu-card" id="retrobat">
+                <h3>RETROBAT</h3>
+                <p>Todos tus emuladores en un solo lugar.</p>
+                <a href="https://download.catecnofan.com/CaTecnoFan-RETROBAT.FULL.PACK.zip" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
+            </div>
+            <div class="emu-card" id="bb-launcher">
+                <h3>Bloodborne FULL PACK</h3>
+                <p>Archivos utilizados en el tutorial de Bloodborne.</p>
+                <a href="https://download.catecnofan.com/CaTecnoFan.FULL.PACK.BLOODBORNE.zip" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
+            </div>
+            <div class="emu-card" id="shadlix">
+                <h3>UFC 4 FULL PACK</h3>
+                <p>Archivos utilizados en el tutorial de UFC 4.</p>
+                <a href="https://download.catecnofan.com/CaTecnoFan.FULL.PACK.UFC4.zip" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
+            </div>
+            <div class="emu-card" id="xenia">
+                <h3>XBOX 360 - XENIA MANAGER</h3>
+                <p>Launcher XBOX 360.</p>
+                <a href="https://download.catecnofan.com/xenia_manager.zip" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
+            </div>
+            <div class="emu-card" id="dlcbloodborne">
+                <h3>Bloodborne DLC'S</h3>
+                <p>Incluye The old hunters, Yahrnam y The hat DLC'S.</p>
+                <a href="https://download.catecnofan.com/CaTecnoFan-DLC-Bloodborne.zip" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
+            </div>
+            <div class="emu-card" id="ufc3">
+                <h3>UFC 3 FULL PACK</h3>
+                <p>Archivos utilizados en el tutorial UFC 3.</p>
+                <a href="https://download.catecnofan.com/CaTecnoFan-UFC3.FULL.PACK.zip" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
+            </div>
         </div>
+    </div>
 </div>
-
+ 
 <footer>
     <div class="contador-digital">
         <i class="fas fa-users" style="color: var(--cian-neon); margin-right: 10px;"></i>
         <span id="stats-count">--</span>
     </div>
     <br>
-    CaTecnoFan &copy; 2026 - Rosario, Argentina <br>
+    CaTecnoFan &copy; 2026 - Rosario, Argentina<br>
     Hardware, Juegos y Tecnología para el Gamer Real
 </footer>
+ 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
 import { getFirestore, doc, getDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
-
+ 
 const firebaseConfig = {
-    apiKey: "AIzaSyBa_xg_kBBmAe1cJVEhE5BiOfCjlQ-Ib0w", 
+    apiKey: "AIzaSyBa_xg_kBBmAe1cJVEhE5BiOfCjlQ-Ib0w",
     authDomain: "catecnofan-web.firebaseapp.com",
     projectId: "catecnofan-web",
     storageBucket: "catecnofan-web.appspot.com",
     messagingSenderId: "670781631971",
     appId: "1:670781631971:web:7fa547d5392149c05304d6"
 };
-
-const app = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig, "emuladores");
 const db = getFirestore(app);
-
+ 
 async function handleCounter() {
     const counterDoc = doc(db, "stats", "visitas");
     try {
         await updateDoc(counterDoc, { count: increment(1) });
         const snap = await getDoc(counterDoc);
-        if (snap.exists()) {
-            document.getElementById('stats-count').innerText = snap.data().count;
-        }
-    } catch (e) { console.error("Error en contador:", e); }
+        if (snap.exists()) document.getElementById('stats-count').innerText = snap.data().count;
+    } catch(e) { console.error("Error en contador:", e); }
 }
-
+ 
 const hash = window.location.hash;
-
-if (hash) {
-    history.replaceState(
-        null,
-        null,
-        window.location.pathname
-    );
-}
-
+if (hash) history.replaceState(null, null, window.location.pathname);
+ 
 window.addEventListener("load", () => {
-handleCounter(); // LLAMAMOS AL CONTADOR AL CARGAR
+    handleCounter();
     if (hash) {
-
         setTimeout(() => {
-
             const target = document.querySelector(hash);
-
             if (target) {
-
-                // Posición REAL del elemento
-                const y =
-                    target.getBoundingClientRect().top
-                    + window.pageYOffset
-                    - 120;
-
-                // Scroll manual
-                window.scrollTo({
-                    top: y,
-                    behavior: "smooth"
-                });
-
-                // Glow / zoom
+                const y = target.getBoundingClientRect().top + window.pageYOffset - 120;
+                window.scrollTo({ top: y, behavior: "smooth" });
                 target.classList.add("resaltado-temporal");
-
-                setTimeout(() => {
-                    target.classList.remove("resaltado-temporal");
-                }, 3000);
-
+                setTimeout(() => target.classList.remove("resaltado-temporal"), 3000);
             }
-
         }, 1000);
-
     }
-
 });
-
 </script>
-
+<script type="module" src="login.js"></script>
 </body>
 </html>
