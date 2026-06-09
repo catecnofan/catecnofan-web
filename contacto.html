@@ -6,263 +6,115 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contacto | CaTecnoFan</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="login.css">
     <style>
         :root {
             --cian-neon: #00e5ff;
             --magenta-neon: #ff00ff;
             --amarillo-neon: #ffff00;
         }
-html {
-    overflow-y: scroll;
-}
+        html { overflow-y: scroll; }
         body {
             background-color: #080808;
             color: #ffffff;
             font-family: 'Arial Black', Gadget, sans-serif;
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0;
             background-image: linear-gradient(rgba(0,0,0,0.96), rgba(0,0,0,0.96)), url('banner.png');
             background-attachment: fixed;
             background-size: cover;
             background-position: center;
         }
         .bunker-dashboard {
-    position: fixed;
-    top: 50%;
-    left: calc(50% + 650px); 
-    transform: translate(-50%, -50%);
-    width: 140px;
-    background: rgba(10, 10, 10, 0.9);
-    border: 2px solid #00e5ff;
-    border-radius: 15px;
-    padding: 20px 10px;
-    box-shadow: 0 0 25px rgba(0, 229, 255, 0.3);
-    z-index: 10000;
-    text-align: center;
-    backdrop-filter: blur(5px);
-}
-
-.dash-label {
-    font-size: 0.6em;
-    color: #888;
-    text-transform: uppercase;
-    margin-bottom: 5px;
-    display: block;
-}
-
-.dash-value {
-    font-size: 0.9em;
-    color: #fff;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    font-weight: bold;
-}
-
-.btn-subscribe {
-    display: block;
-    background: #ff0000;
-    color: white;
-    text-decoration: none;
-    font-size: 0.65em;
-    padding: 8px 5px;
-    border-radius: 5px;
-    text-transform: uppercase;
-    font-weight: bold;
-    margin-top: 10px;
-}
-
-@media (max-width: 1350px) {
-    .bunker-dashboard {
-        display: none;
-    }
-}
-nav a i { font-size: 1.2em; color: var(--cian-neon); width: 20px; text-align: center; }
-        nav a:hover { background-color: #252525; color: var(--cian-neon); }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #111;
-            min-width: 220px;
-            border: 1px solid var(--cian-neon);
-            top: 100%;
-            left: 0;
-            z-index: 2000;
+            position: fixed; top: 50%; left: calc(50% + 650px);
+            transform: translate(-50%, -50%); width: 140px;
+            background: rgba(10,10,10,0.9); border: 2px solid #00e5ff;
+            border-radius: 15px; padding: 20px 10px;
+            box-shadow: 0 0 25px rgba(0,229,255,0.3);
+            z-index: 10000; text-align: center; backdrop-filter: blur(5px);
         }
-
-        .dropdown:hover .dropdown-content { display: block; }
-        .dropdown-content a { justify-content: flex-start; padding: 15px; border-bottom: 1px solid #222; }
-
-        .inner-content { padding: 35px; }
-
+        .dash-label { font-size: 0.6em; color: #888; text-transform: uppercase; margin-bottom: 5px; display: block; }
+        .dash-value { font-size: 0.9em; color: #fff; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: bold; }
+        .btn-subscribe { display: block; background: #ff0000; color: white; text-decoration: none; font-size: 0.65em; padding: 8px 5px; border-radius: 5px; text-transform: uppercase; font-weight: bold; margin-top: 10px; }
+        @media (max-width: 1350px) { .bunker-dashboard { display: none; } }
+ 
         header { width: 100%; background-color: #000; text-align: center; overflow: hidden; }
         .banner-img { width: 100%; height: auto; display: block; margin: 0 auto; }
         .linea-magenta { width: 100%; height: 5px; background-color: var(--magenta-neon); box-shadow: 0px 0px 25px var(--magenta-neon); }
-
+ 
         .container {
-            max-width: 1000px;
-            margin: -80px auto 50px auto; 
-            background-color: rgba(10, 10, 10, 0.98);
-            border-radius: 20px;
-            border: 1px solid #333;
-            box-shadow: 0px 0px 60px rgba(0,0,0,1);
-            position: relative;
-            z-index: 10;
-            overflow: hidden;
+            max-width: 1000px; margin: -80px auto 50px auto;
+            background-color: rgba(10,10,10,0.98); border-radius: 20px;
+            border: 1px solid #333; box-shadow: 0px 0px 60px rgba(0,0,0,1);
+            position: relative; z-index: 10; overflow: hidden;
         }
-
         nav { background-color: #1a1a1a; border-bottom: 2px solid var(--cian-neon); }
         nav ul { list-style: none; margin: 0; padding: 0; display: flex; justify-content: center; flex-wrap: wrap; }
         nav li { position: relative; flex: 1; min-width: 150px; border-right: 1px solid #333; }
         nav li:last-child { border-right: none; }
         nav a { color: white; text-decoration: none; text-transform: uppercase; font-size: 0.8em; padding: 18px 10px; display: flex; align-items: center; justify-content: center; gap: 12px; transition: 0.3s; }
-        nav a i { color: var(--cian-neon); font-size: 1.2em; }
+        nav a i { font-size: 1.2em; color: var(--cian-neon); width: 20px; text-align: center; }
         nav a:hover { background-color: #252525; color: var(--cian-neon); }
-
+        .dropdown-content { display: none; position: absolute; background-color: #111; min-width: 220px; border: 1px solid var(--cian-neon); top: 100%; left: 0; z-index: 2000; }
+        .dropdown:hover .dropdown-content { display: block; }
+        .dropdown-content a { justify-content: flex-start; padding: 15px; border-bottom: 1px solid #222; }
+ 
         .inner-content { padding: 35px; }
-        h2 { color: var(--cian-neon); text-transform: uppercase; margin-bottom: 30px; text-shadow: 0 0 10px rgba(0, 229, 255, 0.3); text-align: center; }
-
-        /* ESTILOS ESPECÍFICOS DEL FORMULARIO */
-        .contact-wrapper {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-        }
-
+        h2 { color: var(--cian-neon); text-transform: uppercase; margin-bottom: 30px; text-shadow: 0 0 10px rgba(0,229,255,0.3); text-align: center; }
+ 
+        .contact-wrapper { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
         .contact-info h3 { color: var(--amarillo-neon); text-transform: uppercase; font-size: 1.2em; margin-bottom: 15px; }
         .contact-info p { font-family: sans-serif; color: #ccc; line-height: 1.6; margin-bottom: 25px; }
-
         .social-links { display: flex; flex-direction: column; gap: 15px; }
-        .social-item { 
-            display: flex; 
-            align-items: center; 
-            gap: 15px; 
-            text-decoration: none; 
-            color: white; 
-            font-family: sans-serif;
-            transition: 0.3s;
-        }
+        .social-item { display: flex; align-items: center; gap: 15px; text-decoration: none; color: white; font-family: sans-serif; transition: 0.3s; }
         .social-item i { font-size: 1.5em; width: 30px; text-align: center; }
         .social-item:hover { color: var(--cian-neon); transform: translateX(5px); }
-
-        .contact-form {
-            background: #111;
-            padding: 25px;
-            border-radius: 12px;
-            border: 1px solid #333;
-            border-top: 4px solid var(--magenta-neon);
-        }
-
+ 
+        .contact-form { background: #111; padding: 25px; border-radius: 12px; border: 1px solid #333; border-top: 4px solid var(--magenta-neon); }
         .form-group { margin-bottom: 20px; }
         .form-group label { display: block; color: var(--cian-neon); font-size: 0.8em; margin-bottom: 8px; text-transform: uppercase; }
-        
-        .form-group input, .form-group textarea {
-            width: 100%;
-            padding: 12px;
-            background: #080808;
-            border: 1px solid #444;
-            color: white;
-            border-radius: 6px;
-            font-family: sans-serif;
-            box-sizing: border-box; /* Para que el padding no rompa el ancho */
-        }
-
-        .form-group input:focus, .form-group textarea:focus {
-            outline: none;
-            border-color: var(--cian-neon);
-            box-shadow: 0 0 10px rgba(0, 229, 255, 0.2);
-        }
-
-        .btn-submit {
-            width: 100%;
-            background-color: transparent;
-            color: var(--magenta-neon);
-            border: 2px solid var(--magenta-neon);
-            padding: 15px;
-            text-align: center;
-            text-decoration: none;
-            border-radius: 6px;
-            font-weight: bold;
-            font-size: 1em;
-            cursor: pointer;
-            text-transform: uppercase;
-            transition: 0.3s;
-            font-family: 'Arial Black', sans-serif;
-        }
-
-        .btn-submit:hover {
-            background-color: var(--magenta-neon);
-            color: #000;
-            box-shadow: 0 0 20px var(--magenta-neon);
-        }
-
+        .form-group input, .form-group textarea { width: 100%; padding: 12px; background: #080808; border: 1px solid #444; color: white; border-radius: 6px; font-family: sans-serif; box-sizing: border-box; }
+        .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--cian-neon); box-shadow: 0 0 10px rgba(0,229,255,0.2); }
+ 
+        .btn-submit { width: 100%; background-color: transparent; color: var(--magenta-neon); border: 2px solid var(--magenta-neon); padding: 15px; text-align: center; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 1em; cursor: pointer; text-transform: uppercase; transition: 0.3s; font-family: 'Arial Black', sans-serif; }
+        .btn-submit:hover { background-color: var(--magenta-neon); color: #000; box-shadow: 0 0 20px var(--magenta-neon); }
+ 
         footer { text-align: center; padding: 60px; color: #555; font-family: sans-serif; font-size: 0.9em; }
-        
-.contador-digital { display: inline-block; padding: 10px 20px; border: 1px solid var(--cian-neon); border-radius: 10px; background: rgba(0, 229, 255, 0.05); box-shadow: 0 0 15px rgba(0, 229, 255, 0.2); margin-bottom: 20px; }
+        .contador-digital { display: inline-block; padding: 10px 20px; border: 1px solid var(--cian-neon); border-radius: 10px; background: rgba(0,229,255,0.05); box-shadow: 0 0 15px rgba(0,229,255,0.2); margin-bottom: 20px; }
         #stats-count { font-family: 'Courier New', Courier, monospace; color: var(--cian-neon); font-size: 1.2rem; text-shadow: 0 0 10px var(--cian-neon); font-weight: bold; }
-
-
         @media (max-width: 768px) { .container { margin-top: -30px; width: 95%; } nav li { min-width: 120px; } }
     </style>
 </head>
-    <script>
+<script>
 const API_KEY = 'AIzaSyBa_xg_kBBmAe1cJVEhE5BiOfCjlQ-Ib0w';
 const CHANNEL_ID = 'UCG_8fY6lpJwWW0cut5Z5dfA';
-
 async function fetchGlobalStats() {
     try {
-        const res = await fetch(
-            `https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${CHANNEL_ID}&key=${API_KEY}`
-        );
-
+        const res = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${CHANNEL_ID}&key=${API_KEY}`);
         const data = await res.json();
         const s = data?.items?.[0]?.statistics;
-
         if (s) {
-            document.getElementById('subs-count').innerText =
-                (s.subscriberCount / 1000).toFixed(1) + "K";
-
-            document.getElementById('views-total-count').innerText =
-                Intl.NumberFormat().format(s.viewCount);
+            document.getElementById('subs-count').innerText = (s.subscriberCount/1000).toFixed(1) + "K";
+            document.getElementById('views-total-count').innerText = Intl.NumberFormat().format(s.viewCount);
         }
-
-    } catch (e) {
-        console.error(e);
-    }
+    } catch(e) { console.error(e); }
 }
-
 fetchGlobalStats();
 </script>
 <body>
 <aside class="bunker-dashboard">
     <span class="dash-label">YouTube Subs</span>
-
-    <div class="dash-value">
-        <i class="fab fa-youtube" style="color:#ff0000;"></i>
-        <span id="subs-count">679</span>
-    </div>
-
+    <div class="dash-value"><i class="fab fa-youtube" style="color:#ff0000;"></i><span id="subs-count">--</span></div>
     <span class="dash-label">Total Views</span>
-
-    <div class="dash-value">
-        <i class="fas fa-play-circle" style="color:#00e5ff;"></i>
-        <span id="views-total-count">120K+</span>
-    </div>
-
-    <a href="https://www.youtube.com/@CaTecnoFan?sub_confirmation=1"
-       target="_blank"
-       class="btn-subscribe">
-       SUSCRIBIRSE
-    </a>
+    <div class="dash-value"><i class="fas fa-play-circle" style="color:#00e5ff;"></i><span id="views-total-count">--</span></div>
+    <a href="https://www.youtube.com/@CaTecnoFan?sub_confirmation=1" target="_blank" class="btn-subscribe">SUSCRIBIRSE</a>
 </aside>
+ 
 <header>
+    <div id="login-container"></div>
     <img src="banner.png" alt="CaTecnoFan Banner" class="banner-img">
     <div class="linea-magenta"></div>
 </header>
-
+ 
 <div class="container">
     <nav>
         <ul>
@@ -276,131 +128,102 @@ fetchGlobalStats();
             </li>
             <li><a href="https://www.youtube.com/@CaTecnoFan" target="_blank"><i class="fab fa-youtube"></i> YOUTUBE</a></li>
             <li><a href="contacto.html"><i class="fas fa-envelope"></i> CONTACTO</a></li>
+            <li><a href="comunidad.html"><i class="fas fa-comments"></i> COMUNIDAD</a></li>
         </ul>
     </nav>
-
-
-<div class="inner-content">
-    <h2 style="text-shadow: 0 0 15px var(--cian-neon);">📩 CONTACTO</h2>
-    
-    <div class="contact-wrapper" style="display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 40px; align-items: start;">
-        
-        <div class="contact-info">
-            <h3 style="color: var(--amarillo-neon); text-transform: uppercase; font-size: 1.2em; margin-bottom: 25px; text-shadow: 0 0 10px var(--amarillo-neon);">
-                PREGUNTAS FRECUENTES
-            </h3>
-            
-            <div style="margin-bottom: 25px;">
-                <p style="color: var(--cian-neon); font-size: 0.9em; text-transform: uppercase; margin-bottom: 5px; font-weight: bold; text-shadow: 0 0 8px var(--cian-neon);">¿Respondés siempre?</p>
-                <p style="font-family: sans-serif; color: #fff; font-size: 0.95em; margin: 0; line-height: 1.5;">Cuando puedo, sí. Trato de dar una mano a todos.</p>
-            </div>
-
-            <div style="margin-bottom: 25px;">
-                <p style="color: var(--cian-neon); font-size: 0.9em; text-transform: uppercase; margin-bottom: 5px; font-weight: bold; text-shadow: 0 0 8px var(--cian-neon);">¿Ayudás con todo?</p>
-                <p style="font-family: sans-serif; color: #fff; font-size: 0.95em; margin: 0; line-height: 1.5;">Sí, siempre que sea un tema técnico de configuración.</p>
-            </div>
-
-            <div style="margin-bottom: 35px;">
-                <p style="color: var(--cian-neon); font-size: 0.9em; text-transform: uppercase; margin-bottom: 5px; font-weight: bold; text-shadow: 0 0 8px var(--cian-neon);">¿Es gratis?</p>
-                <p style="font-family: sans-serif; color: #fff; font-size: 0.95em; margin: 0; line-height: 1.5;">Sí, esto es por y para la comunidad gamer.</p>
-            </div>
-
-            
-        </div>
-
-        <div class="contact-form">
-            <form id="miFormulario" action="https://formspree.io/f/xojrzygn" method="POST">
-                <input type="hidden" name="_next" value="https://tuweb.com/gracias.html">
-                
-                <div class="form-group">
-                    <label for="nombre">NOMBRE / ALIAS</label>
-                    <input type="text" id="nombre" name="nombre" placeholder="Tu nombre..." required>
+ 
+    <div class="inner-content">
+        <h2 style="text-shadow: 0 0 15px var(--cian-neon);">📩 CONTACTO</h2>
+        <div class="contact-wrapper" style="display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 40px; align-items: start;">
+            <div class="contact-info">
+                <h3 style="color: var(--amarillo-neon); text-transform: uppercase; font-size: 1.2em; margin-bottom: 25px; text-shadow: 0 0 10px var(--amarillo-neon);">PREGUNTAS FRECUENTES</h3>
+                <div style="margin-bottom: 25px;">
+                    <p style="color: var(--cian-neon); font-size: 0.9em; text-transform: uppercase; margin-bottom: 5px; font-weight: bold; text-shadow: 0 0 8px var(--cian-neon);">¿Respondés siempre?</p>
+                    <p style="font-family: sans-serif; color: #fff; font-size: 0.95em; margin: 0; line-height: 1.5;">Cuando puedo, sí. Trato de dar una mano a todos.</p>
                 </div>
-                <div class="form-group">
-                    <label for="email">EMAIL</label>
-                    <input type="email" id="email" name="email" placeholder="tu@email.com" required>
+                <div style="margin-bottom: 25px;">
+                    <p style="color: var(--cian-neon); font-size: 0.9em; text-transform: uppercase; margin-bottom: 5px; font-weight: bold; text-shadow: 0 0 8px var(--cian-neon);">¿Ayudás con todo?</p>
+                    <p style="font-family: sans-serif; color: #fff; font-size: 0.95em; margin: 0; line-height: 1.5;">Sí, siempre que sea un tema técnico de configuración.</p>
                 </div>
-                <div class="form-group">
-                    <label for="mensaje">MENSAJE</label>
-                    <textarea id="mensaje" name="mensaje" rows="6" placeholder="¿En qué puedo ayudarte?" required></textarea>
+                <div style="margin-bottom: 35px;">
+                    <p style="color: var(--cian-neon); font-size: 0.9em; text-transform: uppercase; margin-bottom: 5px; font-weight: bold; text-shadow: 0 0 8px var(--cian-neon);">¿Es gratis?</p>
+                    <p style="font-family: sans-serif; color: #fff; font-size: 0.95em; margin: 0; line-height: 1.5;">Sí, esto es por y para la comunidad gamer.</p>
                 </div>
-                <button type="submit" class="btn-submit">ENVIAR MENSAJE</button>
-            </form>
+            </div>
+            <div class="contact-form">
+                <form id="miFormulario" action="https://formspree.io/f/xojrzygn" method="POST">
+                    <div class="form-group">
+                        <label for="nombre">NOMBRE / ALIAS</label>
+                        <input type="text" id="nombre" name="nombre" placeholder="Tu nombre..." required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">EMAIL</label>
+                        <input type="email" id="email" name="email" placeholder="tu@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="mensaje">MENSAJE</label>
+                        <textarea id="mensaje" name="mensaje" rows="6" placeholder="¿En qué puedo ayudarte?" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit">ENVIAR MENSAJE</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>
-
-</div> 
-</div> 
-    <footer style="text-align: center; padding: 60px; color: #555; font-family: sans-serif; font-size: 0.9em;">
-            <div class="contador-digital">
+ 
+<footer>
+    <div class="contador-digital">
         <i class="fas fa-users" style="color: var(--cian-neon); margin-right: 10px;"></i>
         <span id="stats-count">--</span>
     </div>
-        <br>
-    CaTecnoFan &copy; 2026 - Rosario, Argentina <br>
+    <br>
+    CaTecnoFan &copy; 2026 - Rosario, Argentina<br>
     Hardware, Juegos y Tecnología para el Gamer Real
 </footer>
+ 
 <script>
-  // 1. Agarramos tu formulario por su ID
-  const $form = document.querySelector('#miFormulario');
-
-  // 2. Escuchamos cuando alguien hace clic en "Enviar"
-  $form.addEventListener('submit', async function(event) {
-    event.preventDefault(); // Frenamos el envío normal para que Formspree no nos bloquee
-
+const $form = document.querySelector('#miFormulario');
+$form.addEventListener('submit', async function(event) {
+    event.preventDefault();
     const formData = new FormData(this);
-    
-    // 3. Mandamos el mail por "atrás" (como un proceso ninja)
     const response = await fetch(this.action, {
-      method: this.method,
-      body: formData,
-      headers: {
-        'Accept': 'application/json'
-      }
+        method: this.method,
+        body: formData,
+        headers: { 'Accept': 'application/json' }
     });
-
-    // 4. Si Formspree recibió el mail (ok), nosotros mismos saltamos a la página de gracias
     if (response.ok) {
-      window.location.href = "https://catecnofan.com/gracias.html";
+        window.location.href = "https://catecnofan.com/gracias.html";
     } else {
-      alert('Hubo un error al enviar el mensaje.');
+        alert('Hubo un error al enviar el mensaje.');
     }
-  });
+});
 </script>
-    <script type="module">
+ 
+<script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
 import { getFirestore, doc, getDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
-
+ 
 const firebaseConfig = {
-    apiKey: "TU_API_KEY",
+    apiKey: "AIzaSyBa_xg_kBBmAe1cJVEhE5BiOfCjlQ-Ib0w",
     authDomain: "catecnofan-web.firebaseapp.com",
     projectId: "catecnofan-web",
     storageBucket: "catecnofan-web.appspot.com",
     messagingSenderId: "670781631971",
     appId: "1:670781631971:web:7fa547d5392149c05304d6"
 };
-
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-
+ 
 async function handleCounter() {
     const counterDoc = doc(db, "stats", "visitas");
-
     try {
         await updateDoc(counterDoc, { count: increment(1) });
-
         const snap = await getDoc(counterDoc);
-
-        if (snap.exists()) {
-            document.getElementById('stats-count').innerText = snap.data().count;
-        }
-    } catch (e) {
-        console.error("Error en contador:", e);
-    }
+        if (snap.exists()) document.getElementById('stats-count').innerText = snap.data().count;
+    } catch(e) { console.error("Error en contador:", e); }
 }
-
 handleCounter();
 </script>
+<script type="module" src="login.js"></script>
 </body>
 </html>
