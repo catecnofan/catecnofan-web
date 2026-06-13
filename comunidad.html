@@ -359,7 +359,7 @@ onAuthStateChanged(auth, (user) => {
  
 // Mostrar online por sala
 function listenOnlineCounts() {
-    const salas = ["ps4", "switch", "ps3", "xbox", "retro"];
+    const salas = ["ps4", "switch", "ps3", "xbox", "retro", "general"];
     salas.forEach(sala => {
         const presenceRef = ref(rtdb, "presence_" + sala);
         onValue(presenceRef, (snapshot) => {
