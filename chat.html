@@ -542,8 +542,8 @@ const NOMBRES_SALAS = {
 };
  
 const NOMBRE_SALA = NOMBRES_SALAS[SALA] || SALA;
-const COLECCION_CHAT = SALA === "ps4" ? "chat_general" : "chat_" + SALA;
-const PRESENCE_PATH  = SALA === "ps4" ? "presence_general" : "presence_" + SALA;
+const COLECCION_CHAT = SALA === "ps4" ? "chat_general" : SALA === "general" ? "chat_general_sala" : "chat_" + SALA;
+const PRESENCE_PATH  = SALA === "ps4" ? "presence_ps4" : "presence_" + SALA;
  
 // Actualizar UI con el nombre de la sala
 document.getElementById("sala-titulo").textContent = "⚡ " + NOMBRE_SALA;
