@@ -66,9 +66,29 @@
         h2 {
             color: var(--cian-neon);
             text-transform: uppercase;
-            margin-bottom: 30px;
+            margin-bottom: 10px;
             text-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
             text-align: center;
+        }
+ 
+        /* Breadcrumb de sala */
+        .sala-breadcrumb {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .sala-breadcrumb a {
+            color: #555;
+            text-decoration: none;
+            font-family: sans-serif;
+            font-size: 0.78em;
+            transition: color 0.2s;
+        }
+        .sala-breadcrumb a:hover { color: var(--cian-neon); }
+        .sala-breadcrumb span {
+            color: #333;
+            font-family: sans-serif;
+            font-size: 0.78em;
+            margin: 0 6px;
         }
  
         /* ── Login wall ── */
@@ -437,12 +457,19 @@ fetchGlobalStats();
             </li>
             <li><a href="https://www.youtube.com/@CaTecnoFan" target="_blank"><i class="fab fa-youtube"></i> YOUTUBE</a></li>
             <li><a href="contacto.html"><i class="fas fa-envelope"></i> CONTACTO</a></li>
-            <li><a href="chat.html" class="nav-active"><i class="fas fa-bolt"></i> COMUNIDAD</a></li>
+            <li><a href="comunidad.html" class="nav-active"><i class="fas fa-bolt"></i> COMUNIDAD</a></li>
         </ul>
     </nav>
  
     <div class="inner-content">
-        <h2>⚡ Comunidad</h2>
+ 
+        <h2 id="sala-titulo">⚡ Comunidad</h2>
+ 
+        <div class="sala-breadcrumb">
+            <a href="comunidad.html"><i class="fas fa-comments"></i> Salas</a>
+            <span>›</span>
+            <span id="sala-nombre-breadcrumb" style="color:#888;">—</span>
+        </div>
  
         <!-- Login wall -->
         <div id="login-wall" class="login-wall" style="display:none;">
@@ -483,13 +510,13 @@ fetchGlobalStats();
 </footer>
  
 <script type="module">
-import { initializeApp, getApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
-import { getDatabase, ref, set, onValue, onDisconnect, serverTimestamp as rtServerTimestamp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-database.js";
+import { getDatabase, ref, set, onValue, onDisconnect } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-database.js";
 import {
     getFirestore, collection, addDoc, query,
     orderBy, limit, onSnapshot, serverTimestamp,
-    doc, getDoc, setDoc, updateDoc, increment
+    doc, getDoc, updateDoc, increment
 } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
  
 const firebaseConfig = {
@@ -501,22 +528,40 @@ const firebaseConfig = {
     appId: "1:670781631971:web:7fa547d5392149c05304d6"
 };
  
-let app;
-try {
-    app = getApp("login");
-} catch (e) {
-    app = initializeApp(firebaseConfig, "login");
-}
+// ── Detectar la sala desde la URL ──
+const urlParams = new URLSearchParams(window.location.search);
+const SALA = urlParams.get("sala") || "general";
+ 
+const NOMBRES_SALAS = {
+    ps4:    "PS4 / ShadPS4",
+    switch: "Switch",
+    ps3:    "PS3 / RPCS3",
+    xbox:   "Xbox 360 / Xenia",
+    retro:  "Retro / N64 / Dreamcast",
+    general:"General"
+};
+ 
+const NOMBRE_SALA = NOMBRES_SALAS[SALA] || SALA;
+const COLECCION_CHAT = SALA === "ps4" ? "chat_general" : "chat_" + SALA;
+const PRESENCE_PATH  = SALA === "ps4" ? "presence_general" : "presence_" + SALA;
+ 
+// Actualizar UI con el nombre de la sala
+document.getElementById("sala-titulo").textContent = "⚡ " + NOMBRE_SALA;
+document.getElementById("sala-nombre-breadcrumb").textContent = NOMBRE_SALA;
+document.title = NOMBRE_SALA + " | CaTecnoFan";
+ 
+// ── Firebase init ──
+const app = getApps().find(a => a.name === "login") || initializeApp(firebaseConfig, "login");
 const auth = getAuth(app);
 const db = getFirestore(app);
 const rtdb = getDatabase(app, "https://catecnofan-web-default-rtdb.firebaseio.com");
  
 const messagesEl = document.getElementById("messages");
-const inputEl = document.getElementById("msg-input");
-const sendBtn = document.getElementById("send-btn");
+const inputEl    = document.getElementById("msg-input");
+const sendBtn    = document.getElementById("send-btn");
 const userInfoEl = document.getElementById("user-info");
 const loginWallEl = document.getElementById("login-wall");
-const chatAreaEl = document.getElementById("chat-area");
+const chatAreaEl  = document.getElementById("chat-area");
  
 let currentUser = null;
  
@@ -533,19 +578,16 @@ async function handleCounter() {
         console.error("Error en contador:", e);
     }
 }
- 
 window.addEventListener("load", handleCounter);
  
 // ── Auth ──
 onAuthStateChanged(auth, (user) => {
     if (user) {
         currentUser = user;
-        // Mismo método que perfil.html: displayName de Firebase Auth
-        const nombre = user.displayName || user.email.split("@")[0];
-        currentUser.chatName = nombre;
+        currentUser.chatName = user.displayName || user.email.split("@")[0];
         loginWallEl.style.display = "none";
         chatAreaEl.style.display = "block";
-        userInfoEl.textContent = nombre;
+        userInfoEl.textContent = currentUser.chatName;
         listenMessages();
         setupPresence(user);
     } else {
@@ -554,10 +596,10 @@ onAuthStateChanged(auth, (user) => {
     }
 });
  
-// ── Escucha mensajes ──
+// ── Escucha mensajes de la sala correspondiente ──
 function listenMessages() {
     const q = query(
-        collection(db, "chat_general"),
+        collection(db, COLECCION_CHAT),   // <-- colección por sala
         orderBy("createdAt", "asc"),
         limit(100)
     );
@@ -592,21 +634,19 @@ function renderMessage(data) {
     messagesEl.appendChild(div);
 }
  
-// ── Presence ──
+// ── Presence por sala ──
 function setupPresence(user) {
     const nombre = user.displayName || user.email.split("@")[0];
-    const userRef = ref(rtdb, "presence/" + user.uid);
+    // Cada sala tiene su propio nodo de presence
+    const userRef = ref(rtdb, PRESENCE_PATH + "/" + user.uid);
  
-    console.log("🟢 Presence: registrando", nombre, "uid:", user.uid);
     set(userRef, { name: nombre, online: true })
-        .then(() => console.log("✅ set() OK"))
-        .catch(e => console.error("❌ set() error:", e));
+        .catch(e => console.error("❌ presence set() error:", e));
     onDisconnect(userRef).remove();
  
-    // Escuchar lista de online
-    const presenceRef = ref(rtdb, "presence");
+    // Escuchar lista de online de esta sala
+    const presenceRef = ref(rtdb, PRESENCE_PATH);
     onValue(presenceRef, (snapshot) => {
-        console.log("📡 onValue disparado, data:", snapshot.val());
         const data = snapshot.val() || {};
         const users = Object.entries(data);
         document.getElementById("online-total").textContent = users.length;
@@ -627,13 +667,14 @@ function setupPresence(user) {
     });
 }
  
+// ── Enviar mensaje a la colección de esta sala ──
 async function sendMessage() {
     const text = inputEl.value.trim();
     if (!text || !currentUser) return;
     inputEl.value = "";
     sendBtn.disabled = true;
     try {
-        await addDoc(collection(db, "chat_general"), {
+        await addDoc(collection(db, COLECCION_CHAT), {  // <-- colección por sala
             text,
             uid: currentUser.uid,
             displayName: currentUser.chatName || currentUser.email.split("@")[0],
@@ -661,3 +702,4 @@ function escapeHtml(str) {
 <script type="module" src="login.js"></script>
 </body>
 </html>
+ 
