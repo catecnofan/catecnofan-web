@@ -23,13 +23,14 @@
                 Aviso sobre descargas
             </h3>
             <p style="color:#aaa;font-family:sans-serif;font-size:0.88em;line-height:1.6;margin:0 0 25px;">
-                ⚠️ Aviso: Algunos usuarios han reportado demoras o 
-                inconvenientes al iniciar ciertas descargas desde Chrome.
-                 Las descargas se encuentran operativas. 
- <b style="color:#fff;">Si una descarga no comienza correctamente,</b>, 
-                te recomendamos usar el navegador 
-                <b style="color:#ff6600;">Brave</b>. 
-                Estamos trabajando para solucionarlo. ¡Gracias por tu paciencia!
+                Algunos usuarios han reportado demoras o inconvenientes al iniciar 
+                ciertas descargas desde Chrome.
+                Las descargas se encuentran operativas. 
+                Si una descarga no comienza correctamente, recomendamos utilizar Brave Browser.
+                -----------------------------------------------------------------------------
+                Some users have reported delays or issues when starting downloads in Chrome.
+                Downloads are operational. 
+                If a download does not start correctly, we recommend using Brave Browser.
             </p>
             <a href="https://brave.com/download" target="_blank" style="
                 display:inline-block;background:#ff6600;color:#fff;
