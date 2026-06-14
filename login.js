@@ -16,7 +16,7 @@ const auth = getAuth(app);
 const db = getFirestore(app);
  
 const IDIOMAS = {
-    es: { bunker:"Búnker", perfil:"Mi Perfil", config:"Configuración", salir:"Cerrar sesión", acceder:"ACCEDER", registrarse:"REGISTRARSE", emailPH:"Email", passPH:"Contraseña", sinNotif:"Sin notificaciones nuevas", haEscrito:"ha escrito un mensaje", notifTitulo:"Mensajes nuevos", marcarLeidas:"Marcar todo como leído" },
+    es: { bunker:"Bunker", perfil:"Mi Perfil", config:"Configuración", salir:"Cerrar sesión", acceder:"ACCEDER", registrarse:"REGISTRARSE", emailPH:"Email", passPH:"Contraseña", sinNotif:"Sin notificaciones nuevas", haEscrito:"ha escrito un mensaje", notifTitulo:"Mensajes nuevos", marcarLeidas:"Marcar todo como leído" },
     en: { bunker:"Bunker", perfil:"My Profile", config:"Settings", salir:"Log out", acceder:"LOG IN", registrarse:"SIGN UP", emailPH:"Email", passPH:"Password", sinNotif:"No new notifications", haEscrito:"wrote a message", notifTitulo:"New messages", marcarLeidas:"Mark all as read" },
     pt: { bunker:"Bunker", perfil:"Meu Perfil", config:"Configurações", salir:"Sair", acceder:"ENTRAR", registrarse:"REGISTRAR", emailPH:"Email", passPH:"Senha", sinNotif:"Sem novas notificações", haEscrito:"escreveu uma mensagem", notifTitulo:"Novas mensagens", marcarLeidas:"Marcar tudo como lido" }
 };
@@ -221,3 +221,4 @@ onAuthStateChanged(auth, (user) => {
     renderContainer(user);
     if (user) escucharSalas(user);
 });
+ 
