@@ -337,6 +337,8 @@ html {
                 <div class="video-item"><iframe src="https://www.youtube.com/embed/UlxbEDFHn8I?si=0b2wBOcuO_RQqGLk" frameborder="0" allowfullscreen></iframe></div>
                 <div class="video-item"><iframe src="https://www.youtube.com/embed/6iYHssA7ADM?si=pAqJ6AlsrYbiOvz3" frameborder="0" allowfullscreen></iframe></div>
                 <div class="video-item"><iframe src="https://www.youtube.com/embed/AT1_tCjPGh4?si=gjg441l1iCNg7eMQ" frameborder="0" allowfullscreen></iframe></div>
+                <div class="video-item"><iframe src="https://www.youtube.com/embed/Rx1fKZAbglY?si=4pCPewblsFYwQ4-D" frameborder="0" allowfullscreen></iframe></div>
+                <div class="video-item"><iframe src="https://www.youtube.com/embed/XQ2bQwHd82s?si=r385-e9acJc5Awjq" frameborder="0" allowfullscreen></iframe></div>
                 <div class="video-item"><iframe src="https://www.youtube.com/embed/6UUWiL0neeY" frameborder="0" allowfullscreen></iframe></div>
                 <div class="video-item"><iframe src="https://www.youtube.com/embed/9KoAwkaC_KU" frameborder="0" allowfullscreen></iframe></div>
                 <div class="video-item"><iframe src="https://www.youtube.com/embed/jBCiqo6hCnk" frameborder="0" allowfullscreen></iframe></div>
@@ -482,7 +484,7 @@ async function fetchGlobalStats() {
 }
  
 function fetchYouTubeData(index) {
-    const videoIds = ['Un6ZHrWKDYI','UlxbEDFHn8I','6iYHssA7ADM','AT1_tCjPGh4','6UUWiL0neeY','9KoAwkaC_KU','jBCiqo6hCnk','-7HCGvQbAQ8','vFWvq0UMbDs','sz9VXeCTt5c','ZE5B5mnhZRk','n2UFF11aNxI','yVnf-hC-HiQ','WO-X7K-M9I4','VTZrG056Y88','V_YbQ7DJPWs','OAm9Njw31CY','4Pm8gx_A8oA','AH69J6lvCVY','bQy8vu6ZgBI','tQ_QE3EJN00','XVCuPzPuhds','fbrR_cKxRCI'];
+    const videoIds = ['Un6ZHrWKDYI','UlxbEDFHn8I','6iYHssA7ADM','AT1_tCjPGh4','Rx1fKZAbglY','XQ2bQwHd82s','6UUWiL0neeY','9KoAwkaC_KU','jBCiqo6hCnk','-7HCGvQbAQ8','vFWvq0UMbDs','sz9VXeCTt5c','ZE5B5mnhZRk','n2UFF11aNxI','yVnf-hC-HiQ','WO-X7K-M9I4','VTZrG056Y88','V_YbQ7DJPWs','OAm9Njw31CY','4Pm8gx_A8oA','AH69J6lvCVY','bQy8vu6ZgBI','tQ_QE3EJN00','XVCuPzPuhds','fbrR_cKxRCI'];
     const id = videoIds[index];
     if (!id) return;
     fetch(`https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${id}&key=${API_KEY}`)
