@@ -1,0 +1,1344 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnóstico | CaTecnoFan</title>
+    <link rel="icon" type="image/png" href="iconodef.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="login.css">
+    <style>
+        :root {
+            --cian-neon: #00e5ff;
+            --magenta-neon: #ff00ff;
+            --amarillo-neon: #ffff00;
+            --bg: #0d0d0d;
+            --muted: #bbb;
+        }
+        html { overflow-y: scroll; }
+        body {
+            background-color: #080808;
+            color: #ffffff;
+            font-family: 'Arial Black', Gadget, sans-serif;
+            margin: 0; padding: 0;
+            background-image: linear-gradient(rgba(0,0,0,0.96), rgba(0,0,0,0.96)), url('banner.png');
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .bunker-dashboard {
+            position: fixed; top: 50%; left: calc(50% + 650px);
+            transform: translate(-50%, -50%); width: 140px;
+            background: rgba(10,10,10,0.9); border: 2px solid #00e5ff;
+            border-radius: 15px; padding: 20px 10px;
+            box-shadow: 0 0 25px rgba(0,229,255,0.3);
+            z-index: 10000; text-align: center; backdrop-filter: blur(5px);
+        }
+        .dash-label { font-size: 0.6em; color: #888; text-transform: uppercase; margin-bottom: 5px; display: block; }
+        .dash-value { font-size: 0.9em; color: #fff; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: bold; }
+        .btn-subscribe { display: block; background: #ff0000; color: white; text-decoration: none; font-size: 0.65em; padding: 8px 5px; border-radius: 5px; text-transform: uppercase; font-weight: bold; margin-top: 10px; }
+        @media (max-width: 1350px) { .bunker-dashboard { display: none; } }
+
+        header { width: 100%; background-color: #000; text-align: center; overflow: hidden; }
+        .banner-img { width: 100%; height: auto; display: block; margin: 0 auto; }
+        .linea-magenta { width: 100%; height: 5px; background-color: var(--magenta-neon); box-shadow: 0px 0px 25px var(--magenta-neon); }
+
+        .container {
+            max-width: 1000px; margin: -80px auto 50px auto;
+            background-color: rgba(10,10,10,0.98); border-radius: 20px;
+            border: 1px solid #333; box-shadow: 0px 0px 60px rgba(0,0,0,1);
+            position: relative; z-index: 10; overflow: hidden;
+        }
+        nav { background-color: #1a1a1a; border-bottom: 2px solid var(--cian-neon); }
+        nav ul { list-style: none; margin: 0; padding: 0; display: flex; justify-content: center; flex-wrap: wrap; }
+        nav li { position: relative; flex: 1; min-width: 150px; border-right: 1px solid #333; }
+        nav li:last-child { border-right: none; }
+        nav a { color: white; text-decoration: none; text-transform: uppercase; font-size: 0.8em; padding: 18px 10px; display: flex; align-items: center; justify-content: center; gap: 12px; transition: 0.3s; }
+        nav a i { font-size: 1.2em; color: var(--cian-neon); width: 20px; text-align: center; }
+        nav a:hover { background-color: #252525; color: var(--cian-neon); }
+        .dropdown-content { display: none; position: absolute; background-color: #111; min-width: 220px; border: 1px solid var(--cian-neon); top: 100%; left: 0; z-index: 2000; }
+        .dropdown:hover .dropdown-content { display: block; }
+        .dropdown-content a { justify-content: flex-start; padding: 15px; border-bottom: 1px solid #222; }
+
+        .inner-content { padding: 35px; }
+
+        #intro-section {
+            text-align: center;
+            padding: 40px 20px 20px;
+            opacity: 0;
+            animation: fadeInUp 1.2s ease forwards;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .diag-titulo {
+            font-size: 2em;
+            color: var(--cian-neon);
+            text-shadow: 0 0 20px var(--cian-neon), 0 0 40px rgba(0,229,255,0.4);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            animation: pulsaGlow 3s ease-in-out infinite;
+        }
+        @keyframes pulsaGlow {
+            0%, 100% { text-shadow: 0 0 20px var(--cian-neon), 0 0 40px rgba(0,229,255,0.4); }
+            50%       { text-shadow: 0 0 35px var(--cian-neon), 0 0 70px rgba(0,229,255,0.7); }
+        }
+        .diag-subtitulo { font-family: sans-serif; color: #aaa; font-size: 1em; margin-bottom: 40px; }
+
+        .diag-main-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin: 20px 0 30px;
+        }
+        .btn-iniciar-wrap {
+            min-height: 320px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-iniciar-diagnostico {
+            width: 100%; min-height: 320px;
+            background: var(--bg); border: 3px solid var(--cian-neon);
+            border-radius: 18px; padding: 28px; color: #fff; cursor: pointer;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px;
+            position: relative; overflow: visible;
+            transition: box-shadow .22s ease, transform .12s ease;
+        }
+        .btn-iniciar-diagnostico:focus { outline: 3px solid rgba(0,229,255,0.12); outline-offset: 4px; }
+        .btn-iniciar-diagnostico:hover {
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: 0 0 0 1px rgba(0,229,255,0.4), 0 0 35px rgba(0,229,255,0.25), 0 10px 40px rgba(0,229,255,0.15);
+        }
+        .btn-iniciar-diagnostico:active { transform: translateY(1px); }
+
+        .icon-circle {
+            width: 92px; height: 92px; border-radius: 50%;
+            background: var(--cian-neon); display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 10px 30px rgba(0,229,255,0.12); flex: 0 0 auto;
+            transition: box-shadow .22s ease;
+        }
+        .btn-iniciar-diagnostico:hover .icon-circle {
+            box-shadow: 0 0 30px rgba(0,229,255,0.5), 0 10px 30px rgba(0,229,255,0.2);
+        }
+        .icon-circle i { color: #04121a; font-size: 40px; margin-left: 2px; }
+
+        .diag-spinner {
+            position: absolute; left: 50%; transform: translateX(-50%);
+            width: 36px; height: 36px; border-radius: 50%;
+            border: 3px solid rgba(255,255,255,0.08); border-top-color: var(--cian-neon);
+            top: calc((100% - 92px)/2 + 92px + 8px);
+            opacity: 0; visibility: hidden;
+        }
+        @keyframes spin { to { transform: translateX(-50%) rotate(360deg); } }
+        .diag-spinner.spin { opacity: 1; visibility: visible; animation: spin .82s linear infinite; }
+
+        .btn-label {
+            font-size: 1.15rem; letter-spacing: 1px;
+            text-transform: uppercase; color: #fff;
+        }
+
+        .antes-empezar {
+            background: linear-gradient(160deg, #111 0%, #0a0a0a 100%);
+            border: 2px solid var(--amarillo-neon);
+            border-radius: 18px;
+            padding: 22px;
+            transition: opacity 0.5s ease;
+        }
+        .antes-empezar.fade-out { opacity: 0; pointer-events: none; }
+        .texto-launcher { display: flex; flex-direction: column; gap: 8px; }
+        .texto-launcher h3 { margin: 0; color: var(--amarillo-neon); text-transform: uppercase; font-size: 1.05rem; letter-spacing: 0.6px; }
+        .texto-launcher p { margin: 0; color: #d0d0d0; font-family: sans-serif; font-size: 0.95rem; line-height: 1.5; }
+        .texto-launcher .cta-row { display: flex; justify-content: center; margin-top: 12px; }
+        .btn-descargar-launcher {
+            background: var(--amarillo-neon); color: #000; text-decoration: none;
+            padding: 10px 16px; border-radius: 8px; font-weight: 800;
+            display: inline-flex; align-items: center; justify-content: center;
+            gap: 8px; width: 300px; box-shadow: 0 6px 18px rgba(255,255,0,0.12);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn-descargar-launcher:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(255,255,0,0.18); }
+
+        .aviso-archivos {
+            background: linear-gradient(135deg, #1a1200 0%, #0f0d00 100%);
+            border: 1.5px solid rgba(255,220,0,0.2);
+            border-left: 4px solid var(--amarillo-neon);
+            border-radius: 14px;
+            padding: 22px 26px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 24px rgba(255,220,0,0.06);
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .aviso-header { display: flex; align-items: center; gap: 12px; }
+        .aviso-ico { font-size: 1.5rem; flex-shrink: 0; }
+        .aviso-titulo {
+            font-family: 'Arial Black', sans-serif;
+            font-size: 0.95rem;
+            color: var(--amarillo-neon);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-shadow: 0 0 12px rgba(255,220,0,0.3);
+        }
+        .aviso-desc { font-family: sans-serif; font-size: 0.83rem; color: #888; line-height: 1.7; margin: 0; }
+        .aviso-desc strong { color: #bbb; }
+        .aviso-btn {
+            display: inline-flex; align-items: center; gap: 8px; align-self: flex-start;
+            background: rgba(255,0,0,0.1); border: 1px solid rgba(255,0,0,0.3);
+            color: #ff6666; text-decoration: none; padding: 9px 16px; border-radius: 8px;
+            font-family: 'Arial Black', sans-serif; font-size: 0.72rem; text-transform: uppercase;
+            letter-spacing: 0.5px; transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
+        }
+        .aviso-btn:hover { background: rgba(255,0,0,0.18); border-color: rgba(255,0,0,0.6); box-shadow: 0 0 16px rgba(255,0,0,0.15); color: #ff8888; }
+
+        .prediag-info {
+            background: linear-gradient(160deg, #0e0e0e 0%, #0a0a0a 100%);
+            border: 1px solid #222; border-left: 3px solid var(--cian-neon);
+            border-radius: 14px; padding: 20px 24px; margin-bottom: 28px;
+            display: flex; flex-direction: column; gap: 0;
+        }
+        .prediag-item { display: flex; align-items: flex-start; gap: 16px; padding: 14px 0; }
+        .prediag-ico { font-size: 1.4rem; flex-shrink: 0; margin-top: 2px; filter: drop-shadow(0 0 6px rgba(0,229,255,0.2)); }
+        .prediag-item div { display: flex; flex-direction: column; gap: 4px; }
+        .prediag-titulo { font-family: 'Arial Black', sans-serif; font-size: 0.82rem; color: #ddd; text-transform: uppercase; letter-spacing: 0.4px; }
+        .prediag-desc { font-family: sans-serif; font-size: 0.82rem; color: #666; line-height: 1.55; }
+        .prediag-sep { height: 1px; background: linear-gradient(90deg, rgba(0,229,255,0.08), transparent); margin: 0 4px; }
+
+        #problema-section { display: none; }
+        .problema-header { text-align: center; margin-bottom: 36px; }
+        .problema-header .paso-label { display: inline-block; font-family: sans-serif; font-size: 0.78em; color: #888; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 8px; }
+        .problema-header .paso-titulo { font-size: 1.75em; color: var(--cian-neon); text-shadow: 0 0 10px rgba(0,229,255,0.6), 0 0 22px rgba(0,229,255,0.2); text-transform: uppercase; letter-spacing: 1px; margin: 0; }
+
+        /* ── ACORDEÓN DE PROBLEMAS ── */
+        .acordeon-problema { display: flex; flex-direction: column; gap: 14px; }
+
+        .acc-item {
+            border-radius: 16px; border: 1.5px solid; overflow: hidden;
+            background: #0a0a0a; transition: box-shadow 0.22s ease;
+            overflow-anchor: none;
+        }
+        .acc-item.c-cian     { border-color: rgba(0,229,255,0.35);   color: #00e5ff; }
+        .acc-item.c-magenta  { border-color: rgba(255,0,255,0.35);   color: #ff00ff; }
+        .acc-item.c-rojo     { border-color: rgba(255,68,68,0.35);   color: #ff4444; }
+        .acc-item.c-amarillo { border-color: rgba(255,255,0,0.35);   color: #ffff00; }
+        .acc-item.c-naranja  { border-color: rgba(255,154,60,0.35);  color: #ff9a3c; }
+        .acc-item.c-gris     { border-color: rgba(160,100,255,0.35); color: #b07fff; }
+        .acc-item.open { box-shadow: 0 8px 30px rgba(0,0,0,0.35), 0 0 0 1px currentColor; }
+
+        .acc-header {
+            width: 100%; background: transparent; border: none; color: inherit;
+            font-family: 'Arial Black', sans-serif; text-transform: uppercase; cursor: pointer;
+            display: flex; align-items: center; gap: 18px; padding: 22px 24px; text-align: left;
+            transition: background 0.2s ease;
+        }
+        .acc-header:hover { background: rgba(255,255,255,0.03); }
+        .prob-icon-wrap {
+            width: 48px; height: 48px; border-radius: 12px; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            background: currentColor; transition: transform 0.22s ease;
+        }
+        .prob-icon-wrap i { color: #04070a; font-size: 1.35rem; filter: brightness(0.15); }
+        .acc-item.open .prob-icon-wrap { transform: scale(1.08) rotate(-4deg); }
+        .acc-header-texto { display: flex; flex-direction: column; gap: 5px; flex: 1; min-width: 0; }
+        .prob-titulo { font-size: 1em; font-weight: 900; letter-spacing: 0.5px; line-height: 1.2; color: #fff; }
+        .prob-desc { font-family: sans-serif; font-size: 0.8em; font-weight: 400; color: #888; line-height: 1.5; text-transform: none; letter-spacing: 0; }
+        .acc-chevron { font-size: 0.9rem; opacity: 0.55; transition: transform 0.28s ease; flex-shrink: 0; }
+        .acc-item.open .acc-chevron { transform: rotate(180deg); opacity: 1; }
+
+        .acc-panel { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; overflow-anchor: none; }
+        .acc-panel-inner { padding: 4px 24px 24px 24px; border-top: 1px solid rgba(255,255,255,0.06); }
+        .acc-panel-titulo { font-family: sans-serif; font-size: 0.82rem; color: #888; margin: 16px 0 14px; }
+
+        .btn-wizard-trigger {
+            width: 100%; margin-top: 18px; background: rgba(255,255,255,0.03);
+            border: 1.5px dashed currentColor; color: inherit; padding: 14px 18px;
+            border-radius: 10px; font-family: 'Arial Black', sans-serif; font-size: 0.78rem;
+            text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            transition: background 0.2s ease, border-style 0.2s ease;
+        }
+        .btn-wizard-trigger:hover { background: rgba(255,255,255,0.07); border-style: solid; }
+
+        .btn-universal-formulario {
+            width: 100%; margin-top: 24px;
+            background: linear-gradient(135deg, #1a0a1a 0%, #0f0f0f 60%, #1a0a1a 100%);
+            border: 2px solid rgba(255,0,255,0.45);
+            border-bottom: 3px solid rgba(255,0,255,0.6);
+            color: #dd88dd; padding: 22px 28px; border-radius: 14px;
+            font-family: 'Arial Black', sans-serif; font-size: 0.92rem;
+            text-transform: uppercase; letter-spacing: 0.8px; cursor: pointer;
+            display: flex; align-items: center; gap: 16px;
+            box-shadow: 0 6px 24px rgba(255,0,255,0.08), 0 2px 0 rgba(255,0,255,0.15), inset 0 1px 0 rgba(255,255,255,0.04);
+            transition: all 0.22s ease; position: relative; overflow: hidden;
+        }
+        .btn-universal-formulario::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 60%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,0,255,0.06), transparent);
+            transition: left 0.5s ease;
+        }
+        .btn-universal-formulario:hover::before { left: 150%; }
+        .btn-universal-formulario:hover {
+            background: linear-gradient(135deg, #220d22 0%, #130d13 60%, #220d22 100%);
+            border-color: rgba(255,0,255,0.8); border-bottom-color: var(--magenta-neon); color: #ff88ff;
+            box-shadow: 0 10px 35px rgba(255,0,255,0.18), 0 3px 0 rgba(255,0,255,0.4), inset 0 1px 0 rgba(255,255,255,0.06);
+            transform: translateY(-2px);
+        }
+        .btn-universal-formulario:active { transform: translateY(0px); }
+        .btn-uf-icon {
+            width: 42px; height: 42px; border-radius: 10px; background: rgba(255,0,255,0.12);
+            border: 1px solid rgba(255,0,255,0.25); display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0; font-size: 1.15rem; transition: background 0.22s, box-shadow 0.22s;
+        }
+        .btn-universal-formulario:hover .btn-uf-icon { background: rgba(255,0,255,0.2); box-shadow: 0 0 14px rgba(255,0,255,0.35); }
+        .btn-uf-texto { display: flex; flex-direction: column; align-items: center; gap: 5px; flex: 1; }
+        .btn-uf-titulo { font-size: 1rem; color: inherit; letter-spacing: 0.8px; }
+        .btn-uf-sub { font-family: sans-serif; font-size: 0.8rem; color: #aa66aa; font-weight: 400; text-transform: none; letter-spacing: 0; text-align: center; transition: color 0.22s; }
+        .btn-universal-formulario:hover .btn-uf-sub { color: #cc88cc; }
+        .btn-uf-arrow { font-size: 1rem; opacity: 0.4; flex-shrink: 0; transition: transform 0.22s, opacity 0.22s; }
+        .btn-universal-formulario:hover .btn-uf-arrow { transform: translateX(5px); opacity: 1; }
+
+        .check-item {
+            background: #111; border: 1px solid #333; border-radius: 8px;
+            padding: 15px 20px; margin-bottom: 10px;
+            display: flex; align-items: flex-start; gap: 15px;
+            cursor: pointer; transition: 0.3s; font-family: sans-serif; font-size: 0.95em; color: #ccc;
+        }
+        .check-item:hover { border-color: var(--cian-neon); background: #151515; }
+        .check-item.checked { border-color: #00c853; background: rgba(0,200,83,0.08); color: #fff; }
+        .check-icon { font-size: 1.2em; color: #555; min-width: 20px; margin-top: 1px; transition: 0.3s; }
+        .check-sub { display: none; margin-top: 10px; padding: 12px 15px; background: #0a0a0a; border-left: 3px solid var(--amarillo-neon); border-radius: 4px; font-size: 0.9em; color: #bbb; line-height: 1.6; }
+        .check-sub.visible { display: block; animation: fadeInUp .3s ease forwards; }
+        .check-sub a, .adp-item-sub-edit a {
+            color: var(--cian-neon); text-decoration: none; font-weight: bold; transition: color 0.2s;
+        }
+        .check-sub a:hover, .adp-item-sub-edit a:hover { color: #ffb3ff; }
+
+        .folder-tree {
+            margin-top: 14px; background: #060606; border: 1px solid #2a2a2a;
+            border-radius: 8px; padding: 14px 16px; font-family: 'Courier New', Courier, monospace;
+            font-size: 0.85em; line-height: 1.9; color: #ddd;
+        }
+        .folder-tree .ft-row { display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+        .folder-tree .ft-root i { color: var(--amarillo-neon); }
+        .folder-tree .ft-lvl1 { padding-left: 18px; }
+        .folder-tree .ft-lvl1 i { color: var(--amarillo-neon); }
+        .folder-tree .ft-lvl2 { padding-left: 36px; }
+        .folder-tree .ft-lvl2 i { color: var(--amarillo-neon); }
+        .folder-tree .ft-lvl3 { padding-left: 54px; }
+        .folder-tree .ft-lvl3 i { color: var(--cian-neon); }
+        .folder-tree .ft-branch { color: #555; }
+        .folder-tree .ft-tag { color: var(--cian-neon); font-style: italic; }
+
+        /* ── WIZARD ── */
+        #wizard-section { display: none; margin-top: 10px; animation: fadeInUp 0.5s ease forwards; }
+        .wizard-box { background: #111; padding: 28px; border-radius: 12px; border: 1px solid #333; border-top: 4px solid var(--magenta-neon); }
+        .wizard-progress { display: flex; gap: 6px; margin-bottom: 10px; }
+        .wizard-progress-step { flex: 1; height: 6px; border-radius: 3px; background: #222; transition: background 0.3s ease; }
+        .wizard-progress-step.done { background: var(--magenta-neon); box-shadow: 0 0 8px var(--magenta-neon); }
+        .wizard-paso-label { font-family: sans-serif; font-size: 0.75em; color: #888; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 18px; }
+        .wizard-step { display: none; }
+        .wizard-step.active { display: block; animation: fadeInUp 0.35s ease forwards; }
+        .wizard-step-titulo { color: var(--amarillo-neon); text-transform: uppercase; font-size: 1em; margin: 0 0 18px; text-shadow: 0 0 10px var(--amarillo-neon); }
+        .wizard-confirm-card { display: flex; align-items: center; gap: 16px; background: #0a0a0a; border: 1.5px solid; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+        .wizard-confirm-card .prob-icon-wrap { flex-shrink: 0; }
+        .wizard-select-problema { width: 100%; padding: 12px; background: #080808; border: 1px solid #444; color: white; border-radius: 6px; font-family: sans-serif; font-size: 0.95em; margin-bottom: 20px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+        .form-group label { display: block; color: var(--cian-neon); font-size: 0.75em; margin-bottom: 7px; text-transform: uppercase; }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%; padding: 11px; background: #080808; border: 1px solid #444;
+            color: white; border-radius: 6px; font-family: sans-serif;
+            box-sizing: border-box; font-size: 0.95em;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            outline: none; border-color: var(--cian-neon); box-shadow: 0 0 0 2px rgba(0,229,255,0.1);
+        }
+        .form-group-full { margin-bottom: 15px; }
+        .wizard-nav { display: flex; justify-content: space-between; gap: 12px; margin-top: 24px; }
+        .btn-wizard-back {
+            background: transparent; border: 1px solid #444; color: #888; padding: 13px 22px;
+            font-family: 'Arial Black', sans-serif; font-size: 0.8em; text-transform: uppercase;
+            border-radius: 6px; cursor: pointer; transition: 0.3s;
+        }
+        .btn-wizard-back:hover { border-color: #888; color: #fff; }
+        .btn-wizard-next, .btn-submit-diag {
+            flex: 1; background: transparent; color: var(--magenta-neon);
+            border: 2px solid var(--magenta-neon); padding: 13px;
+            font-family: 'Arial Black', sans-serif; font-size: 0.9em;
+            text-transform: uppercase; border-radius: 6px; cursor: pointer; transition: 0.3s;
+        }
+        .btn-wizard-next:hover, .btn-submit-diag:hover { background: var(--magenta-neon); color: #000; box-shadow: 0 0 20px var(--magenta-neon); }
+
+        .btn-volver { background: transparent; border: 1px solid #444; color: #888; padding: 10px 20px; font-family: 'Arial Black', sans-serif; font-size: 0.75em; text-transform: uppercase; border-radius: 6px; cursor: pointer; transition: 0.3s; margin-bottom: 20px; }
+        .btn-volver:hover { border-color: #888; color: #fff; }
+
+        footer { text-align: center; padding: 60px; color: #555; font-family: sans-serif; }
+        .contador-digital { display: inline-block; padding: 10px 20px; border: 1px solid var(--cian-neon); border-radius: 10px; background: rgba(0,229,255,0.05); box-shadow: 0 0 15px rgba(0,229,255,0.2); margin-bottom: 20px; }
+        #stats-count { font-family: 'Courier New', Courier, monospace; color: var(--cian-neon); font-size: 1.2rem; text-shadow: 0 0 10px var(--cian-neon); font-weight: bold; }
+
+        @media (max-width: 768px) {
+            .container { margin-top: -30px; width: 95%; }
+            nav li { min-width: 120px; }
+            .form-row { grid-template-columns: 1fr; }
+            .btn-iniciar-diagnostico { height: auto; padding: 20px; }
+            .antes-empezar, .btn-iniciar-wrap { min-height: 180px; }
+            .acc-header { padding: 16px 16px; gap: 12px; }
+        }
+
+        /* ── PANEL ADMIN DIAGNÓSTICO ── */
+        #admin-diag-panel {
+            display: none; position: fixed; top: 0; right: 0; width: 480px; max-width: 100vw;
+            height: 100vh; background: rgba(8,8,8,0.98); border-left: 2px solid var(--cian-neon);
+            box-shadow: -10px 0 40px rgba(0,0,0,0.8); z-index: 20000; overflow-y: auto;
+            padding: 24px; box-sizing: border-box; font-family: sans-serif;
+        }
+        .adp-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+        .adp-header h2 { color: var(--cian-neon); font-family: 'Arial Black', sans-serif; font-size: 1.1em; margin: 0; text-shadow: 0 0 10px rgba(0,229,255,0.5); }
+        .adp-close { background: transparent; border: 1px solid #444; color: #aaa; border-radius: 6px; padding: 6px 12px; cursor: pointer; font-family: 'Arial Black', sans-serif; font-size: 0.75em; }
+        .adp-close:hover { border-color: #888; color: #fff; }
+
+        .adp-btn-add {
+            width: 100%; background: rgba(0,229,255,0.08); border: 1.5px dashed var(--cian-neon);
+            color: var(--cian-neon); padding: 12px; border-radius: 8px; cursor: pointer;
+            font-family: 'Arial Black', sans-serif; font-size: 0.8em; text-transform: uppercase;
+            margin-bottom: 18px; transition: 0.2s;
+        }
+        .adp-btn-add:hover { background: rgba(0,229,255,0.16); }
+
+        .adp-card {
+            background: #111; border: 1px solid #333; border-left: 3px solid var(--cian-neon);
+            border-radius: 8px; padding: 14px 16px; margin-bottom: 10px;
+        }
+        .adp-card-top { display: flex; align-items: center; gap: 10px; }
+        .adp-card-icon { width: 34px; height: 34px; border-radius: 8px; background: currentColor; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .adp-card-icon i { color: #04070a; font-size: 0.95rem; }
+        .adp-card-info { flex: 1; min-width: 0; }
+        .adp-card-titulo { color: #fff; font-weight: bold; font-size: 0.9em; }
+        .adp-card-sub { color: #777; font-size: 0.75em; margin-top: 2px; }
+        .adp-card-actions { display: flex; gap: 6px; margin-top: 10px; }
+        .adp-mini-btn { background: transparent; border: 1px solid #444; color: #aaa; border-radius: 5px; padding: 6px 10px; cursor: pointer; font-size: 0.72em; text-transform: uppercase; font-family: 'Arial Black', sans-serif; }
+        .adp-mini-btn:hover { border-color: var(--cian-neon); color: var(--cian-neon); }
+        .adp-mini-btn.danger:hover { border-color: #ff4444; color: #ff4444; }
+
+        .adp-form-group { margin-bottom: 14px; }
+        .adp-form-group label { display: block; color: var(--cian-neon); font-size: 0.72em; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .adp-form-group input, .adp-form-group select, .adp-form-group textarea {
+            width: 100%; padding: 10px; background: #080808; border: 1px solid #444; color: #fff;
+            border-radius: 6px; font-family: sans-serif; box-sizing: border-box; font-size: 0.88em;
+        }
+        .adp-form-group textarea { resize: vertical; }
+        .adp-hint { color: #666; font-size: 0.72em; margin-top: 4px; line-height: 1.4; }
+
+        .adp-item-row { background: #0a0a0a; border: 1px solid #2a2a2a; border-radius: 8px; padding: 12px; margin-bottom: 10px; position: relative; }
+        .adp-item-row .adp-mini-btn.danger { position: absolute; top: 10px; right: 10px; }
+
+        /* ── EDITOR VISUAL (contenteditable) para la explicación de cada pregunta ── */
+        .adp-item-toolbar { display: flex; gap: 6px; margin-bottom: 6px; }
+        .adp-toolbar-btn {
+            background: #131313; border: 1px solid #444; color: #ccc; border-radius: 5px;
+            padding: 5px 10px; cursor: pointer; font-size: 0.75em; font-family: sans-serif;
+            display: inline-flex; align-items: center; gap: 5px;
+        }
+        .adp-toolbar-btn:hover { border-color: var(--cian-neon); color: var(--cian-neon); }
+        .adp-item-sub-edit {
+            width: 100%; min-height: 70px; padding: 10px; background: #080808;
+            border: 1px solid #444; color: #fff; border-radius: 6px; font-family: sans-serif;
+            box-sizing: border-box; font-size: 0.88em; line-height: 1.5;
+        }
+        .adp-item-sub-edit:focus { outline: none; border-color: var(--cian-neon); box-shadow: 0 0 0 2px rgba(0,229,255,0.1); }
+        .adp-item-sub-edit:empty::before { content: attr(data-placeholder); color: #555; }
+
+        .adp-btn-additem {
+            width: 100%; background: transparent; border: 1px dashed #444; color: #888;
+            padding: 10px; border-radius: 6px; cursor: pointer; font-size: 0.78em;
+            text-transform: uppercase; font-family: 'Arial Black', sans-serif; margin-bottom: 16px;
+        }
+        .adp-btn-additem:hover { border-color: var(--cian-neon); color: var(--cian-neon); }
+
+        .adp-form-actions { display: flex; gap: 10px; margin-top: 6px; }
+        .adp-btn-save { flex: 1; background: rgba(0,229,255,0.1); border: 1.5px solid var(--cian-neon); color: var(--cian-neon); padding: 12px; border-radius: 6px; cursor: pointer; font-family: 'Arial Black', sans-serif; font-size: 0.82em; text-transform: uppercase; }
+        .adp-btn-save:hover { background: var(--cian-neon); color: #000; }
+        .adp-btn-cancel { flex: 1; background: transparent; border: 1.5px solid #444; color: #aaa; padding: 12px; border-radius: 6px; cursor: pointer; font-family: 'Arial Black', sans-serif; font-size: 0.82em; text-transform: uppercase; }
+        .adp-btn-cancel:hover { border-color: #888; color: #fff; }
+        .adp-loading { color: #666; font-size: 0.85em; text-align: center; padding: 20px; }
+    </style>
+</head>
+<body>
+
+<aside class="bunker-dashboard">
+    <span class="dash-label">YouTube Subs</span>
+    <div class="dash-value"><i class="fab fa-youtube" style="color:#ff0000;"></i><span id="subs-count">--</span></div>
+    <span class="dash-label">Total Views</span>
+    <div class="dash-value"><i class="fas fa-play-circle" style="color:#00e5ff;"></i><span id="views-total-count">--</span></div>
+    <a href="https://www.youtube.com/@CaTecnoFan?sub_confirmation=1" target="_blank" class="btn-subscribe">SUSCRIBIRSE</a>
+</aside>
+
+<header>
+    <div id="login-container"></div>
+    <img src="banner.png" alt="CaTecnoFan Banner" class="banner-img">
+    <div class="linea-magenta"></div>
+</header>
+
+<div class="container">
+    <nav>
+        <ul>
+            <li><a href="index.html"><i class="fas fa-home"></i> INICIO</a></li>
+            <li class="dropdown">
+                <a href="#"><i class="fas fa-download"></i> DESCARGAS ▼</a>
+                <div class="dropdown-content">
+                    <a href="emuladores.html"><i class="fas fa-gamepad"></i> EMULADORES</a>
+                    <a href="utilidades.html"><i class="fas fa-tools"></i> UTILIDADES</a>
+                </div>
+            </li>
+            <li><a href="https://www.youtube.com/@CaTecnoFan" target="_blank"><i class="fab fa-youtube"></i> YOUTUBE</a></li>
+            <li class="dropdown">
+                <a href="#"><i class="fas fa-envelope"></i> AYUDA ▼</a>
+                <div class="dropdown-content">
+                    <a href="contacto.html"><i class="fas fa-gamepad"></i> CONTACTO</a>
+                    <a href="diagnostico.html"><i class="fas fa-tools"></i> DIAGNOSTICO</a>
+                </div>
+            </li>
+            <li><a href="comunidad.html"><i class="fas fa-comments"></i> COMUNIDAD</a></li>
+        </ul>
+    </nav>
+
+    <div class="inner-content">
+
+        <div id="intro-section">
+            <div class="diag-titulo">🔧 Centro de Diagnóstico</div>
+            <p class="diag-subtitulo">Trataremos de resolver tu problema paso a paso.<br>Seguí el asistente y encontra las potenciales soluciones.</p>
+
+            <div class="diag-main-container">
+                <div class="btn-iniciar-wrap">
+                    <button id="btn-iniciar" class="btn-iniciar-diagnostico" onclick="iniciarDiagnostico()" aria-live="polite" aria-busy="false" type="button">
+                        <div class="icon-circle" aria-hidden="true"><i class="fas fa-play"></i></div>
+                        <div id="diag-spinner" class="diag-spinner" aria-hidden="true"></div>
+                        <div class="btn-label">Iniciar Diagnóstico</div>
+                    </button>
+                </div>
+
+                <div id="launcher-block" class="antes-empezar">
+                    <div class="texto-launcher">
+                        <h3>⚡ Antes de empezar, podes intentar</h3>
+                        <p>Realizá una <strong>instalación limpia</strong> y utilizá <strong>CaTecnoFan Launcher</strong> para facilitar todo el proceso y evitar omitir algún paso. Cada entorno es único, por lo que esto <strong>no garantiza</strong> que se resuelvan todos los inconvenientes propios de la emulación de PS4.</p>
+                        <div class="cta-row">
+                            <a href="guia-launcher.html" class="btn-descargar-launcher"><i class="fas fa-book"></i> IR A LA GUIA</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="problema-section">
+            <div class="aviso-archivos">
+                <div class="aviso-header">
+                    <span class="aviso-ico">⚠️</span>
+                    <span class="aviso-titulo">Antes de continuar</span>
+                </div>
+                <p class="aviso-desc">
+                    Este diagnóstico asume que usaste <strong>exactamente los mismos archivos</strong> que se muestran en cada tutorial. Si descargaste el emulador o los archivos de otra fuente, los resultados pueden no aplicar a tu caso. Los archivos correctos se encuentran en el <strong>link de la descripción</strong> de cada video.
+                </p>
+                <a href="https://www.youtube.com/@CaTecnoFan" target="_blank" class="aviso-btn"><i class="fab fa-youtube"></i> Ver tutoriales en YouTube</a>
+            </div>
+
+            <div class="prediag-info">
+                <div class="prediag-item">
+                    <span class="prediag-ico">🧠</span>
+                    <div>
+                        <span class="prediag-titulo">Diagnóstico basado en casos reales</span>
+                        <span class="prediag-desc">Las soluciones fueron construidas a partir de los errores más frecuentes reportados por la comunidad. <strong>No son garantía de resolución</strong> — son el mejor punto de partida.</span>
+                    </div>
+                </div>
+                <div class="prediag-sep"></div>
+                <div class="prediag-item">
+                    <span class="prediag-ico">⚙️</span>
+                    <div>
+                        <span class="prediag-titulo">Cada equipo es un entorno distinto</span>
+                        <span class="prediag-desc">La emulación de PS4 depende de docenas de variables: drivers, versión del emulador, hardware, antivirus, configuración. <strong>Cada equipo es distinto</strong> — lo que funciona en un PC puede no funcionar en otro.</span>
+                    </div>
+                </div>
+                <div class="prediag-sep"></div>
+                <div class="prediag-item">
+                    <span class="prediag-ico">📋</span>
+                    <div>
+                        <span class="prediag-titulo">Si nada funciona, hay soporte manual</span>
+                        <span class="prediag-desc">Al final de esta sección podés iniciar un diagnóstico personalizado. Lo reviso personalmente y te respondo con un diagnóstico específico para tu situación.</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="problema-header">
+                <span class="paso-label">Paso 1 de 2</span>
+                <div class="paso-titulo">¿Cuál es tu problema?</div>
+            </div>
+
+            <div class="acordeon-problema" id="acordeon-problema"></div>
+
+            <button class="btn-universal-formulario" onclick="iniciarWizard(null)">
+                <div class="btn-uf-icon">📋</div>
+                <div class="btn-uf-texto">
+                    <span class="btn-uf-titulo">⚠️ Si el problema persiste</span>
+                    <span class="btn-uf-sub">Iniciá un diagnóstico personalizado y te respondo con tu caso puntual</span>
+                </div>
+                <i class="fas fa-chevron-right btn-uf-arrow"></i>
+            </button>
+        </div>
+
+        <div id="wizard-section">
+            <button class="btn-volver" onclick="cerrarWizard()"><i class="fas fa-arrow-left"></i> Volver</button>
+
+            <div class="wizard-box">
+                <div class="wizard-progress">
+                    <div class="wizard-progress-step" data-paso="1"></div>
+                    <div class="wizard-progress-step" data-paso="2"></div>
+                    <div class="wizard-progress-step" data-paso="3"></div>
+                    <div class="wizard-progress-step" data-paso="4"></div>
+                    <div class="wizard-progress-step" data-paso="5"></div>
+                </div>
+                <div class="wizard-paso-label" id="wizard-paso-label">Paso 1 de 5</div>
+
+                <form id="formDiagnostico">
+                    <input type="hidden" id="campo-problema" name="problema" value="">
+                    <input type="hidden" id="campo-intentado" name="intentado" value="">
+
+                    <div class="wizard-step active" data-step="1">
+                        <div class="wizard-step-titulo">¿Cuál es tu problema?</div>
+                        <div id="wizard-confirm-tipo"></div>
+                        <select id="wizard-select-tipo" class="wizard-select-problema" style="display:none;" onchange="seleccionarTipoWizard(this.value)">
+                            <option value="">— Seleccioná tu problema —</option>
+                        </select>
+                    </div>
+
+                    <div class="wizard-step" data-step="2">
+                        <div class="wizard-step-titulo">¿Qué intentaste hasta ahora?</div>
+                        <p style="font-family:sans-serif; color:#888; font-size:0.85em; margin-bottom:16px;">Marcá lo que ya probaste. Esto me ayuda a no repetirte pasos que ya hiciste.</p>
+                        <div id="wizard-intentado-items"></div>
+                    </div>
+
+                    <div class="wizard-step" data-step="3">
+                        <div class="wizard-step-titulo">Tu sistema</div>
+                        <div class="form-row">
+                            <div class="form-group"><label>CPU</label><input type="text" name="cpu" placeholder="Ej: Intel Core i5-10400F"></div>
+                            <div class="form-group"><label>GPU</label><input type="text" name="gpu" placeholder="Ej: NVIDIA GTX 1660"></div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group"><label>RAM</label><input type="text" name="ram" placeholder="Ej: 16 GB DDR4"></div>
+                            <div class="form-group"><label>VERSIÓN DE WINDOWS</label><input type="text" name="windows" placeholder="Ej: Windows 11 22H2"></div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group"><label>VERSIÓN DEL EMULADOR</label><input type="text" name="emulador" placeholder="Ej: ShadPS4 v0.5.1"></div>
+                        </div>
+                    </div>
+
+                    <div class="wizard-step" data-step="4">
+                        <div class="wizard-step-titulo">Un poco más sobre tu caso</div>
+                        <div class="form-row">
+                            <div class="form-group"><label>JUEGO</label><input type="text" name="juego" placeholder="Ej: UFC 4, Bloodborne..."></div>
+                            <div class="form-group"><label>¿USÁS LOS ARCHIVOS DEL TUTORIAL?</label>
+                                <select name="tutorial">
+                                    <option value="">— Seleccioná —</option>
+                                    <option value="si">Sí, uso exactamente los del tutorial</option>
+                                    <option value="no">No, uso otros archivos</option>
+                                    <option value="nose">No sé / no estoy seguro</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group"><label>¿TENÉS VULKAN SDK INSTALADO?</label>
+                                <select name="vulkan">
+                                    <option value="">— Seleccioná —</option>
+                                    <option value="si">Sí</option>
+                                    <option value="no">No</option>
+                                    <option value="nose">No sé</option>
+                                </select>
+                            </div>
+                            <div class="form-group"><label>¿EL ANTIVIRUS BLOQUEÓ ALGO?</label>
+                                <select name="antivirus">
+                                    <option value="">— Seleccioná —</option>
+                                    <option value="si">Sí, puso algo en cuarentena</option>
+                                    <option value="no">No, no bloqueó nada</option>
+                                    <option value="nose">No revisé</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="wizard-step" data-step="5">
+                        <div class="wizard-step-titulo">Contame los detalles</div>
+                        <div class="form-row">
+                            <div class="form-group"><label>NOMBRE / ALIAS</label><input type="text" name="nombre" placeholder="Tu nombre o alias..." required></div>
+                            <div class="form-group"><label>EMAIL (para responderte)</label><input type="email" name="email" placeholder="tu@email.com" required></div>
+                        </div>
+                        <div class="form-group-full">
+                            <label>DESCRIPCIÓN DEL PROBLEMA</label>
+                            <textarea name="descripcion" rows="4" placeholder="Describí qué pasa exactamente, qué hiciste y en qué momento aparece el error..." required></textarea>
+                        </div>
+                        <div class="form-group-full">
+                            <label>ÚLTIMAS 50 LÍNEAS DEL LOG (opcional pero muy útil)</label>
+                            <textarea name="logs" rows="6" placeholder="Pegá acá las últimas líneas del log del emulador..."></textarea>
+                        </div>
+                        <input type="text" name="empresa" autocomplete="off" tabindex="-1" style="position:absolute; left:-9999px;" aria-hidden="true">
+                    </div>
+
+                    <div class="wizard-nav">
+                        <button type="button" class="btn-wizard-back" id="wizard-btn-back" onclick="wizardBack()" style="visibility:hidden;"><i class="fas fa-arrow-left"></i> Atrás</button>
+                        <button type="button" class="btn-wizard-next" id="wizard-btn-next" onclick="wizardNext()">Siguiente <i class="fas fa-arrow-right"></i></button>
+                        <button type="submit" class="btn-submit-diag" id="wizard-btn-submit" style="display:none;"><i class="fas fa-paper-plane"></i> ENVIAR DIAGNÓSTICO</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="admin-diag-panel">
+    <div class="adp-header">
+        <h2>🛠️ PANEL DE DIAGNÓSTICO</h2>
+        <button class="adp-close" onclick="toggleAdminDiag()">CERRAR</button>
+    </div>
+    <button class="adp-btn-add" onclick="abrirFormProblema(null)">+ AGREGAR NUEVO PROBLEMA</button>
+    <div id="adp-lista">
+        <div class="adp-loading">Cargando...</div>
+    </div>
+</div>
+
+<footer>
+    <div class="contador-digital">
+        <i class="fas fa-users" style="color: var(--cian-neon); margin-right: 10px;"></i>
+        <span id="stats-count">--</span>
+    </div>
+    <br>
+    CaTecnoFan &copy; 2026 - Rosario, Argentina<br>
+    Hardware, Juegos y Tecnología para el Gamer Real
+</footer>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+import {
+    getFirestore, doc, getDoc, updateDoc, deleteDoc, addDoc, increment,
+    collection, getDocs, query, orderBy, writeBatch
+} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+const firebaseConfig = {
+    apiKey:            "AIzaSyBa_xg_kBBmAe1cJVEhE5BiOfCjlQ-Ib0w",
+    authDomain:        "catecnofan-web.firebaseapp.com",
+    projectId:         "catecnofan-web",
+    storageBucket:     "catecnofan-web.appspot.com",
+    messagingSenderId: "670781631971",
+    appId:             "1:670781631971:web:7fa547d5392149c05304d6"
+};
+const app = initializeApp(firebaseConfig);
+const db  = getFirestore(app);
+
+// Datos de fábrica: se usan UNA sola vez para poblar Firestore si la colección está vacía.
+const DEFAULTS = [
+    { titulo: 'El juego no aparece', desc: 'Instalaste el juego pero no lo ves en el emulador al abrirlo.', color: 'c-cian', icon: 'fa-search',
+      checklistTitulo: '🔍 El juego no aparece en el emulador', items: [
+        { texto: '¿Instalaste el juego dentro de una subcarpeta de Games?', sub: 'El emulador requiere que cada juego esté en su propia carpeta dentro del directorio Games. No debe estar el .pkg suelto, sino la carpeta con los archivos extraídos.<div class="folder-tree"><div class="ft-row ft-root"><i class="fas fa-folder"></i> shadPS4</div><div class="ft-row ft-lvl1"><span class="ft-branch">└─</span><i class="fas fa-folder"></i> games</div><div class="ft-row ft-lvl2"><span class="ft-branch">&nbsp;&nbsp;└─</span><i class="fas fa-folder"></i> <span class="ft-tag">[Carpeta con cualquier nombre]</span></div><div class="ft-row ft-lvl3"><span class="ft-branch">&nbsp;&nbsp;&nbsp;&nbsp;└─</span><i class="fas fa-file-alt"></i> <span class="ft-tag">(Acá pegás los archivos del juego)</span></div></div>' },
+        { texto: '¿Es el PKG principal y no solamente un update o DLC?', sub: 'Los updates y DLCs por sí solos no aparecen como juego. Primero tenés que instalar el PKG base del juego.' },
+        { texto: '¿La carpeta quedó correctamente instalada con todos sus archivos?', sub: 'Abrí la carpeta del juego dentro de Games y verificá que contenga las carpetas sce_sys y otros archivos. Si está vacía o solo tiene el .pkg, la extracción falló.' },
+        { texto: '¿La ruta de Games está configurada correctamente en el emulador?', sub: 'En ShadPS4 andá a Settings → General y verificá que la ruta de la carpeta Games apunte exactamente a donde instalaste el juego. Una ruta incorrecta hace que no detecte nada.' }
+    ]},
+    { titulo: 'El juego no inicia', desc: 'El juego aparece pero al darle play no abre o se queda cargando.', color: 'c-magenta', icon: 'fa-times-circle',
+      checklistTitulo: '❌ El juego no inicia', items: [
+        { texto: '¿Tenés suficiente espacio libre en disco?', sub: 'ShadPS4 necesita espacio para crear la shader cache y archivos temporales durante la carga. Se recomienda al menos 5GB libres más el tamaño del juego.' },
+        { texto: '¿Tenés suficiente memoria RAM disponible?', sub: 'Cerrá programas en segundo plano. ShadPS4 puede requerir 8-12GB de RAM para algunos juegos. Abrí el Administrador de Tareas y verificá cuánta RAM libre tenés antes de iniciar.' },
+        { texto: '¿Tu hardware cumple los requisitos mínimos?', sub: 'Requisitos mínimos: CPU de 8 núcleos, GPU con soporte Vulkan 1.3, 16GB de RAM recomendado. GPUs muy antiguas o iGPUs pueden no funcionar.' },
+        { texto: '¿Estás usando exactamente los mismos archivos del tutorial?', sub: 'Versiones distintas del emulador o archivos modificados pueden generar incompatibilidades. Descargá los archivos exactos que se muestran en el tutorial de CaTecnoFan.' },
+        { texto: '¿El antivirus puso algún archivo en cuarentena?', sub: 'Algunos antivirus detectan archivos del emulador como falsos positivos. Abrí tu antivirus, andá a Cuarentena o Historial, y verificá si bloqueó algún archivo de ShadPS4. Si es así, restauralo y agregá el emulador a las exclusiones.' }
+    ]},
+    { titulo: 'El emulador crashea', desc: 'ShadPS4 se cierra solo, sin aviso, mientras jugás o al iniciar.', color: 'c-rojo', icon: 'fa-skull-crossbones',
+      checklistTitulo: '💀 El emulador se cierra o crashea', items: [
+        { texto: '¿Tenés los sys_modules necesarios?', sub: 'Los sys_modules son archivos del sistema de PS4 que el emulador necesita para funcionar. Deben estar en %AppData%\\shadPS4\\sys_modules. Si usás el CaTecnoFan Launcher, se instalan automáticamente.' },
+        { texto: '¿El config.toml está correctamente configurado?', sub: 'Un config.toml mal configurado es causa frecuente de crashes. Si usás el Launcher de CaTecnoFan, este archivo se configura automáticamente. Si lo editaste manualmente, revisá que los paths y opciones sean correctos.' },
+        { texto: '¿El antivirus eliminó o bloqueó algún archivo del emulador?', sub: 'Revisá la cuarentena de tu antivirus. Si eliminó un archivo clave del emulador, el crash es inmediato al intentar cargarlo. Restaurá el archivo y añadí la carpeta del emulador a las exclusiones.' },
+        { texto: '¿Estás usando la misma versión del emulador del tutorial?', sub: 'Las versiones más nuevas del emulador pueden tener bugs o cambios de compatibilidad. Asegurate de usar la versión exacta indicada en el tutorial. No actualices a una versión diferente sin verificar que funciona.' },
+        { texto: '¿Tu GPU tiene los drivers actualizados?', sub: 'Drivers desactualizados generan crashes en Vulkan. Descargá los drivers más recientes desde nvidia.com, amd.com o intel.com según tu GPU.' }
+    ]},
+    { titulo: 'Glitches gráficos', desc: 'Pantalla rota, texturas mal, colores incorrectos o artefactos visuales.', color: 'c-amarillo', icon: 'fa-adjust',
+      checklistTitulo: '🎨 Glitches gráficos / pantalla rota', items: [
+        { texto: '¿Instalaste el Vulkan SDK?', sub: 'El Vulkan SDK es necesario para que el emulador compile los shaders correctamente. Sin él, podés ver pantallas negras, texturas incorrectas o artefactos visuales. Descargalo desde vulkan.lunarg.com o usá el Launcher de CaTecnoFan que lo instala automáticamente.' },
+        { texto: '¿Tenés el driver más reciente de tu GPU?', sub: 'Los glitches gráficos frecuentemente se resuelven actualizando los drivers. NVIDIA: GeForce Experience o nvidia.com. AMD: Adrenalin Software o amd.com. Intel: intel.com/drivers.' },
+        { texto: '¿Probaste borrar la Shader Cache?', sub: 'Una shader cache corrupta genera glitches visuales. Andá a %AppData%\\shadPS4 y borrá la carpeta shader_cache. El emulador la va a regenerar la próxima vez que inicies el juego (la primera carga va a ser más lenta).' },
+        { texto: '¿Estás usando exactamente los archivos del tutorial de CaTecnoFan?', sub: 'Versiones distintas o configuraciones diferentes pueden generar incompatibilidades gráficas. Asegurate de usar la misma versión del emulador y los mismos sys_modules que se muestran en el tutorial.' }
+    ]},
+    { titulo: 'Bajo rendimiento', desc: 'El juego va lento, con lag, stuttering o muy pocos FPS.', color: 'c-naranja', icon: 'fa-tachometer-alt',
+      checklistTitulo: '⚡ Bajo rendimiento / va lento', items: [
+        { texto: '¿Lossless Scaling está configurado correctamente?', sub: 'Lossless Scaling multiplica los FPS usando frame generation. Tiene que estar en modo LSFG, con la opción de escalado desactivada si no la necesitás. Si lo activás mal puede empeorar el rendimiento. Revisá el tutorial de Lossless Scaling de CaTecnoFan.' },
+        { texto: '¿Hay otros programas consumiendo CPU o RAM en segundo plano?', sub: 'Abrí el Administrador de Tareas (Ctrl+Shift+Esc) y verificá si hay programas comiendo recursos. Cerrá navegadores, Discord con video, grabadores de pantalla activos u otros juegos.' },
+        { texto: '¿El juego está compilando shaders?', sub: 'La primera vez que ejecutás un juego (o después de borrar la cache), el emulador compila los shaders en tiempo real, lo que genera stuttering y bajo rendimiento temporal. Jugá unos 10-15 minutos para que se acumulen y el rendimiento va a mejorar.' },
+        { texto: '¿Tenés el perfil de energía de Windows configurado en Alto Rendimiento?', sub: 'Windows en modo Equilibrado o Ahorro de energía limita la CPU. Andá a Panel de Control → Opciones de energía y seleccioná Alto Rendimiento o Rendimiento óptimo.' },
+        { texto: '¿Tu CPU y GPU cumplen los requisitos recomendados?', sub: 'Para buena performance se recomienda: CPU 8 núcleos / 16 hilos a 3.5GHz+, GPU equivalente a GTX 1070 / RX 580 o superior, 16GB RAM. Con hardware inferior el rendimiento va a ser limitado independientemente de la configuración.' }
+    ]},
+    { titulo: 'Otro problema', desc: 'Tengo un problema que no está en ninguna de las categorías anteriores.', color: 'c-gris', icon: 'fa-question-circle',
+      checklistTitulo: '❓ Otro problema', items: [
+        { texto: '¿Revisaste los tutoriales de CaTecnoFan en YouTube?', sub: 'En el canal hay tutoriales completos de instalación, configuración y solución de problemas comunes. Muchos problemas ya tienen solución explicada en video.' },
+        { texto: '¿El problema aparece con un juego específico o con todos?', sub: 'Si pasa con un solo juego, puede ser un problema de compatibilidad de ese título con la versión actual del emulador. Revisá si hay reportes de ese juego en la comunidad de ShadPS4.' },
+        { texto: '¿Probaste reinstalar el emulador desde cero?', sub: 'Una instalación limpia resuelve muchos problemas difíciles de diagnosticar. Usá el CaTecnoFan Launcher con la opción "Reparar entorno" o descargá el emulador nuevamente desde catecnofan.com.' }
+    ]}
+];
+
+const COLOR_HEX = { 'c-cian':'#00e5ff', 'c-magenta':'#ff00ff', 'c-rojo':'#ff4444', 'c-amarillo':'#ffff00', 'c-naranja':'#ff9a3c', 'c-gris':'#b07fff' };
+const COLORES_DISPONIBLES = Object.keys(COLOR_HEX);
+
+let tiposInfo = {};
+let checklists = {};
+let checkedState = {};
+let docIdsOrdenados = [];
+let edicionActual = null;
+
+let wizardTipoActual = null;
+let wizardPasoActual = 1;
+const WIZARD_TOTAL_PASOS = 5;
+
+function attr(str) { return (str || '').toString().replace(/"/g, '&quot;'); }
+
+async function cargarProblemas() {
+    const q = query(collection(db, "diagnostico_problemas"), orderBy("orden"));
+    let snap = await getDocs(q);
+
+    if (snap.empty) {
+        const batch = writeBatch(db);
+        DEFAULTS.forEach((p, i) => {
+            const ref = doc(collection(db, "diagnostico_problemas"));
+            batch.set(ref, { orden: i, titulo: p.titulo, desc: p.desc, color: p.color, icon: p.icon, checklistTitulo: p.checklistTitulo, items: p.items });
+        });
+        await batch.commit();
+        snap = await getDocs(q);
+    }
+
+    tiposInfo = {};
+    checklists = {};
+    docIdsOrdenados = [];
+    snap.forEach(d => {
+        const data = d.data();
+        docIdsOrdenados.push(d.id);
+        tiposInfo[d.id] = { titulo: data.titulo, desc: data.desc, color: data.color, icon: data.icon };
+        checklists[d.id] = { titulo: data.checklistTitulo, items: data.items || [] };
+    });
+
+    checkedState = {};
+    Object.keys(checklists).forEach(tipo => { checkedState[tipo] = checklists[tipo].items.map(() => false); });
+}
+
+function renderAcordeon() {
+    const cont = document.getElementById('acordeon-problema');
+    cont.innerHTML = Object.keys(tiposInfo).map(tipo => {
+        const info = tiposInfo[tipo];
+        const data = checklists[tipo];
+        const itemsHtml = data.items.map((item, i) => `
+            <div class="check-item" onclick="toggleCheck(this, '${tipo}', ${i})">
+                <i class="fas fa-circle check-icon" id="icon-${tipo}-${i}"></i>
+                <div class="check-content">
+                    <strong>${item.texto}</strong>
+                    <div class="check-sub" id="sub-${tipo}-${i}">${item.sub}</div>
+                </div>
+            </div>
+        `).join('');
+        return `
+        <div class="acc-item ${info.color}" data-tipo="${tipo}">
+            <button class="acc-header" type="button" onclick="toggleAcordeon('${tipo}')">
+                <div class="prob-icon-wrap"><i class="fas ${info.icon}"></i></div>
+                <div class="acc-header-texto">
+                    <span class="prob-titulo">${info.titulo}</span>
+                    <span class="prob-desc">${info.desc}</span>
+                </div>
+                <i class="fas fa-chevron-down acc-chevron"></i>
+            </button>
+            <div class="acc-panel">
+                <div class="acc-panel-inner">
+                    <div class="acc-panel-titulo">${data.titulo}</div>
+                    ${itemsHtml}
+                    <button class="btn-wizard-trigger" type="button" onclick="iniciarWizard('${tipo}')">
+                        <i class="fas fa-magic"></i> ¿No se resolvió? Iniciá diagnóstico personalizado
+                    </button>
+                </div>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+function toggleAcordeon(tipo) {
+    const actual = document.querySelector(`.acc-item[data-tipo="${tipo}"]`);
+    const abrirlo = !actual.classList.contains('open');
+
+    document.querySelectorAll('.acc-item').forEach(item => {
+        if (item.getAttribute('data-tipo') !== tipo && item.classList.contains('open')) {
+            item.classList.remove('open');
+            item.querySelector('.acc-panel').style.maxHeight = '0px';
+        }
+    });
+
+    const panel = actual.querySelector('.acc-panel');
+    if (abrirlo) {
+        actual.classList.add('open');
+        panel.style.maxHeight = panel.scrollHeight + 'px';
+    } else {
+        actual.classList.remove('open');
+        panel.style.maxHeight = '0px';
+    }
+}
+
+function toggleCheck(el, tipo, i) {
+    el.classList.toggle('checked');
+    const icon = document.getElementById(`icon-${tipo}-${i}`);
+    const sub  = document.getElementById(`sub-${tipo}-${i}`);
+    const marcado = el.classList.contains('checked');
+    checkedState[tipo][i] = marcado;
+    if (marcado) {
+        icon.className = 'fas fa-check-circle check-icon';
+        icon.style.color = '#00c853';
+        sub.classList.add('visible');
+    } else {
+        icon.className = 'fas fa-circle check-icon';
+        icon.style.color = '#555';
+        sub.classList.remove('visible');
+    }
+    const panel = document.querySelector(`.acc-item[data-tipo="${tipo}"] .acc-panel`);
+    if (panel && panel.style.maxHeight !== '0px') {
+        requestAnimationFrame(() => { panel.style.maxHeight = panel.scrollHeight + 'px'; });
+    }
+}
+
+function mostrarProblemas() {
+    document.getElementById('intro-section').style.display = 'none';
+    const sec = document.getElementById('problema-section');
+    sec.style.display = 'block';
+    sec.style.opacity = '0';
+    sec.style.animation = 'none';
+    requestAnimationFrame(() => { sec.style.animation = 'fadeInUp 0.5s ease forwards'; });
+}
+
+function iniciarDiagnostico() {
+    const btn      = document.getElementById('btn-iniciar');
+    const spinner  = document.getElementById('diag-spinner');
+    const launcher = document.getElementById('launcher-block');
+    btn.disabled = true;
+    btn.setAttribute('aria-busy', 'true');
+    spinner.classList.add('spin');
+    spinner.setAttribute('aria-hidden', 'false');
+    launcher.classList.add('fade-out');
+    setTimeout(() => {
+        mostrarProblemas();
+        spinner.classList.remove('spin');
+        spinner.setAttribute('aria-hidden', 'true');
+        btn.disabled = false;
+        btn.setAttribute('aria-busy', 'false');
+    }, 700);
+}
+
+function iniciarWizard(tipo) {
+    wizardTipoActual = tipo;
+    document.getElementById('problema-section').style.display = 'none';
+    document.getElementById('wizard-section').style.display = 'block';
+
+    const confirmDiv = document.getElementById('wizard-confirm-tipo');
+    const selectEl   = document.getElementById('wizard-select-tipo');
+
+    if (tipo && tiposInfo[tipo]) {
+        const info = tiposInfo[tipo];
+        confirmDiv.style.display = 'flex';
+        confirmDiv.innerHTML = `
+            <div class="wizard-confirm-card ${info.color}">
+                <div class="prob-icon-wrap"><i class="fas ${info.icon}"></i></div>
+                <div class="acc-header-texto">
+                    <span class="prob-titulo">${info.titulo}</span>
+                    <span class="prob-desc">${info.desc}</span>
+                </div>
+            </div>`;
+        selectEl.style.display = 'none';
+        document.getElementById('campo-problema').value = info.titulo;
+    } else {
+        confirmDiv.style.display = 'none';
+        confirmDiv.innerHTML = '';
+        selectEl.innerHTML = '<option value="">— Seleccioná tu problema —</option>' +
+            Object.keys(tiposInfo).map(t => `<option value="${t}">${tiposInfo[t].titulo}</option>`).join('');
+        selectEl.style.display = 'block';
+        document.getElementById('campo-problema').value = '';
+    }
+
+    renderIntentado(tipo);
+    wizardPasoActual = 1;
+    wizardMostrarPaso(1);
+    document.getElementById('wizard-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function seleccionarTipoWizard(tipo) {
+    wizardTipoActual = tipo || null;
+    document.getElementById('campo-problema').value = tipo ? tiposInfo[tipo].titulo : '';
+    renderIntentado(wizardTipoActual);
+}
+
+function renderIntentado(tipo) {
+    const cont = document.getElementById('wizard-intentado-items');
+    if (!tipo || !checklists[tipo]) {
+        cont.innerHTML = '<p style="font-family:sans-serif; color:#666; font-size:0.85em;">Elegí primero tu problema en el paso 1.</p>';
+        return;
+    }
+    const data = checklists[tipo];
+    cont.innerHTML = data.items.map((item, i) => {
+        const marcado = checkedState[tipo][i];
+        return `
+        <div class="check-item ${marcado ? 'checked' : ''}" onclick="toggleIntentado(this, '${tipo}', ${i})">
+            <i class="fas ${marcado ? 'fa-check-circle' : 'fa-circle'} check-icon" id="wiz-icon-${i}" style="color:${marcado ? '#00c853' : '#555'};"></i>
+            <div class="check-content"><strong>${item.texto}</strong></div>
+        </div>`;
+    }).join('');
+}
+
+function toggleIntentado(el, tipo, i) {
+    el.classList.toggle('checked');
+    const marcado = el.classList.contains('checked');
+    checkedState[tipo][i] = marcado;
+    const icon = document.getElementById(`wiz-icon-${i}`);
+    icon.className = marcado ? 'fas fa-check-circle check-icon' : 'fas fa-circle check-icon';
+    icon.style.color = marcado ? '#00c853' : '#555';
+}
+
+function actualizarProgreso() {
+    document.querySelectorAll('.wizard-progress-step').forEach(step => {
+        step.classList.toggle('done', parseInt(step.getAttribute('data-paso')) <= wizardPasoActual);
+    });
+    document.getElementById('wizard-paso-label').textContent = `Paso ${wizardPasoActual} de ${WIZARD_TOTAL_PASOS}`;
+}
+
+function wizardMostrarPaso(n) {
+    document.querySelectorAll('.wizard-step').forEach(s => s.classList.remove('active'));
+    document.querySelector(`.wizard-step[data-step="${n}"]`).classList.add('active');
+    document.getElementById('wizard-btn-back').style.visibility = n === 1 ? 'hidden' : 'visible';
+    document.getElementById('wizard-btn-next').style.display = n === WIZARD_TOTAL_PASOS ? 'none' : 'flex';
+    document.getElementById('wizard-btn-submit').style.display = n === WIZARD_TOTAL_PASOS ? 'flex' : 'none';
+    actualizarProgreso();
+}
+
+function wizardNext() {
+    if (wizardPasoActual === 1 && !wizardTipoActual) {
+        alert('Elegí primero cuál es tu problema.');
+        return;
+    }
+    if (wizardPasoActual === 1) renderIntentado(wizardTipoActual);
+    if (wizardPasoActual < WIZARD_TOTAL_PASOS) {
+        wizardPasoActual++;
+        wizardMostrarPaso(wizardPasoActual);
+    }
+}
+
+function wizardBack() {
+    if (wizardPasoActual > 1) {
+        wizardPasoActual--;
+        wizardMostrarPaso(wizardPasoActual);
+    }
+}
+
+function cerrarWizard() {
+    document.getElementById('wizard-section').style.display = 'none';
+    document.getElementById('problema-section').style.display = 'block';
+    document.getElementById('problema-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+document.getElementById('formDiagnostico').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    if (wizardTipoActual && checklists[wizardTipoActual]) {
+        const intentado = checklists[wizardTipoActual].items
+            .filter((item, i) => checkedState[wizardTipoActual][i])
+            .map(item => item.texto)
+            .join(' | ');
+        document.getElementById('campo-intentado').value = intentado || 'Ninguno marcado';
+    }
+
+    const formData = new FormData(this);
+    const payload  = Object.fromEntries(formData.entries());
+    const btn = document.getElementById('wizard-btn-submit');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> ENVIANDO...';
+    try {
+        const response = await fetch('https://ctfbackend.vercel.app/api/diagnostico', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        if (response.ok) {
+            window.location.href = 'https://catecnofan.com/gracias.html';
+        } else {
+            alert('Hubo un error al enviar. Probá de nuevo en unos minutos.');
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-paper-plane"></i> ENVIAR DIAGNÓSTICO';
+        }
+    } catch (err) {
+        alert('Error de conexión. Revisá tu internet.');
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-paper-plane"></i> ENVIAR DIAGNÓSTICO';
+    }
+});
+
+/* ══════════════ PANEL ADMIN ══════════════ */
+
+function toggleAdminDiag() {
+    const p = document.getElementById('admin-diag-panel');
+    p.style.display = p.style.display === 'block' ? 'none' : 'block';
+    if (p.style.display === 'block') renderAdminList();
+}
+
+function renderAdminList() {
+    edicionActual = null;
+    const cont = document.getElementById('adp-lista');
+    if (docIdsOrdenados.length === 0) {
+        cont.innerHTML = '<div class="adp-loading">No hay problemas cargados todavía.</div>';
+        return;
+    }
+    cont.innerHTML = docIdsOrdenados.map((id, idx) => {
+        const info = tiposInfo[id];
+        const data = checklists[id];
+        const hex = COLOR_HEX[info.color] || '#00e5ff';
+        return `
+        <div class="adp-card">
+            <div class="adp-card-top">
+                <div class="adp-card-icon" style="background:${hex};"><i class="fas ${info.icon}"></i></div>
+                <div class="adp-card-info">
+                    <div class="adp-card-titulo">${info.titulo}</div>
+                    <div class="adp-card-sub">${data.items.length} pregunta(s)</div>
+                </div>
+            </div>
+            <div class="adp-card-actions">
+                <button class="adp-mini-btn" onclick="moverProblema('${id}', -1)" ${idx === 0 ? 'disabled' : ''}>▲</button>
+                <button class="adp-mini-btn" onclick="moverProblema('${id}', 1)" ${idx === docIdsOrdenados.length - 1 ? 'disabled' : ''}>▼</button>
+                <button class="adp-mini-btn" onclick="abrirFormProblema('${id}')">EDITAR</button>
+                <button class="adp-mini-btn danger" onclick="borrarProblema('${id}')">BORRAR</button>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+function abrirFormProblema(id) {
+    if (id) {
+        const info = tiposInfo[id];
+        const data = checklists[id];
+        edicionActual = {
+            id, titulo: info.titulo, desc: info.desc, color: info.color, icon: info.icon,
+            checklistTitulo: data.titulo,
+            items: data.items.map(i => ({ texto: i.texto, sub: i.sub || '' }))
+        };
+    } else {
+        edicionActual = { id: null, titulo: '', desc: '', color: 'c-cian', icon: 'fa-question-circle', checklistTitulo: '', items: [{ texto: '', sub: '' }] };
+    }
+    renderFormProblema();
+}
+
+function renderFormProblema() {
+    const cont = document.getElementById('adp-lista');
+    cont.innerHTML = `
+        <div class="adp-form-group">
+            <label>Título del problema</label>
+            <input type="text" id="adp-f-titulo" value="${attr(edicionActual.titulo)}" placeholder="Ej: El juego no aparece">
+        </div>
+        <div class="adp-form-group">
+            <label>Descripción corta (se ve en el acordeón)</label>
+            <input type="text" id="adp-f-desc" value="${attr(edicionActual.desc)}" placeholder="Ej: Instalaste el juego pero no lo ves...">
+        </div>
+        <div class="adp-form-group">
+            <label>Color</label>
+            <select id="adp-f-color">
+                ${COLORES_DISPONIBLES.map(c => `<option value="${c}" ${c === edicionActual.color ? 'selected' : ''}>${c}</option>`).join('')}
+            </select>
+        </div>
+        <div class="adp-form-group">
+            <label>Ícono (Font Awesome, sin "fas")</label>
+            <input type="text" id="adp-f-icon" value="${attr(edicionActual.icon)}" placeholder="Ej: fa-search">
+            <div class="adp-hint">Buscá nombres de íconos en fontawesome.com/icons (versión Free, estilo Solid).</div>
+        </div>
+        <div class="adp-form-group">
+            <label>Título del checklist (arriba de las preguntas)</label>
+            <input type="text" id="adp-f-checktitulo" value="${attr(edicionActual.checklistTitulo)}" placeholder="Ej: 🔍 El juego no aparece en el emulador">
+        </div>
+        <label style="display:block;color:var(--cian-neon);font-size:0.72em;text-transform:uppercase;letter-spacing:0.5px;margin:18px 0 8px;">Preguntas del checklist</label>
+        <div id="adp-items-cont"></div>
+        <button type="button" class="adp-btn-additem" onclick="agregarItemForm()">+ AGREGAR PREGUNTA</button>
+        <div class="adp-form-actions">
+            <button class="adp-btn-save" onclick="guardarProblema()">GUARDAR</button>
+            <button class="adp-btn-cancel" onclick="renderAdminList()">CANCELAR</button>
+        </div>
+    `;
+    renderItemsForm();
+}
+
+function renderItemsForm() {
+    const cont = document.getElementById('adp-items-cont');
+    cont.innerHTML = edicionActual.items.map((item, i) => `
+        <div class="adp-item-row">
+            <button type="button" class="adp-mini-btn danger" onclick="quitarItemForm(${i})">X</button>
+            <div class="adp-form-group">
+                <label>Pregunta ${i + 1}</label>
+                <input type="text" class="adp-item-texto" data-idx="${i}" value="${attr(item.texto)}" placeholder="Ej: ¿Instalaste el juego dentro de una subcarpeta de Games?">
+            </div>
+            <div class="adp-form-group" style="margin-bottom:0;">
+                <label>Explicación / solución</label>
+                <div class="adp-item-toolbar">
+                    <button type="button" class="adp-toolbar-btn" onclick="adpInsertarLink(${i})"><i class="fas fa-link"></i> Link</button>
+                </div>
+                <div class="adp-item-sub-edit" contenteditable="true" data-idx="${i}" data-placeholder="Escribí acá la explicación, tal cual se va a ver...">${item.sub || ''}</div>
+                <div class="adp-hint">Esto se ve tal cual lo escribís. Seleccioná un texto y tocá "Link" para convertirlo en un enlace.</div>
+            </div>
+        </div>
+    `).join('');
+}
+
+function guardarCamposItemsEnMemoria() {
+    document.querySelectorAll('.adp-item-texto').forEach(inp => { edicionActual.items[inp.dataset.idx].texto = inp.value; });
+    document.querySelectorAll('.adp-item-sub-edit').forEach(div => { edicionActual.items[div.dataset.idx].sub = div.innerHTML; });
+}
+
+function adpInsertarLink(i) {
+    const editable = document.querySelector(`.adp-item-sub-edit[data-idx="${i}"]`);
+    editable.focus();
+    const seleccion = window.getSelection();
+    const textoSeleccionado = seleccion.toString();
+    const url = prompt('Pegá la URL del link:', 'https://');
+    if (!url) return;
+    const textoLink = textoSeleccionado || prompt('¿Qué texto se va a ver?', url) || url;
+    document.execCommand('insertHTML', false, `<a href="${url}" target="_blank">${textoLink}</a>`);
+}
+
+function agregarItemForm() {
+    guardarCamposItemsEnMemoria();
+    edicionActual.items.push({ texto: '', sub: '' });
+    renderItemsForm();
+}
+
+function quitarItemForm(i) {
+    guardarCamposItemsEnMemoria();
+    edicionActual.items.splice(i, 1);
+    if (edicionActual.items.length === 0) edicionActual.items.push({ texto: '', sub: '' });
+    renderItemsForm();
+}
+
+async function guardarProblema() {
+    guardarCamposItemsEnMemoria();
+    const titulo          = document.getElementById('adp-f-titulo').value.trim();
+    const desc             = document.getElementById('adp-f-desc').value.trim();
+    const color            = document.getElementById('adp-f-color').value;
+    const icon             = document.getElementById('adp-f-icon').value.trim() || 'fa-question-circle';
+    const checklistTitulo  = document.getElementById('adp-f-checktitulo').value.trim();
+    const items            = edicionActual.items.filter(it => it.texto.trim() !== '');
+
+    if (!titulo) { alert('Falta el título del problema.'); return; }
+    if (items.length === 0) { alert('Agregá al menos una pregunta con texto.'); return; }
+
+    const payload = { titulo, desc, color, icon, checklistTitulo, items };
+
+    try {
+        if (edicionActual.id) {
+            await updateDoc(doc(db, "diagnostico_problemas", edicionActual.id), payload);
+        } else {
+            payload.orden = docIdsOrdenados.length;
+            await addDoc(collection(db, "diagnostico_problemas"), payload);
+        }
+        await cargarProblemas();
+        renderAcordeon();
+        renderAdminList();
+    } catch (e) {
+        alert('Error al guardar: ' + e.message);
+    }
+}
+
+async function borrarProblema(id) {
+    if (!confirm('¿Borrar este problema y todas sus preguntas? Esta acción no se puede deshacer.')) return;
+    try {
+        await deleteDoc(doc(db, "diagnostico_problemas", id));
+        await cargarProblemas();
+        renderAcordeon();
+        renderAdminList();
+    } catch (e) {
+        alert('Error al borrar: ' + e.message);
+    }
+}
+
+async function moverProblema(id, dir) {
+    const idx = docIdsOrdenados.indexOf(id);
+    const newIdx = idx + dir;
+    if (newIdx < 0 || newIdx >= docIdsOrdenados.length) return;
+    const otroId = docIdsOrdenados[newIdx];
+    try {
+        await updateDoc(doc(db, "diagnostico_problemas", id), { orden: newIdx });
+        await updateDoc(doc(db, "diagnostico_problemas", otroId), { orden: idx });
+        await cargarProblemas();
+        renderAcordeon();
+        renderAdminList();
+    } catch (e) {
+        alert('Error al reordenar: ' + e.message);
+    }
+}
+
+document.addEventListener('keydown', (e) => {
+    if (e.ctrlKey && e.altKey && e.key.toLowerCase() === 'd') {
+        e.preventDefault();
+        toggleAdminDiag();
+    }
+});
+
+/* ══════════════ CONTADOR DE VISITAS ══════════════ */
+
+async function handleCounter() {
+    const counterDoc = doc(db, "stats", "visitas");
+    try {
+        await updateDoc(counterDoc, { count: increment(1) });
+        const snap = await getDoc(counterDoc);
+        if (snap.exists()) document.getElementById('stats-count').innerText = snap.data().count;
+    } catch (e) {}
+}
+
+/* ══════════════ INIT ══════════════ */
+
+async function init() {
+    await cargarProblemas();
+    renderAcordeon();
+    handleCounter();
+}
+init();
+
+/* ══════════════ EXPONER FUNCIONES USADAS EN onclick/onchange ══════════════ */
+window.iniciarDiagnostico   = iniciarDiagnostico;
+window.toggleAcordeon       = toggleAcordeon;
+window.toggleCheck          = toggleCheck;
+window.iniciarWizard        = iniciarWizard;
+window.seleccionarTipoWizard = seleccionarTipoWizard;
+window.toggleIntentado      = toggleIntentado;
+window.wizardNext           = wizardNext;
+window.wizardBack           = wizardBack;
+window.cerrarWizard         = cerrarWizard;
+window.toggleAdminDiag      = toggleAdminDiag;
+window.renderAdminList      = renderAdminList;
+window.abrirFormProblema    = abrirFormProblema;
+window.agregarItemForm      = agregarItemForm;
+window.quitarItemForm       = quitarItemForm;
+window.adpInsertarLink      = adpInsertarLink;
+window.guardarProblema      = guardarProblema;
+window.borrarProblema       = borrarProblema;
+window.moverProblema        = moverProblema;
+</script>
+
+<script>
+const API_KEY    = 'AIzaSyBa_xg_kBBmAe1cJVEhE5BiOfCjlQ-Ib0w';
+const CHANNEL_ID = 'UCG_8fY6lpJwWW0cut5Z5dfA';
+async function fetchGlobalStats() {
+    try {
+        const res  = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${CHANNEL_ID}&key=${API_KEY}`);
+        const data = await res.json();
+        const s    = data?.items?.[0]?.statistics;
+        if (s) {
+            document.getElementById('subs-count').innerText        = (s.subscriberCount / 1000).toFixed(1) + 'K';
+            document.getElementById('views-total-count').innerText = Intl.NumberFormat().format(s.viewCount);
+        }
+    } catch(e) {}
+}
+fetchGlobalStats();
+</script>
+
+<script type="module" src="login.js"></script>
+</body>
+</html>
