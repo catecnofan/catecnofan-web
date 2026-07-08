@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link rel="icon" type="image/png" href="iconodef.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía del Launcher | CaTecnoFan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="login.css">
+    <style>
+        :root {
+            --cian-neon: #00e5ff;
+            --magenta-neon: #ff00ff;
+            --amarillo-neon: #ffff00;
+            --verde-term: #4dff9e;
+            --naranja: #ff9a3c;
+            --rojo: #ff5f56;
+            --bg: #080808;
+            --panel: #111111;
+            --panel-2: #151515;
+            --mono: 'JetBrains Mono', 'Courier New', monospace;
+        }
+        html { overflow-y: scroll; scroll-behavior: smooth; }
+        body {
+            background-color: var(--bg); color: #ffffff;
+            font-family: 'Arial Black', Gadget, sans-serif;
+            margin: 0; padding: 0;
+            background-image: linear-gradient(rgba(0,0,0,0.96), rgba(0,0,0,0.96)), url('banner.png');
+            background-attachment: fixed; background-size: cover; background-position: center;
+        }
+        .bunker-dashboard {
+            position: fixed; top: 50%; left: calc(50% + 650px);
+            transform: translate(-50%, -50%); width: 140px;
+            background: rgba(10,10,10,0.9); border: 2px solid var(--cian-neon);
+            border-radius: 15px; padding: 20px 10px;
+            box-shadow: 0 0 25px rgba(0,229,255,0.3);
+            z-index: 10000; text-align: center; backdrop-filter: blur(5px);
+        }
+        .dash-label { font-size: 0.6em; color: #888; text-transform: uppercase; margin-bottom: 5px; display: block; }
+        .dash-value { font-size: 0.9em; color: #fff; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: bold; }
+        .btn-subscribe { display: block; background: #ff0000; color: white; text-decoration: none; font-size: 0.65em; padding: 8px 5px; border-radius: 5px; text-transform: uppercase; font-weight: bold; margin-top: 10px; }
+        @media (max-width: 1350px) { .bunker-dashboard { display: none; } }
+
+        header { width: 100%; background-color: #000; text-align: center; overflow: hidden; }
+        .banner-img { width: 100%; height: auto; display: block; margin: 0 auto; }
+        .linea-magenta { width: 100%; height: 5px; background-color: var(--magenta-neon); box-shadow: 0px 0px 25px var(--magenta-neon); }
+
+        .container {
+            max-width: 1000px; margin: -80px auto 50px auto;
+            background-color: rgba(10,10,10,0.98); border-radius: 20px;
+            border: 1px solid #333; box-shadow: 0px 0px 60px rgba(0,0,0,1);
+            position: relative; z-index: 10; overflow: hidden;
+        }
+        nav { background-color: #1a1a1a; border-bottom: 2px solid var(--cian-neon); }
+        nav ul { list-style: none; margin: 0; padding: 0; display: flex; justify-content: center; flex-wrap: wrap; }
+        nav li { position: relative; flex: 1; min-width: 150px; border-right: 1px solid #333; }
+        nav li:last-child { border-right: none; }
+        nav a { color: white; text-decoration: none; text-transform: uppercase; font-size: 0.8em; padding: 18px 10px; display: flex; align-items: center; justify-content: center; gap: 12px; transition: 0.3s; }
+        nav a i { font-size: 1.2em; color: var(--cian-neon); width: 20px; text-align: center; }
+        nav a:hover { background-color: #252525; color: var(--cian-neon); }
+        .dropdown-content { display: none; position: absolute; background-color: #111; min-width: 220px; border: 1px solid var(--cian-neon); top: 100%; left: 0; z-index: 2000; }
+        .dropdown:hover .dropdown-content { display: block; }
+        .dropdown-content a { justify-content: flex-start; padding: 15px; border-bottom: 1px solid #222; }
+
+        /* ============ HERO ============ */
+        .hero { padding: 55px 40px 35px 40px; text-align: center; border-bottom: 1px solid #222; background: radial-gradient(ellipse at 50% 0%, rgba(0,229,255,0.08), transparent 60%); }
+        .hero-eyebrow { font-family: var(--mono); font-size: 0.72em; letter-spacing: 3px; color: var(--verde-term); text-transform: uppercase; margin-bottom: 16px; }
+        .hero h1 { font-size: 2.2em; margin: 0 0 14px 0; color: #fff; text-transform: uppercase; text-shadow: 0 0 25px rgba(0,229,255,0.35); }
+        .hero h1 span { color: var(--cian-neon); }
+        .hero p.tagline { font-family: sans-serif; font-weight: normal; color: #bbb; font-size: 1em; max-width: 620px; margin: 0 auto 10px auto; line-height: 1.6; }
+        .hero .back-link { font-family: sans-serif; font-size: 0.82em; }
+        .hero .back-link a { color: var(--cian-neon); text-decoration: none; }
+        .hero .back-link a:hover { text-decoration: underline; }
+
+        /* ============ QUICK NAV (chips) ============ */
+        .quicknav-wrap { padding: 22px 40px; border-bottom: 1px solid #1c1c1c; background: #0c0c0c; }
+        .quicknav { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; max-width: 780px; margin: 0 auto; }
+        .quicknav a {
+            font-family: var(--mono); font-size: 0.72em; text-transform: uppercase; letter-spacing: 0.5px;
+            color: #ccc; background: var(--panel); border: 1px solid #2c2c2c; border-radius: 20px;
+            padding: 8px 16px; text-decoration: none; transition: 0.2s; display: inline-flex; align-items: center; gap: 6px;
+        }
+        .quicknav a i { color: var(--cian-neon); font-size: 0.95em; }
+        .quicknav a:hover { border-color: var(--cian-neon); color: #fff; }
+
+        /* ============ SECTIONS ============ */
+        section.guide-section { padding: 55px 40px; border-bottom: 1px solid #1c1c1c; scroll-margin-top: 20px; }
+        section.guide-section:nth-child(even) { background: rgba(255,255,255,0.012); }
+
+        .sec-head { display: flex; align-items: center; gap: 16px; margin-bottom: 8px; max-width: 720px; margin-left: auto; margin-right: auto; }
+        .sec-head .sec-icon {
+            width: 46px; height: 46px; min-width: 46px; border-radius: 10px; display: flex; align-items: center; justify-content: center;
+            background: var(--panel); border: 1px solid #2c2c2c; font-size: 1.2em; color: var(--cian-neon);
+        }
+        .sec-head h2 { color: #fff; text-transform: uppercase; font-size: 1.25em; margin: 0; text-shadow: 0 0 10px rgba(0,229,255,0.25); }
+        .sec-head .sec-tag { font-family: var(--mono); font-size: 0.65em; color: var(--verde-term); text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 4px; }
+        p.sec-sub { font-family: sans-serif; font-weight: normal; color: #999; max-width: 680px; margin: 0 auto 34px auto; font-size: 0.92em; line-height: 1.6; }
+
+        /* steps */
+        .steps { max-width: 680px; margin: 0 auto; counter-reset: step; }
+        .step { display: grid; grid-template-columns: 46px 1fr; gap: 18px; margin-bottom: 26px; position: relative; }
+        .step:not(:last-child)::before {
+            content: ""; position: absolute; left: 22px; top: 46px; bottom: -26px; width: 2px;
+            background: linear-gradient(#2c2c2c, #1a1a1a);
+        }
+        .step-num {
+            counter-increment: step; width: 46px; height: 46px; border-radius: 50%;
+            border: 2px solid var(--cian-neon); display: flex; align-items: center; justify-content: center;
+            font-family: var(--mono); font-weight: 700; color: var(--cian-neon); font-size: 1.05em;
+            background: #0d0d0d; z-index: 2;
+        }
+        .step-num::before { content: counter(step); }
+        .step-body h4 { margin: 8px 0 6px 0; color: var(--amarillo-neon); font-size: 0.95em; text-transform: uppercase; }
+        .step-body p { margin: 0; font-family: sans-serif; font-weight: normal; color: #bbb; font-size: 0.88em; line-height: 1.6; }
+        .step-body code {
+            background: #1a1a1a; border: 1px solid #2c2c2c; padding: 2px 7px; border-radius: 4px;
+            font-family: var(--mono); font-size: 0.85em; color: var(--cian-neon);
+        }
+
+        /* screenshot placeholder */
+        .shot {
+            margin-top: 14px; border: 2px dashed #333; border-radius: 10px; background: #0c0c0c;
+            padding: 30px 16px; text-align: center; color: #555;
+        }
+        .shot i { font-size: 1.6em; display: block; margin-bottom: 8px; color: #444; }
+        .shot span { font-family: var(--mono); font-size: 0.7em; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        /* callouts */
+        .callout { max-width: 680px; margin: 0 auto 10px auto; border-radius: 10px; padding: 16px 18px; font-family: sans-serif; font-size: 0.85em; line-height: 1.6; display: flex; gap: 12px; align-items: flex-start; }
+        .callout i { margin-top: 2px; }
+        .callout.tip { background: rgba(77,255,158,0.06); border: 1px solid rgba(77,255,158,0.25); color: #cdead9; }
+        .callout.tip i { color: var(--verde-term); }
+        .callout.warn { background: rgba(255,159,60,0.07); border: 1px solid rgba(255,154,60,0.3); color: #f0dcc4; }
+        .callout.warn i { color: var(--naranja); }
+
+        /* requirement chips */
+        .req-chips { display: flex; flex-wrap: wrap; gap: 10px; max-width: 680px; margin: 0 auto 28px auto; justify-content: center; }
+        .req-chip {
+            font-family: var(--mono); font-size: 0.75em; background: var(--panel); border: 1px solid #2c2c2c;
+            border-radius: 8px; padding: 10px 14px; display: flex; align-items: center; gap: 8px; color: #ddd;
+        }
+        .req-chip i { color: var(--verde-term); }
+
+        /* troubleshoot table */
+        .trouble { max-width: 720px; margin: 0 auto; }
+        .trouble-row {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding: 18px 0; border-bottom: 1px solid #222;
+        }
+        .trouble-row:last-child { border-bottom: none; }
+        .trouble-row .msg {
+            font-family: var(--mono); font-size: 0.78em; color: var(--rojo); background: rgba(255,95,86,0.08);
+            border: 1px solid rgba(255,95,86,0.25); border-radius: 6px; padding: 10px 12px; align-self: start;
+        }
+        .trouble-row .sol { font-family: sans-serif; font-weight: normal; color: #bbb; font-size: 0.85em; line-height: 1.6; }
+        .trouble-row .sol b { color: #fff; }
+        @media (max-width: 640px) { .trouble-row { grid-template-columns: 1fr; } }
+
+        /* final cta */
+        .final-cta { text-align: center; padding: 55px 40px 65px 40px; }
+        .final-cta h2 { color: #fff; text-transform: uppercase; font-size: 1.3em; margin-bottom: 10px; }
+        .final-cta p { font-family: sans-serif; font-weight: normal; color: #999; margin-bottom: 26px; font-size: 0.9em; }
+        .btn-download-main {
+            display: inline-flex; align-items: center; gap: 14px;
+            background: linear-gradient(135deg, #1a1a1a, #0d0d0d);
+            border: 2px solid var(--cian-neon); color: #fff;
+            padding: 16px 30px; border-radius: 10px; text-decoration: none;
+            font-size: 1em; text-transform: uppercase; letter-spacing: 0.5px;
+            box-shadow: 0 0 30px rgba(0,229,255,0.2); transition: 0.25s;
+        }
+        .btn-download-main:hover { background: var(--cian-neon); color: #000; transform: translateY(-2px); box-shadow: 0 0 45px rgba(0,229,255,0.5); }
+
+        footer { text-align: center; padding: 60px; color: #555; font-family: sans-serif; font-size: 0.9em; }
+        .contador-digital { display: inline-block; padding: 10px 20px; border: 1px solid var(--cian-neon); border-radius: 10px; background: rgba(0,229,255,0.05); box-shadow: 0 0 15px rgba(0,229,255,0.2); margin-bottom: 20px; }
+        #stats-count { font-family: 'Courier New', Courier, monospace; color: var(--cian-neon); font-size: 1.2rem; text-shadow: 0 0 10px var(--cian-neon); font-weight: bold; }
+
+        @media (max-width: 768px) {
+            .container { margin-top: -30px; width: 95%; }
+            nav li { min-width: 120px; }
+            .hero h1 { font-size: 1.6em; }
+            section.guide-section { padding: 40px 20px; }
+            .quicknav-wrap { padding: 20px; }
+        }
+    </style>
+</head>
+<script>
+const API_KEY = 'AIzaSyBa_xg_kBBmAe1cJVEhE5BiOfCjlQ-Ib0w';
+const CHANNEL_ID = 'UCG_8fY6lpJwWW0cut5Z5dfA';
+async function fetchGlobalStats() {
+    try {
+        const res = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${CHANNEL_ID}&key=${API_KEY}`);
+        const data = await res.json();
+        const s = data?.items?.[0]?.statistics;
+        if (s) {
+            document.getElementById('subs-count').innerText = (s.subscriberCount/1000).toFixed(1) + "K";
+            document.getElementById('views-total-count').innerText = Intl.NumberFormat().format(s.viewCount);
+        }
+    } catch(e) { console.error(e); }
+}
+fetchGlobalStats();
+</script>
+<body>
+<aside class="bunker-dashboard">
+    <span class="dash-label">YouTube Subs</span>
+    <div class="dash-value"><i class="fab fa-youtube" style="color:#ff0000;"></i><span id="subs-count">--</span></div>
+    <span class="dash-label">Total Views</span>
+    <div class="dash-value"><i class="fas fa-play-circle" style="color:#00e5ff;"></i><span id="views-total-count">--</span></div>
+    <a href="https://www.youtube.com/@CaTecnoFan?sub_confirmation=1" target="_blank" class="btn-subscribe">SUSCRIBIRSE</a>
+</aside>
+
+<header>
+    <div id="login-container"></div>
+    <img src="banner.png" alt="CaTecnoFan Banner" class="banner-img">
+    <div class="linea-magenta"></div>
+</header>
+
+<div class="container">
+    <nav>
+        <ul>
+            <li><a href="index.html"><i class="fas fa-home"></i> INICIO</a></li>
+            <li class="dropdown">
+                <a href="#"><i class="fas fa-download"></i> DESCARGAS ▼</a>
+                <div class="dropdown-content">
+                    <a href="emuladores.html"><i class="fas fa-gamepad"></i> EMULADORES</a>
+                    <a href="utilidades.html"><i class="fas fa-tools"></i> UTILIDADES</a>
+                    <a href="launcher.html"><i class="fas fa-rocket"></i> LAUNCHER</a>
+                </div>
+            </li>
+            <li><a href="https://www.youtube.com/@CaTecnoFan" target="_blank"><i class="fab fa-youtube"></i> YOUTUBE</a></li>
+            <li class="dropdown">
+                <a href="#"><i class="fas fa-envelope"></i> AYUDA ▼</a>
+                <div class="dropdown-content">
+                    <a href="contacto.html"><i class="fas fa-gamepad"></i> CONTACTO</a>
+                    <a href="diagnostico.html"><i class="fas fa-tools"></i> DIAGNOSTICO</a>
+                    <a href="guia.html"><i class="fas fa-book"></i> GUÍA</a>
+                </div>
+            </li>
+            <li><a href="comunidad.html"><i class="fas fa-comments"></i> COMUNIDAD</a></li>
+        </ul>
+    </nav>
+
+    <!-- ===================== HERO ===================== -->
+    <section class="hero">
+        <div class="hero-eyebrow">GUÍA COMPLETA · CATECNOFAN LAUNCHER</div>
+        <h1>Cómo usar el <span>Launcher</span></h1>
+        <p class="tagline">
+            Paso a paso, función por función. Desde elegir tu modo hasta instalar tu primer juego,
+            un update o un DLC. Si te trabaste en algo, está acá.
+        </p>
+        <div class="back-link"><a href="launcher.html">← Volver a la página de descarga</a></div>
+    </section>
+
+    <!-- ===================== QUICK NAV ===================== -->
+    <div class="quicknav-wrap">
+        <div class="quicknav">
+            <a href="#modos"><i class="fas fa-sliders-h"></i> Elegir modo</a>
+            <a href="#requisitos"><i class="fas fa-check-double"></i> Requisitos</a>
+            <a href="#pkg"><i class="fas fa-gamepad"></i> Instalar PKG</a>
+            <a href="#update"><i class="fas fa-sync-alt"></i> Update</a>
+            <a href="#dlc"><i class="fas fa-puzzle-piece"></i> DLC</a>
+            <a href="#lanzar"><i class="fas fa-rocket"></i> Lanzar</a>
+            <a href="#reparar"><i class="fas fa-wrench"></i> Reparar</a>
+            <a href="#cambiar-modo"><i class="fas fa-exchange-alt"></i> Cambiar modo</a>
+            <a href="#problemas"><i class="fas fa-exclamation-triangle"></i> Problemas</a>
+        </div>
+    </div>
+
+    <!-- ===================== MODOS ===================== -->
+    <section class="guide-section" id="modos">
+        <div class="sec-head">
+            <div class="sec-icon"><i class="fas fa-sliders-h"></i></div>
+            <div><span class="sec-tag">Primer paso</span><h2>Elegir tu modo</h2></div>
+        </div>
+        <p class="sec-sub">La primera vez que abrís el launcher, te pregunta cómo querés usarlo. Esto define dónde se instala todo y cómo se maneja el emulador de ahí en adelante.</p>
+
+        <div class="steps">
+            <div class="step">
+                <div class="step-num"></div>
+                <div class="step-body">
+                    <h4>Modo recomendado</h4>
+                    <p>Elegilo si no tenés nada instalado todavía. El launcher descarga el emulador, lo instala en <code>C:\ShadCTF</code> y configura todo automáticamente. Es la opción más simple: apretás botones y listo.</p>
+                    <div class="shot"><i class="fas fa-image"></i><span>Captura: pantalla de selección de modo</span></div>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num"></div>
+                <div class="step-body">
+                    <h4>Modo portable</h4>
+                    <p>Elegilo si ya tenés una copia del emulador descargada por tu cuenta. Vas a tener que indicarle al launcher dos cosas: el archivo <code>.exe</code> del emulador y la carpeta donde tenés (o vas a tener) tus juegos.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num"></div>
+                <div class="step-body">
+                    <h4>Ya uso un emulador</h4>
+                    <p>Parecido al anterior: para quien ya venía jugando con su propia configuración y no quiere que el launcher toque nada de lo que ya tiene armado. Igual que en portable, elegís tu <code>.exe</code> y tu carpeta de juegos.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="callout tip">
+            <i class="fas fa-lightbulb"></i>
+            <div>Si no estás seguro, elegí <b>Modo recomendado</b>. Es el que menos pasos manuales requiere y el launcher se encarga de todo el resto.</div>
+        </div>
+    </section>
+
+    <!-- ===================== REQUISITOS ===================== -->
+    <section class="guide-section" id="requisitos">
+        <div class="sec-head">
+            <div class="sec-icon"><i class="fas fa-check-double"></i></div>
+            <div><span class="sec-tag">Automático</span><h2>Requisitos del sistema</h2></div>
+        </div>
+        <p class="sec-sub">Después de elegir modo, el launcher revisa que tengas instalado lo que el emulador necesita para correr.</p>
+
+        <div class="req-chips">
+            <div class="req-chip"><i class="fas fa-check"></i> .NET Desktop Runtime</div>
+            <div class="req-chip"><i class="fas fa-check"></i> Visual C++ Redistributable</div>
+            <div class="req-chip"><i class="fas fa-check"></i> Vulkan Runtime</div>
+            <div class="req-chip"><i class="fas fa-check"></i> Vulkan SDK</div>
+        </div>
+
+        <div class="steps">
+            <div class="step">
+                <div class="step-num"></div>
+                <div class="step-body"><h4>El launcher los chequea solo</h4><p>Vas a ver una lista con cada requisito marcado como <code>✓ Instalado</code> o <code>✗ Falta</code>.</p></div>
+            </div>
+            <div class="step">
+                <div class="step-num"></div>
+                <div class="step-body"><h4>Si falta alguno</h4><p>Aparece un botón individual al lado (por ejemplo "Instalar .NET"). Lo apretás y el launcher lo descarga e instala solo, en modo silencioso.</p>
+                    <div class="shot"><i class="fas fa-image"></i><span>Captura: panel de requisitos</span></div>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num"></div>
+                <div class="step-body"><h4>Cuando está todo OK</h4><p>En modo recomendado, se habilita el botón <code>Comenzar</code> para instalar ShadCTF. En modo portable/existente, este chequeo no bloquea nada: ya podés usar tu emulador igual.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== INSTALAR PKG ===================== -->
+    <section class="guide-section" id="pkg">
+        <div class="sec-head">
+            <div class="sec-icon"><i class="fas fa-gamepad"></i></div>
+            <div><span class="sec-tag">Contenido</span><h2>Instalar un juego (PKG)</h2></div>
+        </div>
+        <p class="sec-sub">Así se instala un juego de PS4 en formato <code>.pkg</code>.</p>
+
+        <div class="steps">
+            <div class="step"><div class="step-num"></div><div class="step-body"><h4>Apretá "Instalar PKG"</h4><p>Está disponible una vez que tenés el emulador listo (en cualquiera de los 3 modos).</p></div></div>
+            <div class="step"><div class="step-num"></div><div class="step-body"><h4>Seleccioná el archivo .pkg</h4><p>Se abre un explorador de Windows. Buscá el archivo del juego que querés instalar.</p>
+                <div class="shot"><i class="fas fa-image"></i><span>Captura: selector de archivo PKG</span></div>
+            </div></div>
+            <div class="step"><div class="step-num"></div><div class="step-body"><h4>El launcher detecta el juego</h4><p>Lee el nombre real del juego desde adentro del archivo (no del nombre del archivo), y revisa que tengas espacio suficiente en disco antes de arrancar.</p></div></div>
+            <div class="step"><div class="step-num"></div><div class="step-body"><h4>Esperá a que termine</h4><p>Este paso puede tardar varios minutos según el tamaño del juego. Vas a ver el progreso y los mensajes en el panel de estado.</p></div></div>
+            <div class="step"><div class="step-num"></div><div class="step-body"><h4>Listo</h4><p>El juego queda organizado con su nombre correcto dentro de tu carpeta de <code>Games</code>, listo para lanzar.</p></div></div>
+        </div>
+
+        <div class="callout warn">
+            <i class="fas fa-exclamation-triangle"></i>
+            <div>Si no tenés espacio suficiente en disco, el launcher no va a arrancar la instalación y te va a avisar cuánto espacio libre tenés y cuánto necesitás.</div>
+        </div>
+    </section>
+
+    <!-- ===================== UPDATE ===================== -->
+    <section class="guide-section" id="update">
+        <div class="sec-head">
+            <div class="sec-icon"><i class="fas fa-sync-alt"></i></div>
+            <div><span class="sec-tag">Contenido</span><h2>Instalar un Update</h2></div>
+        </div>
+        <p class="sec-sub">Para aplicarle un parche/actualización a un juego que ya instalaste.</p>
+
+        <div class="steps">
+            <div class="step"><div class="step-num"></div><div class="step-body"><h4>Apretá "Instalar Update"</h4><p>Este botón aparece junto a los demás una vez que tenés el emulador configurado.</p></div></div>
+            <div class="step"><div class="step-num"></div><div class="step-body"><h4>Elegí el PKG del update</h4><p>Seleccioná el archivo de actualización correspondiente al juego.</p></div></div>
+            <div class="step"><div class="step-num"></div><div class="step-body"><h4>Elegí la carpeta del juego</h4><p>Te va a pedir que selecciones, dentro de tu carpeta <code>Games</code>, la carpeta exacta del juego que estás actualizando. Es importante elegir la correcta.</p>
+                <div class="shot"><i class="fas fa-image"></i><span>Captura: selección de carpeta del juego</span></div>
+            </div></div>
+            <div class="step"><div class="step-num"></div><div class="step-body"><h4>El launcher aplica los archivos nuevos</h4><p>Extrae el update y copia los archivos actualizados directo sobre los del juego, sin que tengas que mover nada a mano.</p></div></div>
+        </div>
+    </section>
+
+    <!-- ===================== DLC ===================== -->
+    <section class="guide-section" id="dlc">
+        <div class="sec-head">
+            <div class="sec-icon"><i class="fas fa-puzzle-piece"></i></div>
+            <div><span class="sec-tag">Contenido</span><h2>Instalar un DLC</h2></div>
+        </div>
+        <p class="sec-sub">Para contenido descargable (expansiones, personajes, mapas extra, etc.).</p>
+
+        <div class="steps">
+            <div class="step"><div class="step-num"></div><div class="step-body"><h4>Apretá "Instalar DLC"</h4><p>No hace falta elegir carpeta de juego en este caso: el launcher sabe dónde va solo.</p></div></div>
+            <div class="step"><div class="step-num"></div><div class="step-body"><h4>Seleccioná el PKG del DLC</h4><p>El launcher lee automáticamente a qué juego pertenece ese DLC, leyendo un identificador que trae el propio archivo.</p></div></div>
+            <div class="step"><div class="step-num"></div><div class="step-body"><h4>Se instala en la ruta correcta</h4><p>El DLC se ubica automáticamente donde el emulador espera encontrarlo, sin que tengas que crear carpetas a mano.</p>
+                <div class="shot"><i class="fas fa-image"></i><span>Captura: confirmación de DLC instalado</span></div>
+            </div></div>
+        </div>
+
+        <div class="callout tip">
+            <i class="fas fa-lightbulb"></i>
+            <div>Si el launcher no puede leer el identificador del DLC, te lo va a avisar con un mensaje claro en vez de instalarlo en el lugar equivocado.</div>
+        </div>
+    </section>
+
+    <!-- ===================== LANZAR ===================== -->
+    <section class="guide-section" id="lanzar">
+        <div class="sec-head">
+            <div class="sec-icon"><i class="fas fa-rocket"></i></div>
+            <div><span class="sec-tag">Jugar</span><h2>Lanzar el juego</h2></div>
+        </div>
+        <p class="sec-sub">Una vez que tenés el emulador y al menos un juego instalado.</p>
+
+        <div class="steps">
+            <div class="step"><div class="step-num"></div><div class="step-body"><h4>Apretá "Lanzar ShadCTF"</h4><p>Abre directamente el emulador configurado, ya sea el que instaló el launcher o el que vos elegiste en modo portable/existente.</p></div></div>
+            <div class="step"><div class="step-num"></div><div class="step-body"><h4>Elegí el juego desde el emulador</h4><p>Una vez abierto, vas a ver tu biblioteca de juegos instalados y podés arrancar a jugar.</p>
+                <div class="shot"><i class="fas fa-image"></i><span>Captura: emulador abierto con la biblioteca</span></div>
+            </div></div>
+        </div>
+    </section>
+
+    <!-- ===================== REPARAR ===================== -->
+    <section class="guide-section" id="reparar">
+        <div class="sec-head">
+            <div class="sec-icon"><i class="fas fa-wrench"></i></div>
+            <div><span class="sec-tag">Mantenimiento</span><h2>Reparar entorno</h2></div>
+        </div>
+        <p class="sec-sub">Es el botón "arreglalo todo". Úsalo si algo dejó de funcionar bien, sin necesidad de reinstalar nada desde cero.</p>
+
+        <div class="steps">
+            <div class="step"><div class="step-num"></div><div class="step-body"><h4>¿Cuándo usarlo?</h4><p>Si un juego deja de abrir, si notás errores raros del emulador, o simplemente para estar seguro de que la configuración interna está al día.</p></div></div>
+            <div class="step"><div class="step-num"></div><div class="step-body"><h4>Apretá "Reparar entorno"</h4><p>El launcher revisa los archivos internos que el emulador necesita para funcionar y los vuelve a dejar en orden.</p>
+                <div class="shot"><i class="fas fa-image"></i><span>Captura: log de reparación en curso</span></div>
+            </div></div>
+            <div class="step"><div class="step-num"></div><div class="step-body"><h4>No se toca ningún juego</h4><p>Esta reparación es solo sobre archivos internos del emulador. Tus juegos instalados, tus partidas guardadas y tu configuración personal quedan intactos.</p></div></div>
+        </div>
+
+        <div class="callout tip">
+            <i class="fas fa-lightbulb"></i>
+            <div>Esta misma verificación se hace sola cada vez que abrís el launcher, así que en general no vas a necesitar tocar este botón salvo que algo puntual falle.</div>
+        </div>
+    </section>
+
+    <!-- ===================== CAMBIAR MODO ===================== -->
+    <section class="guide-section" id="cambiar-modo">
+        <div class="sec-head">
+            <div class="sec-icon"><i class="fas fa-exchange-alt"></i></div>
+            <div><span class="sec-tag">Configuración</span><h2>Cambiar de modo</h2></div>
+        </div>
+        <p class="sec-sub">Si te arrepentiste del modo que elegiste al principio, no hace falta desinstalar nada.</p>
+
+        <div class="steps">
+            <div class="step"><div class="step-num"></div><div class="step-body"><h4>Apretá "Cambiar modo"</h4><p>Vas a ver un aviso confirmando que se va a olvidar la configuración actual (no borra juegos ni el emulador instalado).</p></div></div>
+            <div class="step"><div class="step-num"></div><div class="step-body"><h4>Confirmá el cambio</h4><p>El launcher te vuelve a mostrar la pantalla inicial para que elijas de nuevo entre recomendado, portable o existente.</p></div></div>
+        </div>
+    </section>
+
+    <!-- ===================== PROBLEMAS COMUNES ===================== -->
+    <section class="guide-section" id="problemas">
+        <div class="sec-head">
+            <div class="sec-icon"><i class="fas fa-exclamation-triangle"></i></div>
+            <div><span class="sec-tag">Soporte</span><h2>Problemas comunes</h2></div>
+        </div>
+        <p class="sec-sub">Los mensajes que te puede llegar a mostrar el launcher, y qué hacer en cada caso.</p>
+
+        <div class="trouble">
+            <div class="trouble-row">
+                <div class="msg">"No se encontró el ejecutable."</div>
+                <div class="sol">El launcher no encuentra el emulador en la ruta configurada. Usá <b>Cambiar modo</b> y volvé a elegir la ubicación correcta de tu <code>.exe</code>.</div>
+            </div>
+            <div class="trouble-row">
+                <div class="msg">"Espacio insuficiente."</div>
+                <div class="sol">No tenés lugar libre en el disco para instalar ese archivo. Liberá espacio (el mensaje te indica cuánto necesitás) e intentá de nuevo.</div>
+            </div>
+            <div class="trouble-row">
+                <div class="msg">"No se pudo leer el CONTENT_ID del PKG."</div>
+                <div class="sol">El archivo de DLC seleccionado no tiene el formato esperado o está corrupto. Verificá que sea el archivo original y volvé a descargarlo si hace falta.</div>
+            </div>
+            <div class="trouble-row">
+                <div class="msg">"No se encontró la carpeta games."</div>
+                <div class="sol">La carpeta de juegos configurada ya no existe (se movió, se borró, o cambiaste de disco). Usá <b>Cambiar modo</b> para señalar la carpeta correcta.</div>
+            </div>
+            <div class="trouble-row">
+                <div class="msg">Falta un requisito (.NET / Visual C++ / Vulkan)</div>
+                <div class="sol">Andá a la sección de requisitos dentro del launcher y apretá el botón de instalación individual que aparece junto al que te falta.</div>
+            </div>
+        </div>
+
+        <div class="callout tip" style="margin-top: 30px;">
+            <i class="fas fa-life-ring"></i>
+            <div>¿Ninguna de estas soluciones resolvió tu problema? Escribinos desde la sección <a href="contacto.html" style="color:var(--verde-term);">Contacto</a> o probá la <a href="diagnostico.html" style="color:var(--verde-term);">herramienta de diagnóstico</a>.</div>
+        </div>
+    </section>
+
+    <!-- ===================== CTA FINAL ===================== -->
+    <div class="final-cta">
+        <h2>¿Todavía no lo descargaste?</h2>
+        <p>Bajá el launcher y arrancá en modo recomendado. El resto ya sabés cómo hacerlo.</p>
+        <a href="launcher.html" class="btn-download-main">
+            <i class="fas fa-download"></i>
+            <span>Ir a la página de descarga</span>
+        </a>
+    </div>
+
+</div>
+
+<footer>
+    <div class="contador-digital">
+        <i class="fas fa-users" style="color: var(--cian-neon); margin-right: 10px;"></i>
+        <span id="stats-count">--</span>
+    </div>
+    <br>
+    CaTecnoFan &copy; 2026 - Rosario, Argentina<br>
+    Hardware, Juegos y Tecnología para el Gamer Real
+</footer>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+import { getFirestore, doc, getDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyBa_xg_kBBmAe1cJVEhE5BiOfCjlQ-Ib0w",
+    authDomain: "catecnofan-web.firebaseapp.com",
+    projectId: "catecnofan-web",
+    storageBucket: "catecnofan-web.appspot.com",
+    messagingSenderId: "670781631971",
+    appId: "1:670781631971:web:7fa547d5392149c05304d6"
+};
+const app = initializeApp(firebaseConfig, "guia");
+const db = getFirestore(app);
+
+async function handleCounter() {
+    const counterDoc = doc(db, "stats", "visitas");
+    try {
+        await updateDoc(counterDoc, { count: increment(1) });
+        const snap = await getDoc(counterDoc);
+        if (snap.exists()) document.getElementById('stats-count').innerText = snap.data().count;
+    } catch(e) { console.error("Error en contador:", e); }
+}
+window.addEventListener("load", handleCounter);
+</script>
+
+<script type="module" src="login.js"></script>
+<script type="module" src="popout-brave.js"></script>
+</body>
+</html>
