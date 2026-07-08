@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -6,14 +6,17 @@
     <title>Diagnóstico | CaTecnoFan</title>
     <link rel="icon" type="image/png" href="iconodef.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="login.css">
     <style>
         :root {
             --cian-neon: #00e5ff;
             --magenta-neon: #ff00ff;
             --amarillo-neon: #ffff00;
+            --verde-term: #4dff9e;
             --bg: #0d0d0d;
             --muted: #bbb;
+            --mono: 'JetBrains Mono', 'Courier New', monospace;
         }
         html { overflow-y: scroll; }
         body {
@@ -86,7 +89,34 @@
             0%, 100% { text-shadow: 0 0 20px var(--cian-neon), 0 0 40px rgba(0,229,255,0.4); }
             50%       { text-shadow: 0 0 35px var(--cian-neon), 0 0 70px rgba(0,229,255,0.7); }
         }
-        .diag-subtitulo { font-family: sans-serif; color: #aaa; font-size: 1em; margin-bottom: 40px; }
+        .diag-subtitulo { font-family: sans-serif; color: #aaa; font-size: 1em; margin-bottom: 30px; }
+
+        /* ── EYEBROW + PULSO (firma visual del hero) ── */
+        .diag-eyebrow {
+            display: inline-flex; align-items: center; gap: 8px;
+            font-family: var(--mono); font-size: 0.75em; letter-spacing: 3px;
+            color: var(--verde-term); text-transform: uppercase; margin-bottom: 16px;
+        }
+        .diag-eyebrow .dot {
+            width: 8px; height: 8px; border-radius: 50%; background: var(--verde-term);
+            box-shadow: 0 0 8px var(--verde-term); animation: pulseDot 1.6s infinite;
+        }
+        @keyframes pulseDot { 0%,100%{opacity:1;} 50%{opacity:0.35;} }
+
+        .ekg-wrap {
+            max-width: 480px; margin: 0 auto 26px auto; height: 46px;
+            border-top: 1px solid rgba(0,229,255,0.15); border-bottom: 1px solid rgba(0,229,255,0.15);
+            overflow: hidden; position: relative; background: rgba(0,229,255,0.02);
+            border-radius: 6px;
+        }
+        .ekg-track { display: flex; width: 200%; height: 100%; animation: ekgSlide 2.2s linear infinite; }
+        .ekg-track svg { width: 50%; height: 100%; flex-shrink: 0; display: block; }
+        .ekg-line {
+            fill: none; stroke: var(--cian-neon); stroke-width: 3;
+            filter: drop-shadow(0 0 6px rgba(0,229,255,0.9));
+        }
+        @keyframes ekgSlide { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        @media (prefers-reduced-motion: reduce) { .diag-eyebrow .dot { animation: none; } }
 
         .diag-main-container {
             display: flex;
@@ -109,6 +139,13 @@
             position: relative; overflow: visible;
             transition: box-shadow .22s ease, transform .12s ease;
         }
+        .btn-iniciar-diagnostico::before {
+            content: ''; position: absolute; top: -5%; left: 0; width: 100%; height: 3px;
+            background: linear-gradient(90deg, transparent, rgba(0,229,255,0.6), transparent);
+            animation: scanMove 3.2s ease-in-out infinite; border-radius: 18px; pointer-events: none;
+        }
+        @keyframes scanMove { 0% { top: -5%; } 50% { top: 100%; } 100% { top: -5%; } }
+        @media (prefers-reduced-motion: reduce) { .btn-iniciar-diagnostico::before { animation: none; display: none; } }
         .btn-iniciar-diagnostico:focus { outline: 3px solid rgba(0,229,255,0.12); outline-offset: 4px; }
         .btn-iniciar-diagnostico:hover {
             transform: translateY(-4px) scale(1.01);
@@ -129,13 +166,18 @@
 
         .diag-spinner {
             position: absolute; left: 50%; transform: translateX(-50%);
-            width: 36px; height: 36px; border-radius: 50%;
-            border: 3px solid rgba(255,255,255,0.08); border-top-color: var(--cian-neon);
-            top: calc((100% - 92px)/2 + 92px + 8px);
+            width: 140px; height: 30px; overflow: hidden;
+            top: calc((100% - 92px)/2 + 92px + 4px);
             opacity: 0; visibility: hidden;
         }
-        @keyframes spin { to { transform: translateX(-50%) rotate(360deg); } }
-        .diag-spinner.spin { opacity: 1; visibility: visible; animation: spin .82s linear infinite; }
+        .diag-spinner-track { display: flex; width: 200%; height: 100%; }
+        .diag-spinner-track svg { width: 50%; height: 100%; flex-shrink: 0; display: block; }
+        .diag-spinner-line {
+            fill: none; stroke: var(--cian-neon); stroke-width: 3;
+            filter: drop-shadow(0 0 6px rgba(0,229,255,0.9));
+        }
+        .diag-spinner.spin { opacity: 1; visibility: visible; }
+        .diag-spinner.spin .diag-spinner-track { animation: ekgSlide 0.9s linear infinite; }
 
         .btn-label {
             font-size: 1.15rem; letter-spacing: 1px;
@@ -144,14 +186,19 @@
 
         .antes-empezar {
             background: linear-gradient(160deg, #111 0%, #0a0a0a 100%);
-            border: 2px solid var(--amarillo-neon);
+            border: 1.5px solid rgba(255,255,0,0.35);
+            border-left: 4px solid var(--amarillo-neon);
             border-radius: 18px;
             padding: 22px;
             transition: opacity 0.5s ease;
         }
         .antes-empezar.fade-out { opacity: 0; pointer-events: none; }
         .texto-launcher { display: flex; flex-direction: column; gap: 8px; }
-        .texto-launcher h3 { margin: 0; color: var(--amarillo-neon); text-transform: uppercase; font-size: 1.05rem; letter-spacing: 0.6px; }
+        .texto-launcher h3 {
+            margin: 0 0 4px 0; color: var(--amarillo-neon); text-transform: uppercase;
+            font-size: 0.78rem; letter-spacing: 2px; font-family: var(--mono); font-weight: 500;
+            display: flex; align-items: center; gap: 8px;
+        }
         .texto-launcher p { margin: 0; color: #d0d0d0; font-family: sans-serif; font-size: 0.95rem; line-height: 1.5; }
         .texto-launcher .cta-row { display: flex; justify-content: center; margin-top: 12px; }
         .btn-descargar-launcher {
@@ -178,11 +225,11 @@
         .aviso-header { display: flex; align-items: center; gap: 12px; }
         .aviso-ico { font-size: 1.5rem; flex-shrink: 0; }
         .aviso-titulo {
-            font-family: 'Arial Black', sans-serif;
-            font-size: 0.95rem;
+            font-family: var(--mono);
+            font-size: 0.78rem;
             color: var(--amarillo-neon);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 2px;
             text-shadow: 0 0 12px rgba(255,220,0,0.3);
         }
         .aviso-desc { font-family: sans-serif; font-size: 0.83rem; color: #888; line-height: 1.7; margin: 0; }
@@ -205,19 +252,19 @@
         .prediag-item { display: flex; align-items: flex-start; gap: 16px; padding: 14px 0; }
         .prediag-ico { font-size: 1.4rem; flex-shrink: 0; margin-top: 2px; filter: drop-shadow(0 0 6px rgba(0,229,255,0.2)); }
         .prediag-item div { display: flex; flex-direction: column; gap: 4px; }
-        .prediag-titulo { font-family: 'Arial Black', sans-serif; font-size: 0.82rem; color: #ddd; text-transform: uppercase; letter-spacing: 0.4px; }
+        .prediag-titulo { font-family: var(--mono); font-size: 0.75rem; color: #ddd; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 500; }
         .prediag-desc { font-family: sans-serif; font-size: 0.82rem; color: #666; line-height: 1.55; }
         .prediag-sep { height: 1px; background: linear-gradient(90deg, rgba(0,229,255,0.08), transparent); margin: 0 4px; }
 
         #problema-section { display: none; }
         .problema-header { text-align: center; margin-bottom: 36px; }
-        .problema-header .paso-label { display: inline-block; font-family: sans-serif; font-size: 0.78em; color: #888; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 8px; }
+        .problema-header .paso-label { display: inline-block; font-family: var(--mono); font-size: 0.72em; color: var(--verde-term); text-transform: uppercase; letter-spacing: 3px; margin-bottom: 8px; }
         .problema-header .paso-titulo { font-size: 1.75em; color: var(--cian-neon); text-shadow: 0 0 10px rgba(0,229,255,0.6), 0 0 22px rgba(0,229,255,0.2); text-transform: uppercase; letter-spacing: 1px; margin: 0; }
 
         /* ── ACORDEÓN DE PROBLEMAS ── */
-        .acordeon-problema { display: flex; flex-direction: column; gap: 14px; }
+        .acordeon-problema { display: flex; flex-direction: column; gap: 14px; counter-reset: caso; }
 
-.acc-item { border-radius: 16px; border: 1.5px solid; overflow: hidden; background: #0a0a0a; transition: box-shadow 0.22s ease, margin 0.35s ease; }
+.acc-item { border-radius: 16px; border: 1.5px solid; overflow: hidden; background: #0a0a0a; transition: box-shadow 0.22s ease, margin 0.35s ease; counter-increment: caso; }
 .acc-item.open { margin: 8px 0; }
         .acc-item.c-cian     { border-color: rgba(0,229,255,0.35);   color: #00e5ff; }
         .acc-item.c-magenta  { border-color: rgba(255,0,255,0.35);   color: #ff00ff; }
@@ -242,6 +289,11 @@
         .prob-icon-wrap i { color: #04070a; font-size: 1.35rem; filter: brightness(0.15); }
         .acc-item.open .prob-icon-wrap { transform: scale(1.08) rotate(-4deg); }
         .acc-header-texto { display: flex; flex-direction: column; gap: 5px; flex: 1; min-width: 0; }
+        .acordeon-problema .acc-header-texto::before {
+            content: "CASO " counter(caso, decimal-leading-zero);
+            font-family: var(--mono); font-size: 0.65em; letter-spacing: 1.5px;
+            color: currentColor; opacity: 0.65;
+        }
         .prob-titulo { font-size: 1em; font-weight: 900; letter-spacing: 0.5px; line-height: 1.2; color: #fff; }
         .prob-desc { font-family: sans-serif; font-size: 0.8em; font-weight: 400; color: #888; line-height: 1.5; text-transform: none; letter-spacing: 0; }
         .acc-chevron { font-size: 0.9rem; opacity: 0.55; transition: transform 0.28s ease; flex-shrink: 0; }
@@ -350,7 +402,7 @@
         .wizard-progress { display: flex; gap: 6px; margin-bottom: 10px; }
         .wizard-progress-step { flex: 1; height: 6px; border-radius: 3px; background: #222; transition: background 0.3s ease; }
         .wizard-progress-step.done { background: var(--magenta-neon); box-shadow: 0 0 8px var(--magenta-neon); }
-        .wizard-paso-label { font-family: sans-serif; font-size: 0.75em; color: #888; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 18px; }
+        .wizard-paso-label { font-family: var(--mono); font-size: 0.72em; color: var(--verde-term); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 18px; }
         .wizard-step { display: none; }
         .wizard-step.active { display: block; animation: fadeInUp 0.35s ease forwards; }
         .wizard-step-titulo { color: var(--amarillo-neon); text-transform: uppercase; font-size: 1em; margin: 0 0 18px; text-shadow: 0 0 10px var(--amarillo-neon); }
@@ -556,14 +608,35 @@
     <div class="inner-content">
 
         <div id="intro-section">
+            <div class="diag-eyebrow"><span class="dot"></span> SISTEMA DE DIAGNÓSTICO · CATECNOFAN</div>
             <div class="diag-titulo">🔧 Centro de Diagnóstico</div>
             <p class="diag-subtitulo">Trataremos de resolver tu problema paso a paso.<br>Seguí el asistente y encontra las potenciales soluciones.</p>
+
+            <div class="ekg-wrap" aria-hidden="true">
+                <div class="ekg-track">
+                    <svg viewBox="0 0 300 46" preserveAspectRatio="none">
+                        <path class="ekg-line" d="M0,23 L60,23 L80,23 L92,6 L104,40 L116,14 L128,23 L180,23 L200,23 L212,6 L224,40 L236,14 L248,23 L300,23" />
+                    </svg>
+                    <svg viewBox="0 0 300 46" preserveAspectRatio="none">
+                        <path class="ekg-line" d="M0,23 L60,23 L80,23 L92,6 L104,40 L116,14 L128,23 L180,23 L200,23 L212,6 L224,40 L236,14 L248,23 L300,23" />
+                    </svg>
+                </div>
+            </div>
 
             <div class="diag-main-container">
                 <div class="btn-iniciar-wrap">
                     <button id="btn-iniciar" class="btn-iniciar-diagnostico" onclick="iniciarDiagnostico()" aria-live="polite" aria-busy="false" type="button">
                         <div class="icon-circle" aria-hidden="true"><i class="fas fa-play"></i></div>
-                        <div id="diag-spinner" class="diag-spinner" aria-hidden="true"></div>
+                        <div id="diag-spinner" class="diag-spinner" aria-hidden="true">
+                            <div class="diag-spinner-track">
+                                <svg viewBox="0 0 300 30" preserveAspectRatio="none">
+                                    <path class="diag-spinner-line" d="M0,15 L60,15 L80,15 L92,4 L104,26 L116,9 L128,15 L180,15 L200,15 L212,4 L224,26 L236,9 L248,15 L300,15" />
+                                </svg>
+                                <svg viewBox="0 0 300 30" preserveAspectRatio="none">
+                                    <path class="diag-spinner-line" d="M0,15 L60,15 L80,15 L92,4 L104,26 L116,9 L128,15 L180,15 L200,15 L212,4 L224,26 L236,9 L248,15 L300,15" />
+                                </svg>
+                            </div>
+                        </div>
                         <div class="btn-label">Iniciar Diagnóstico</div>
                     </button>
                 </div>
@@ -639,6 +712,7 @@
             <button class="btn-volver" onclick="cerrarWizard()"><i class="fas fa-arrow-left"></i> Volver</button>
 
             <div class="wizard-box">
+                <div class="diag-eyebrow" style="margin-bottom:18px;"><span class="dot" style="background:var(--magenta-neon); box-shadow:0 0 8px var(--magenta-neon);"></span> DIAGNÓSTICO PERSONALIZADO</div>
                 <div class="wizard-progress">
                     <div class="wizard-progress-step" data-paso="1"></div>
                     <div class="wizard-progress-step" data-paso="2"></div>
