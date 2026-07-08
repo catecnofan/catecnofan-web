@@ -126,6 +126,12 @@
         .shot i { font-size: 1.6em; display: block; margin-bottom: 8px; color: #444; }
         .shot span { font-family: var(--mono); font-size: 0.7em; text-transform: uppercase; letter-spacing: 0.5px; }
 
+        .shot-img {
+            margin-top: 14px; border-radius: 10px; overflow: hidden;
+            border: 1px solid #2c2c2c; box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+        }
+        .shot-img img { width: 100%; display: block; }
+
         /* callouts */
         .callout { max-width: 680px; margin: 0 auto 10px auto; border-radius: 10px; padding: 16px 18px; font-family: sans-serif; font-size: 0.85em; line-height: 1.6; display: flex; gap: 12px; align-items: flex-start; }
         .callout i { margin-top: 2px; }
@@ -279,7 +285,9 @@ fetchGlobalStats();
                 <div class="step-body">
                     <h4>Modo recomendado</h4>
                     <p>Elegilo si no tenés nada instalado todavía. El launcher descarga el emulador, lo instala en <code>C:\ShadCTF</code> y configura todo automáticamente. Es la opción más simple: apretás botones y listo.</p>
-                    <div class="shot"><i class="fas fa-image"></i><span>Captura: pantalla de selección de modo</span></div>
+                    <div class="shot-img"><img src="guia-01-modos.png" alt="Panel de selección de modo del launcher"></div>
+                    <p style="margin-top:14px;">Una vez que arranca la instalación y termina, te lo confirma así:</p>
+                    <div class="shot-img"><img src="guia-04-shadctf-instalado.png" alt="Confirmación de ShadCTF instalado en C:\ShadCTF"></div>
                 </div>
             </div>
             <div class="step">
@@ -326,13 +334,15 @@ fetchGlobalStats();
             </div>
             <div class="step">
                 <div class="step-num"></div>
-                <div class="step-body"><h4>Si falta alguno</h4><p>Aparece un botón individual al lado (por ejemplo "Instalar .NET"). Lo apretás y el launcher lo descarga e instala solo, en modo silencioso.</p>
-                    <div class="shot"><i class="fas fa-image"></i><span>Captura: panel de requisitos</span></div>
+                <div class="step-body"><h4>Si falta alguno</h4><p>Aparece un botón individual al lado (por ejemplo "Instalar Vulkan SDK"). Lo apretás y el launcher lo descarga e instala solo, en modo silencioso.</p>
+                    <div class="shot-img"><img src="guia-02-requisitos-falta.png" alt="Panel de requisitos con Vulkan SDK faltante"></div>
                 </div>
             </div>
             <div class="step">
                 <div class="step-num"></div>
-                <div class="step-body"><h4>Cuando está todo OK</h4><p>En modo recomendado, se habilita el botón <code>Comenzar</code> para instalar ShadCTF. En modo portable/existente, este chequeo no bloquea nada: ya podés usar tu emulador igual.</p></div>
+                <div class="step-body"><h4>Cuando está todo OK</h4><p>En modo recomendado, se habilita el botón <code>Comenzar</code> para instalar ShadCTF. En modo portable/existente, este chequeo no bloquea nada: ya podés usar tu emulador igual.</p>
+                    <div class="shot-img"><img src="guia-03-requisitos-completo.png" alt="Panel de requisitos con los 4 elementos instalados"></div>
+                </div>
             </div>
         </div>
     </section>
@@ -352,7 +362,9 @@ fetchGlobalStats();
             </div></div>
             <div class="step"><div class="step-num"></div><div class="step-body"><h4>El launcher detecta el juego</h4><p>Lee el nombre real del juego desde adentro del archivo (no del nombre del archivo), y revisa que tengas espacio suficiente en disco antes de arrancar.</p></div></div>
             <div class="step"><div class="step-num"></div><div class="step-body"><h4>Esperá a que termine</h4><p>Este paso puede tardar varios minutos según el tamaño del juego. Vas a ver el progreso y los mensajes en el panel de estado.</p></div></div>
-            <div class="step"><div class="step-num"></div><div class="step-body"><h4>Listo</h4><p>El juego queda organizado con su nombre correcto dentro de tu carpeta de <code>Games</code>, listo para lanzar.</p></div></div>
+            <div class="step"><div class="step-num"></div><div class="step-body"><h4>Listo</h4><p>El juego queda organizado con su nombre correcto dentro de tu carpeta de <code>Games</code>, listo para lanzar.</p>
+                <div class="shot-img"><img src="guia-05-pkg-instalado.png" alt="PKG instalado correctamente, juego organizado en la carpeta Games"></div>
+            </div></div>
         </div>
 
         <div class="callout warn">
@@ -375,7 +387,9 @@ fetchGlobalStats();
             <div class="step"><div class="step-num"></div><div class="step-body"><h4>Elegí la carpeta del juego</h4><p>Te va a pedir que selecciones, dentro de tu carpeta <code>Games</code>, la carpeta exacta del juego que estás actualizando. Es importante elegir la correcta.</p>
                 <div class="shot"><i class="fas fa-image"></i><span>Captura: selección de carpeta del juego</span></div>
             </div></div>
-            <div class="step"><div class="step-num"></div><div class="step-body"><h4>El launcher aplica los archivos nuevos</h4><p>Extrae el update y copia los archivos actualizados directo sobre los del juego, sin que tengas que mover nada a mano.</p></div></div>
+            <div class="step"><div class="step-num"></div><div class="step-body"><h4>El launcher aplica los archivos nuevos</h4><p>Extrae el update y copia los archivos actualizados directo sobre los del juego, sin que tengas que mover nada a mano.</p>
+                <div class="shot-img"><img src="guia-06-update-instalado.png" alt="Update instalado correctamente, archivos actualizados"></div>
+            </div></div>
         </div>
     </section>
 
@@ -391,7 +405,7 @@ fetchGlobalStats();
             <div class="step"><div class="step-num"></div><div class="step-body"><h4>Apretá "Instalar DLC"</h4><p>No hace falta elegir carpeta de juego en este caso: el launcher sabe dónde va solo.</p></div></div>
             <div class="step"><div class="step-num"></div><div class="step-body"><h4>Seleccioná el PKG del DLC</h4><p>El launcher lee automáticamente a qué juego pertenece ese DLC, leyendo un identificador que trae el propio archivo.</p></div></div>
             <div class="step"><div class="step-num"></div><div class="step-body"><h4>Se instala en la ruta correcta</h4><p>El DLC se ubica automáticamente donde el emulador espera encontrarlo, sin que tengas que crear carpetas a mano.</p>
-                <div class="shot"><i class="fas fa-image"></i><span>Captura: confirmación de DLC instalado</span></div>
+                <div class="shot-img"><img src="guia-07-dlc-instalado.png" alt="DLC instalado correctamente"></div>
             </div></div>
         </div>
 
@@ -412,7 +426,7 @@ fetchGlobalStats();
         <div class="steps">
             <div class="step"><div class="step-num"></div><div class="step-body"><h4>Apretá "Lanzar ShadCTF"</h4><p>Abre directamente el emulador configurado, ya sea el que instaló el launcher o el que vos elegiste en modo portable/existente.</p></div></div>
             <div class="step"><div class="step-num"></div><div class="step-body"><h4>Elegí el juego desde el emulador</h4><p>Una vez abierto, vas a ver tu biblioteca de juegos instalados y podés arrancar a jugar.</p>
-                <div class="shot"><i class="fas fa-image"></i><span>Captura: emulador abierto con la biblioteca</span></div>
+                <div class="shot-img"><img src="guia-08-emulador-biblioteca.png" alt="shadPS4 abierto mostrando los juegos instalados"></div>
             </div></div>
         </div>
     </section>
@@ -428,7 +442,7 @@ fetchGlobalStats();
         <div class="steps">
             <div class="step"><div class="step-num"></div><div class="step-body"><h4>¿Cuándo usarlo?</h4><p>Si un juego deja de abrir, si notás errores raros del emulador, o simplemente para estar seguro de que la configuración interna está al día.</p></div></div>
             <div class="step"><div class="step-num"></div><div class="step-body"><h4>Apretá "Reparar entorno"</h4><p>El launcher revisa los archivos internos que el emulador necesita para funcionar y los vuelve a dejar en orden.</p>
-                <div class="shot"><i class="fas fa-image"></i><span>Captura: log de reparación en curso</span></div>
+                <div class="shot-img"><img src="guia-09-reparacion-entorno.png" alt="Log de reparación de entorno en curso"></div>
             </div></div>
             <div class="step"><div class="step-num"></div><div class="step-body"><h4>No se toca ningún juego</h4><p>Esta reparación es solo sobre archivos internos del emulador. Tus juegos instalados, tus partidas guardadas y tu configuración personal quedan intactos.</p></div></div>
         </div>
