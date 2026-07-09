@@ -91,6 +91,36 @@
             max-width: 560px; margin: 0 auto 0 auto; line-height: 1.6;
         }
 
+        /* ============ AVISO DESCARGAS ============ */
+        .aviso-descargas {
+            max-width: 620px; margin: 26px auto 0 auto; background: rgba(10,10,10,0.85);
+            border: 1px solid rgba(0,229,255,0.4); border-radius: 14px;
+            padding: 16px 22px; text-align: center;
+            box-shadow: 0 0 25px rgba(0,229,255,0.08);
+        }
+        .aviso-descargas i.aviso-warn-icon {
+            color: var(--naranja); font-size: 1.3em; margin-bottom: 8px; display: block;
+        }
+        .aviso-descargas h4 {
+            color: var(--cian-neon); text-transform: uppercase; font-size: 0.85em;
+            margin: 0 0 10px 0; letter-spacing: 0.5px;
+        }
+        .aviso-descargas p {
+            font-family: sans-serif; font-weight: normal; font-size: 0.78em; color: #bbb;
+            line-height: 1.55; margin: 0 0 6px 0;
+        }
+        .aviso-descargas p .lang-tag {
+            font-family: var(--mono); color: #666; font-size: 0.85em; margin-right: 4px;
+        }
+        .aviso-descargas .btn-brave {
+            display: inline-flex; align-items: center; gap: 8px; margin-top: 10px;
+            background: var(--naranja); color: #1a0a00; text-decoration: none;
+            padding: 9px 18px; border-radius: 8px; font-family: 'Arial Black', sans-serif;
+            font-size: 0.75em; text-transform: uppercase; letter-spacing: 0.5px;
+            transition: 0.25s;
+        }
+        .aviso-descargas .btn-brave:hover { background: #ffb066; box-shadow: 0 0 18px rgba(255,154,60,0.4); }
+
         /* ============ SECTIONS ============ */
         section.block { padding: 45px 40px 55px 40px; }
         h2.section-title {
@@ -212,6 +242,14 @@ fetchGlobalStats();
                 Todos los packs usados en los tutoriales del canal, listos para descargar.
                 Elegí tu consola y arrancá.
             </p>
+
+            <div class="aviso-descargas">
+                <i class="fas fa-triangle-exclamation aviso-warn-icon"></i>
+                <h4>Aviso sobre descargas</h4>
+                <p><span class="lang-tag">ES</span>Las descargas se encuentran operativas. Si una descarga no comienza o finaliza correctamente, recomendamos utilizar Brave Browser.</p>
+                <p><span class="lang-tag">US</span>Downloads are operational. If a download does not start or finish correctly, we recommend using Brave Browser.</p>
+                <a href="https://brave.com/download/" target="_blank" class="btn-brave"><i class="fas fa-download"></i> Descargar Brave</a>
+            </div>
         </section>
 
         <!-- ===================== GRID ===================== -->
@@ -384,6 +422,5 @@ window.addEventListener("load", () => {
 });
 </script>
 <script type="module" src="login.js"></script>
-<script type="module" src="popout-brave.js"></script>
 </body>
 </html>
