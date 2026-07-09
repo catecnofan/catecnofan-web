@@ -6,16 +6,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>⚙️ Catálogo de Utilidades | CaTecnoFan</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="login.css">
     <style>
         :root {
             --cian-neon: #00e5ff;
             --magenta-neon: #ff00ff;
             --amarillo-neon: #ffff00;
+            --verde-term: #4dff9e;
+            --naranja: #ff9a3c;
+            --bg: #080808;
+            --panel: #111111;
+            --panel-2: #151515;
+            --mono: 'JetBrains Mono', 'Courier New', monospace;
         }
         html { overflow-y: scroll; scroll-behavior: smooth; }
         body {
-            background-color: #080808; color: #ffffff;
+            background-color: var(--bg); color: #ffffff;
             font-family: 'Arial Black', Gadget, sans-serif;
             margin: 0; padding: 0;
             background-image: linear-gradient(rgba(0,0,0,0.96), rgba(0,0,0,0.96)), url('banner.png');
@@ -24,7 +31,7 @@
         .bunker-dashboard {
             position: fixed; top: 50%; left: calc(50% + 650px);
             transform: translate(-50%, -50%); width: 140px;
-            background: rgba(10,10,10,0.9); border: 2px solid #00e5ff;
+            background: rgba(10,10,10,0.9); border: 2px solid var(--cian-neon);
             border-radius: 15px; padding: 20px 10px;
             box-shadow: 0 0 25px rgba(0,229,255,0.3);
             z-index: 10000; text-align: center; backdrop-filter: blur(5px);
@@ -33,11 +40,11 @@
         .dash-value { font-size: 0.9em; color: #fff; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: bold; }
         .btn-subscribe { display: block; background: #ff0000; color: white; text-decoration: none; font-size: 0.65em; padding: 8px 5px; border-radius: 5px; text-transform: uppercase; font-weight: bold; margin-top: 10px; }
         @media (max-width: 1350px) { .bunker-dashboard { display: none; } }
- 
+
         header { width: 100%; background-color: #000; text-align: center; overflow: hidden; }
         .banner-img { width: 100%; height: auto; display: block; margin: 0 auto; }
         .linea-magenta { width: 100%; height: 5px; background-color: var(--magenta-neon); box-shadow: 0px 0px 25px var(--magenta-neon); }
- 
+
         .container {
             max-width: 1000px; margin: -80px auto 50px auto;
             background-color: rgba(10,10,10,0.98); border-radius: 20px;
@@ -54,29 +61,89 @@
         .dropdown-content { display: none; position: absolute; background-color: #111; min-width: 220px; border: 1px solid var(--cian-neon); top: 100%; left: 0; z-index: 2000; }
         .dropdown:hover .dropdown-content { display: block; }
         .dropdown-content a { justify-content: flex-start; padding: 15px; border-bottom: 1px solid #222; }
- 
-        .inner-content { padding: 35px; }
-        h2 { color: var(--cian-neon); text-transform: uppercase; margin-bottom: 30px; text-shadow: 0 0 10px rgba(0,229,255,0.3); text-align: center; }
- 
-        .emu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-        .emu-card { background: #111; border: 1px solid #333; border-radius: 12px; padding: 20px; text-align: left; transition: 0.3s; border-left: 5px solid var(--cian-neon); display: flex; flex-direction: column; justify-content: space-between; }
-        .emu-card:hover { transform: translateY(-5px); border-color: var(--cian-neon); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
-        .emu-card h3 { color: var(--amarillo-neon); margin: 0 0 10px 0; font-size: 1em; text-transform: uppercase; }
-        .emu-card p { font-family: sans-serif; font-size: 0.85em; color: #ccc; margin-bottom: 20px; line-height: 1.4; }
- 
-        .btn-drive { display: block; background-color: transparent; color: var(--cian-neon); border: 2px solid var(--cian-neon); padding: 10px; text-align: center; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 0.85em; transition: 0.3s; }
-        .btn-drive:hover { background-color: var(--cian-neon); color: #000; }
- 
+
+        .inner-content { padding: 0; }
+
+        /* ============ HERO ============ */
+        .hero {
+            padding: 55px 40px 45px 40px;
+            background: radial-gradient(ellipse at 50% 0%, rgba(0,229,255,0.08), transparent 60%);
+            border-bottom: 1px solid #222;
+            text-align: center;
+        }
+        .hero-eyebrow {
+            font-family: var(--mono); font-size: 0.75em; letter-spacing: 3px;
+            color: var(--verde-term); text-transform: uppercase; margin-bottom: 18px;
+            display: inline-flex; align-items: center; gap: 8px;
+        }
+        .hero-eyebrow .dot {
+            width: 8px; height: 8px; border-radius: 50%; background: var(--verde-term);
+            box-shadow: 0 0 8px var(--verde-term); animation: pulse 1.6s infinite;
+        }
+        @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.35;} }
+        .hero h1 {
+            font-size: 2.2em; margin: 0 0 14px 0; color: #fff; text-transform: uppercase;
+            letter-spacing: 1px; text-shadow: 0 0 25px rgba(0,229,255,0.35);
+        }
+        .hero h1 span { color: var(--cian-neon); }
+        .hero p.tagline {
+            font-family: sans-serif; font-weight: normal; color: #bbb; font-size: 1em;
+            max-width: 560px; margin: 0 auto 0 auto; line-height: 1.6;
+        }
+
+        /* ============ SECTIONS ============ */
+        section.block { padding: 45px 40px 55px 40px; }
+        h2.section-title {
+            color: var(--cian-neon); text-transform: uppercase; margin: 0 0 8px 0;
+            text-shadow: 0 0 10px rgba(0,229,255,0.3); text-align: center; font-size: 1.3em;
+        }
+        p.section-sub {
+            font-family: sans-serif; font-weight: normal; text-align: center; color: #999;
+            max-width: 560px; margin: 0 auto 34px auto; font-size: 0.92em; line-height: 1.5;
+        }
+
+        /* dl cards */
+        .dl-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px,1fr)); gap: 18px; }
+        .dl-card {
+            background: var(--panel); border: 1px solid #2c2c2c; border-radius: 12px; padding: 22px 20px;
+            border-top: 4px solid var(--cian-neon); display: flex; flex-direction: column;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+        }
+        .dl-card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(0,0,0,0.5); border-color: var(--cian-neon); }
+        .dl-card .tag {
+            font-family: var(--mono); font-size: 0.62em; color: var(--verde-term); text-transform: uppercase;
+            letter-spacing: 1px; margin-bottom: 10px; display: block;
+        }
+        .dl-card i.dl-icon { font-size: 1.5em; color: var(--cian-neon); margin-bottom: 12px; display: block; }
+        .dl-card h3 { color: var(--amarillo-neon); font-size: 0.95em; text-transform: uppercase; margin: 0 0 8px 0; }
+        .dl-card p { font-family: sans-serif; font-weight: normal; font-size: 0.85em; color: #bbb; line-height: 1.5; margin: 0 0 18px 0; flex: 1; }
+
+        .btn-drive {
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            background-color: transparent; color: var(--cian-neon); border: 2px solid var(--cian-neon);
+            padding: 11px; text-align: center; text-decoration: none; border-radius: 8px;
+            font-family: 'Arial Black', sans-serif; font-weight: bold; font-size: 0.8em;
+            text-transform: uppercase; letter-spacing: 0.5px; transition: 0.25s;
+        }
+        .btn-drive:hover { background-color: var(--cian-neon); color: #000; box-shadow: 0 0 20px rgba(0,229,255,0.35); }
+
         .resaltado-temporal { animation: zoomHighlight 2.5s ease-in-out; outline: none; z-index: 10; position: relative; }
         @keyframes zoomHighlight {
             0%, 100% { transform: scale(1); box-shadow: none; border: 3px solid transparent; }
             30%, 70% { transform: scale(1.15); box-shadow: 0 0 40px rgba(255,204,0,0.7); border: 3px solid #ffcc00; }
         }
- 
+
         footer { text-align: center; padding: 60px; color: #555; font-family: sans-serif; font-size: 0.9em; }
         .contador-digital { display: inline-block; padding: 10px 20px; border: 1px solid var(--cian-neon); border-radius: 10px; background: rgba(0,229,255,0.05); box-shadow: 0 0 15px rgba(0,229,255,0.2); margin-bottom: 20px; }
         #stats-count { font-family: 'Courier New', Courier, monospace; color: var(--cian-neon); font-size: 1.2rem; text-shadow: 0 0 10px var(--cian-neon); font-weight: bold; }
-        @media (max-width: 768px) { .container { margin-top: -30px; width: 95%; } nav li { min-width: 120px; } }
+
+        @media (max-width: 768px) {
+            .container { margin-top: -30px; width: 95%; }
+            nav li { min-width: 120px; }
+            .hero h1 { font-size: 1.6em; }
+            section.block { padding: 35px 20px; }
+            .hero { padding: 40px 20px 35px 20px; }
+        }
     </style>
 </head>
 <script>
@@ -103,13 +170,13 @@ fetchGlobalStats();
     <div class="dash-value"><i class="fas fa-play-circle" style="color:#00e5ff;"></i><span id="views-total-count">--</span></div>
     <a href="https://www.youtube.com/@CaTecnoFan?sub_confirmation=1" target="_blank" class="btn-subscribe">SUSCRIBIRSE</a>
 </aside>
- 
+
 <header>
     <div id="login-container"></div>
     <img src="banner.png" alt="CaTecnoFan Banner" class="banner-img">
     <div class="linea-magenta"></div>
 </header>
- 
+
 <div class="container">
     <nav>
         <ul>
@@ -134,69 +201,108 @@ fetchGlobalStats();
             <li><a href="comunidad.html"><i class="fas fa-comments"></i> COMUNIDAD</a></li>
         </ul>
     </nav>
- 
+
     <div class="inner-content">
-        <h2>⚙️ Catalogo de utilidades</h2>
-        <div class="emu-grid">
-            <div class="emu-card" id="visual">
-                <h3>Visual C++</h3>
-                <p>Librerias fundamentales para ejecutar programas.</p>
-                <a href="https://download.catecnofan.com/Visual-C-Runtimes-All-in-One-Dec-2025.zip" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
+
+        <!-- ===================== HERO ===================== -->
+        <section class="hero">
+            <div class="hero-eyebrow"><span class="dot"></span> HERRAMIENTAS · CATECNOFAN</div>
+            <h1>Catálogo de <span>Utilidades</span></h1>
+            <p class="tagline">
+                Todo lo que necesitás para que tu PC esté a punto: librerías, runtimes
+                y herramientas de soporte para tus emuladores.
+            </p>
+        </section>
+
+        <!-- ===================== GRID ===================== -->
+        <section class="block">
+            <h2 class="section-title">⚙️ Elegí tu herramienta</h2>
+            <p class="section-sub">Librerías, runtimes y utilidades de soporte para que tus emuladores funcionen sin problemas.</p>
+
+            <div class="dl-grid">
+                <div class="dl-card" id="visual">
+                    <span class="tag">Librería</span>
+                    <i class="fas fa-code dl-icon"></i>
+                    <h3>Visual C++</h3>
+                    <p>Librerias fundamentales para ejecutar programas.</p>
+                    <a href="https://download.catecnofan.com/Visual-C-Runtimes-All-in-One-Dec-2025.zip" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
+                </div>
+                <div class="dl-card">
+                    <span class="tag">Runtime</span>
+                    <i class="fas fa-bolt dl-icon"></i>
+                    <h3>Vulkan Runtime</h3>
+                    <p>Fundamental para el rendimiento gráfico.</p>
+                    <a href="https://download.catecnofan.com/VulkanRT-X64-1.4.341.0-Installer.exe" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
+                </div>
+                <div class="dl-card">
+                    <span class="tag">Runtime</span>
+                    <i class="fas fa-cube dl-icon"></i>
+                    <h3>Direct X RUNTIME</h3>
+                    <p>Necesario para correcto funcionamiento del motor grafico.</p>
+                    <a href="https://download.catecnofan.com/directx_Jun2010_redist.exe" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
+                </div>
+                <div class="dl-card">
+                    <span class="tag">Herramienta</span>
+                    <i class="fas fa-file-archive dl-icon"></i>
+                    <h3>7-ZIP</h3>
+                    <p>Descomprime archivos de forma facil y segura.</p>
+                    <a href="https://download.catecnofan.com/7z2601-x64.exe" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
+                </div>
+                <div class="dl-card">
+                    <span class="tag">Herramienta</span>
+                    <i class="fas fa-sd-card dl-icon"></i>
+                    <h3>SDCard Formatter</h3>
+                    <p>Optimo para el formateo de tus SD.</p>
+                    <a href="https://download.catecnofan.com/SDCardFormatterv5_WinJP.zip" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
+                </div>
+                <div class="dl-card">
+                    <span class="tag">Periféricos</span>
+                    <i class="fas fa-gamepad dl-icon"></i>
+                    <h3>BetterJoy</h3>
+                    <p>Administra tus Joysticks.</p>
+                    <a href="https://download.catecnofan.com/BetterJoy_v7.1.zip" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
+                </div>
+                <div class="dl-card">
+                    <span class="tag">Herramienta</span>
+                    <i class="fab fa-steam dl-icon"></i>
+                    <h3>Steam Account Manager</h3>
+                    <p>Administra tus cuentas de steam como un pro.</p>
+                    <a href="https://download.catecnofan.com/SAM.zip" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
+                </div>
+                <div class="dl-card">
+                    <span class="tag">Sistema</span>
+                    <i class="fas fa-memory dl-icon"></i>
+                    <h3>Mem Reduct</h3>
+                    <p>Libera tu memoria ram en simples pasos.</p>
+                    <a href="https://download.catecnofan.com/memreduct-3.5.2-setup.exe" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
+                </div>
+                <div class="dl-card">
+                    <span class="tag">Hardware</span>
+                    <i class="fas fa-microchip dl-icon"></i>
+                    <h3>NZXT CAM</h3>
+                    <p>Monitorea el hardware de tu PC.</p>
+                    <a href="https://download.catecnofan.com/nzxt-cam-4.10.1-installer.exe" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
+                </div>
+                <div class="dl-card">
+                    <span class="tag">Herramienta</span>
+                    <i class="fas fa-box-open dl-icon"></i>
+                    <h3>PKG Editor</h3>
+                    <p>Descomprime tus PKG con un click.</p>
+                    <a href="https://download.catecnofan.com/PkgEditor.exe" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
+                </div>
+                <div class="dl-card">
+                    <span class="tag">SDK</span>
+                    <i class="fas fa-tools dl-icon"></i>
+                    <h3>Vulkan SDK</h3>
+                    <p>Herramientas adicionales graficas.</p>
+                    <a href="https://download.catecnofan.com/vulkansdk-windows-X64-1.4.341.1.exe" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
+                </div>
             </div>
-            <div class="emu-card">
-                <h3>Vulkan Runtime</h3>
-                <p>Fundamental para el rendimiento gráfico.</p>
-                <a href="https://download.catecnofan.com/VulkanRT-X64-1.4.341.0-Installer.exe" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
-            </div>
-            <div class="emu-card">
-                <h3>Direct X RUNTIME</h3>
-                <p>Necesario para correcto funcionamiento del motor grafico.</p>
-                <a href="https://download.catecnofan.com/directx_Jun2010_redist.exe" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
-            </div>
-            <div class="emu-card">
-                <h3>7-ZIP</h3>
-                <p>Descomprime archivos de forma facil y segura.</p>
-                <a href="https://download.catecnofan.com/7z2601-x64.exe" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
-            </div>
-            <div class="emu-card">
-                <h3>SDCard Formatter</h3>
-                <p>Optimo para el formateo de tus SD.</p>
-                <a href="https://download.catecnofan.com/SDCardFormatterv5_WinJP.zip" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
-            </div>
-            <div class="emu-card">
-                <h3>BetterJoy</h3>
-                <p>Administra tus Joysticks.</p>
-                <a href="https://download.catecnofan.com/BetterJoy_v7.1.zip" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
-            </div>
-            <div class="emu-card">
-                <h3>Steam Account Manager</h3>
-                <p>Administra tus cuentas de steam como un pro.</p>
-                <a href="https://download.catecnofan.com/SAM.zip" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
-            </div>
-            <div class="emu-card">
-                <h3>Mem Reduct</h3>
-                <p>Libera tu memoria ram en simples pasos.</p>
-                <a href="https://download.catecnofan.com/memreduct-3.5.2-setup.exe" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
-            </div>
-            <div class="emu-card">
-                <h3>NZXT CAM</h3>
-                <p>Monitorea el hardware de tu PC.</p>
-                <a href="https://download.catecnofan.com/nzxt-cam-4.10.1-installer.exe" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
-            </div>
-            <div class="emu-card">
-                <h3>PKG Editor</h3>
-                <p>Descomprime tus PKG con un click.</p>
-                <a href="https://download.catecnofan.com/PkgEditor.exe" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
-            </div>
-            <div class="emu-card">
-                <h3>Vulkan SDK</h3>
-                <p>Herramientas adicionales graficas.</p>
-                <a href="https://download.catecnofan.com/vulkansdk-windows-X64-1.4.341.1.exe" class="btn-drive" target="_blank"><i class="fab fa-google-drive"></i> DESCARGAR</a>
-            </div>
-        </div>
+        </section>
+
     </div>
 </div>
- 
+
 <footer>
     <div class="contador-digital">
         <i class="fas fa-users" style="color: var(--cian-neon); margin-right: 10px;"></i>
@@ -206,11 +312,11 @@ fetchGlobalStats();
     CaTecnoFan &copy; 2026 - Rosario, Argentina<br>
     Hardware, Juegos y Tecnología para el Gamer Real
 </footer>
- 
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
 import { getFirestore, doc, getDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
- 
+
 const firebaseConfig = {
     apiKey: "AIzaSyBa_xg_kBBmAe1cJVEhE5BiOfCjlQ-Ib0w",
     authDomain: "catecnofan-web.firebaseapp.com",
@@ -221,7 +327,7 @@ const firebaseConfig = {
 };
 const app = initializeApp(firebaseConfig, "utilidades");
 const db = getFirestore(app);
- 
+
 async function handleCounter() {
     const counterDoc = doc(db, "stats", "visitas");
     try {
@@ -230,10 +336,10 @@ async function handleCounter() {
         if (snap.exists()) document.getElementById('stats-count').innerText = snap.data().count;
     } catch(e) { console.error("Error en contador:", e); }
 }
- 
+
 const hash = window.location.hash;
 if (hash) history.replaceState(null, null, window.location.pathname);
- 
+
 window.addEventListener("load", () => {
     handleCounter();
     if (hash) {
