@@ -626,9 +626,16 @@ function renderMessage(data) {
     const div = document.createElement("div");
     div.className = "msg" + (isOwn ? " own" : "");
  
+    let time = "";
+    if (data.createdAt?.toDate) {
+        const dateObj = data.createdAt.toDate();
     const time = data.createdAt?.toDate
+        const fecha = dateObj.toLocaleDateString("es-AR", { day: "2-digit", month: "2-digit", year: "numeric" });
+        const hora = dateObj.toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" });
         ? data.createdAt.toDate().toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" })
+        time = `${fecha} ${hora}`;
         : "";
+    }
  
     const avatar = (data.displayName || "?").charAt(0).toUpperCase();
  
