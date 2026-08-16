@@ -13,9 +13,9 @@
             --magenta-neon: #ff00ff;
             --amarillo-neon: #ffff00;
         }
- 
+
         html { overflow-y: scroll; scroll-behavior: smooth; }
- 
+
         body {
             background-color: #080808;
             color: #ffffff;
@@ -27,11 +27,11 @@
             background-size: cover;
             background-position: center;
         }
- 
+
         header { width: 100%; background-color: #000; text-align: center; overflow: hidden; }
         .banner-img { width: 100%; height: auto; display: block; margin: 0 auto; }
         .linea-magenta { width: 100%; height: 5px; background-color: var(--magenta-neon); box-shadow: 0px 0px 25px var(--magenta-neon); }
- 
+
         .container {
             max-width: 1000px;
             margin: -80px auto 50px auto;
@@ -43,7 +43,7 @@
             z-index: 10;
             overflow: hidden;
         }
- 
+
         nav { background-color: #1a1a1a; border-bottom: 2px solid var(--cian-neon); }
         nav ul { list-style: none; margin: 0; padding: 0; display: flex; justify-content: center; flex-wrap: wrap; }
         nav li { position: relative; flex: 1; min-width: 150px; border-right: 1px solid #333; }
@@ -51,19 +51,19 @@
         nav a { color: white; text-decoration: none; text-transform: uppercase; font-size: 0.8em; padding: 18px 10px; display: flex; align-items: center; justify-content: center; gap: 12px; transition: 0.3s; }
         nav a i { color: var(--cian-neon); font-size: 1.2em; }
         nav a:hover { background-color: #252525; color: var(--cian-neon); }
- 
+
         .dropdown-content {
             display: none; position: absolute; background-color: #111;
             min-width: 220px; border: 1px solid var(--cian-neon); top: 100%; left: 0; z-index: 2000;
         }
         .dropdown:hover .dropdown-content { display: block; }
         .dropdown-content a { justify-content: flex-start; padding: 15px; border-bottom: 1px solid #222; }
- 
+
         .nav-active { background-color: #111; color: var(--amarillo-neon) !important; }
         .nav-active i { color: var(--amarillo-neon) !important; }
- 
+
         .inner-content { padding: 35px; }
- 
+
         h2 {
             color: var(--cian-neon);
             text-transform: uppercase;
@@ -71,8 +71,7 @@
             text-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
             text-align: center;
         }
- 
-        /* Breadcrumb de sala */
+
         .sala-breadcrumb {
             text-align: center;
             margin-bottom: 25px;
@@ -91,8 +90,7 @@
             font-size: 0.78em;
             margin: 0 6px;
         }
- 
-        /* ── Login wall ── */
+
         .login-wall {
             text-align: center;
             padding: 60px 20px;
@@ -117,8 +115,7 @@
             text-transform: uppercase;
         }
         .btn-login-wall:hover { background-color: var(--cian-neon); color: #000; }
- 
-        /* ── User bar ── */
+
         .user-bar {
             display: flex;
             align-items: center;
@@ -141,8 +138,7 @@
             box-shadow: 0 0 6px #00e676;
         }
         .online-label { color: #555; font-family: sans-serif; font-size: 0.9em; }
- 
-        /* ── Messages ── */
+
         #messages {
             height: 420px;
             overflow-y: auto;
@@ -155,7 +151,7 @@
         #messages::-webkit-scrollbar { width: 5px; }
         #messages::-webkit-scrollbar-track { background: transparent; }
         #messages::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
- 
+
         .msg {
             display: flex;
             gap: 10px;
@@ -166,7 +162,7 @@
             flex-direction: row-reverse;
             align-self: flex-end;
         }
- 
+
         .avatar {
             width: 34px; height: 34px;
             border-radius: 50%;
@@ -184,10 +180,10 @@
             border-color: var(--amarillo-neon);
             color: var(--amarillo-neon);
         }
- 
+
         .bubble-wrap { display: flex; flex-direction: column; gap: 3px; }
         .msg.own .bubble-wrap { align-items: flex-end; }
- 
+
         .msg-name {
             font-size: 10px;
             font-weight: 900;
@@ -196,7 +192,7 @@
             letter-spacing: 0.06em;
         }
         .msg.own .msg-name { color: var(--amarillo-neon); }
- 
+
         .bubble {
             background: #111;
             border: 1px solid #2a2a2a;
@@ -215,10 +211,9 @@
             border-right: 3px solid var(--amarillo-neon);
             border-radius: 10px 0 10px 10px;
         }
- 
+
         .msg-time { font-size: 10px; color: #444; font-family: 'Courier New', monospace; }
- 
-        /* ── Input bar ── */
+
         .input-bar {
             display: flex;
             gap: 10px;
@@ -243,7 +238,7 @@
         }
         #msg-input:focus { border-color: var(--cian-neon); box-shadow: 0 0 8px rgba(0,229,255,0.15); }
         #msg-input::placeholder { color: #444; }
- 
+
         #send-btn {
             background: transparent;
             color: var(--cian-neon);
@@ -261,8 +256,7 @@
         }
         #send-btn:hover { background: var(--cian-neon); color: #000; }
         #send-btn:disabled { opacity: 0.3; cursor: default; }
- 
-        /* ── Footer ── */
+
         footer { text-align: center; padding: 60px; color: #555; font-family: sans-serif; font-size: 0.9em; }
         .contador-digital {
             display: inline-block;
@@ -280,8 +274,7 @@
             text-shadow: 0 0 10px var(--cian-neon);
             font-weight: bold;
         }
- 
-        /* ── Bunker dashboard ── */
+
         .bunker-dashboard {
             position: fixed;
             top: 50%;
@@ -301,8 +294,7 @@
         .dash-value { font-size: 0.9em; color: #fff; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: bold; }
         .btn-subscribe { display: block; background: #ff0000; color: white; text-decoration: none; font-size: 0.65em; padding: 8px 5px; border-radius: 5px; text-transform: uppercase; font-weight: bold; margin-top: 10px; }
         @media (max-width: 1350px) { .bunker-dashboard { display: none; } }
- 
-        /* ── Widget online ── */
+
         .online-dashboard {
             position: fixed;
             top: 50%;
@@ -386,7 +378,7 @@
             max-width: 85px;
         }
         @media (max-width: 1350px) { .online-dashboard { display: none; } }
- 
+
         @media (max-width: 768px) {
             .container { margin-top: -30px; width: 95%; }
             nav li { min-width: 120px; }
@@ -414,7 +406,7 @@ fetchGlobalStats();
 </script>
 </head>
 <body>
- 
+
 <aside class="online-dashboard" id="online-dashboard">
     <span class="online-title"><i class="fas fa-satellite-dish" style="color:var(--magenta-neon);margin-right:4px;"></i>Online</span>
     <div class="online-count-badge">
@@ -424,7 +416,7 @@ fetchGlobalStats();
     <hr class="online-divider">
     <div id="online-list"></div>
 </aside>
- 
+
 <aside class="bunker-dashboard">
     <span class="dash-label">YouTube Subs</span>
     <div class="dash-value">
@@ -438,13 +430,13 @@ fetchGlobalStats();
     </div>
     <a href="https://www.youtube.com/@CaTecnoFan?sub_confirmation=1" target="_blank" class="btn-subscribe">SUSCRIBIRSE</a>
 </aside>
- 
+
 <header>
     <div id="login-container"></div>
     <img src="banner.png" alt="CaTecnoFan Banner" class="banner-img">
     <div class="linea-magenta"></div>
 </header>
- 
+
 <div class="container">
     <nav>
         <ul>
@@ -469,26 +461,26 @@ fetchGlobalStats();
             <li><a href="comunidad.html"><i class="fas fa-comments"></i> COMUNIDAD</a></li>
         </ul>
     </nav>
- 
+
     <div class="inner-content">
- 
+
         <h2 id="sala-titulo">⚡ Comunidad</h2>
- 
+
         <div class="sala-breadcrumb">
             <a href="comunidad.html"><i class="fas fa-comments"></i> Salas</a>
             <span>›</span>
             <span id="sala-nombre-breadcrumb" style="color:#888;">—</span>
         </div>
- 
+
         <!-- Login wall -->
         <div id="login-wall" class="login-wall" style="display:none;">
             <p>Tenés que estar logueado para chatear con la comunidad.</p>
             <a href="index.html" class="btn-login-wall"><i class="fas fa-sign-in-alt"></i> Ir al inicio e iniciar sesión</a>
         </div>
- 
+
         <!-- Chat área -->
         <div id="chat-area" style="display:none; border: 1px solid #222; border-radius: 12px; overflow: hidden;">
- 
+
             <div class="user-bar">
                 <div class="user-bar-name">
                     <div class="user-dot"></div>
@@ -496,18 +488,18 @@ fetchGlobalStats();
                 </div>
                 <span class="online-label"><i class="fas fa-satellite-dish" style="color:var(--cian-neon); margin-right:6px;"></i>Chat en vivo</span>
             </div>
- 
+
             <div id="messages"></div>
- 
+
             <div class="input-bar">
                 <textarea id="msg-input" placeholder="Escribí un mensaje... (Enter para enviar)"></textarea>
                 <button id="send-btn"><i class="fas fa-paper-plane"></i> Enviar</button>
             </div>
- 
+
         </div>
     </div>
 </div>
- 
+
 <footer>
     <div class="contador-digital">
         <i class="fas fa-users" style="color: var(--cian-neon); margin-right: 10px;"></i>
@@ -517,7 +509,7 @@ fetchGlobalStats();
     CaTecnoFan &copy; 2026 - Rosario, Argentina<br>
     Hardware, Juegos y Tecnología para el Gamer Real
 </footer>
- 
+
 <script type="module">
 import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
@@ -527,7 +519,7 @@ import {
     orderBy, limit, onSnapshot, serverTimestamp,
     doc, getDoc, updateDoc, increment
 } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
- 
+
 const firebaseConfig = {
     apiKey: "AIzaSyBSCwLvlIi75UodLbqtDK2HUiagmydoL8w",
     authDomain: "catecnofan-web.firebaseapp.com",
@@ -536,11 +528,11 @@ const firebaseConfig = {
     messagingSenderId: "670781631971",
     appId: "1:670781631971:web:7fa547d5392149c05304d6"
 };
- 
+
 // ── Detectar la sala desde la URL ──
 const urlParams = new URLSearchParams(window.location.search);
 const SALA = urlParams.get("sala") || "general";
- 
+
 const NOMBRES_SALAS = {
     ps4:    "PS4 / ShadPS4",
     switch: "Switch",
@@ -549,32 +541,29 @@ const NOMBRES_SALAS = {
     retro:  "Retro / N64 / Dreamcast",
     general:"General"
 };
- 
+
 const NOMBRE_SALA = NOMBRES_SALAS[SALA] || SALA;
 const COLECCION_CHAT = SALA === "ps4" ? "chat_general" : SALA === "general" ? "chat_general_sala" : "chat_" + SALA;
 const PRESENCE_PATH  = SALA === "ps4" ? "presence_ps4" : "presence_" + SALA;
- 
-// Actualizar UI con el nombre de la sala
+
 document.getElementById("sala-titulo").textContent = "⚡ " + NOMBRE_SALA;
 document.getElementById("sala-nombre-breadcrumb").textContent = NOMBRE_SALA;
 document.title = NOMBRE_SALA + " | CaTecnoFan";
- 
-// ── Firebase init ──
+
 const app = getApps().find(a => a.name === "login") || initializeApp(firebaseConfig, "login");
 const auth = getAuth(app);
 const db = getFirestore(app);
 const rtdb = getDatabase(app, "https://catecnofan-web-default-rtdb.firebaseio.com");
- 
+
 const messagesEl = document.getElementById("messages");
 const inputEl    = document.getElementById("msg-input");
 const sendBtn    = document.getElementById("send-btn");
 const userInfoEl = document.getElementById("user-info");
 const loginWallEl = document.getElementById("login-wall");
 const chatAreaEl  = document.getElementById("chat-area");
- 
+
 let currentUser = null;
- 
-// ── Contador de visitas ──
+
 async function handleCounter() {
     const counterDoc = doc(db, "stats", "visitas");
     try {
@@ -588,8 +577,7 @@ async function handleCounter() {
     }
 }
 window.addEventListener("load", handleCounter);
- 
-// ── Auth ──
+
 onAuthStateChanged(auth, (user) => {
     if (user) {
         currentUser = user;
@@ -604,15 +592,14 @@ onAuthStateChanged(auth, (user) => {
         chatAreaEl.style.display = "none";
     }
 });
- 
-// ── Escucha mensajes de la sala correspondiente ──
+
 function listenMessages() {
     const q = query(
-        collection(db, COLECCION_CHAT),   // <-- colección por sala
+        collection(db, COLECCION_CHAT),
         orderBy("createdAt", "asc"),
         limit(100)
     );
- 
+
     onSnapshot(q, (snapshot) => {
         snapshot.docChanges().forEach((change) => {
             if (change.type === "added") renderMessage(change.doc.data());
@@ -620,12 +607,12 @@ function listenMessages() {
         scrollToBottom();
     });
 }
- 
+
 function renderMessage(data) {
     const isOwn = currentUser && data.uid === currentUser.uid;
     const div = document.createElement("div");
     div.className = "msg" + (isOwn ? " own" : "");
- 
+
     let time = "";
     if (data.createdAt?.toDate) {
         const dateObj = data.createdAt.toDate();
@@ -633,9 +620,9 @@ function renderMessage(data) {
         const hora = dateObj.toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" });
         time = `${fecha} ${hora}`;
     }
- 
+
     const avatar = (data.displayName || "?").charAt(0).toUpperCase();
- 
+
     div.innerHTML = `
         <div class="avatar">${avatar}</div>
         <div class="bubble-wrap">
@@ -646,24 +633,21 @@ function renderMessage(data) {
     `;
     messagesEl.appendChild(div);
 }
- 
-// ── Presence por sala ──
+
 function setupPresence(user) {
     const nombre = user.displayName || user.email.split("@")[0];
-    // Cada sala tiene su propio nodo de presence
     const userRef = ref(rtdb, PRESENCE_PATH + "/" + user.uid);
- 
+
     set(userRef, { name: nombre, online: true })
         .catch(e => console.error("❌ presence set() error:", e));
     onDisconnect(userRef).remove();
- 
-    // Escuchar lista de online de esta sala
+
     const presenceRef = ref(rtdb, PRESENCE_PATH);
     onValue(presenceRef, (snapshot) => {
         const data = snapshot.val() || {};
         const users = Object.entries(data);
         document.getElementById("online-total").textContent = users.length;
- 
+
         const list = document.getElementById("online-list");
         list.innerHTML = "";
         users.forEach(([uid, u]) => {
@@ -679,15 +663,14 @@ function setupPresence(user) {
         });
     });
 }
- 
-// ── Enviar mensaje a la colección de esta sala ──
+
 async function sendMessage() {
     const text = inputEl.value.trim();
     if (!text || !currentUser) return;
     inputEl.value = "";
     sendBtn.disabled = true;
     try {
-        await addDoc(collection(db, COLECCION_CHAT), {  // <-- colección por sala
+        await addDoc(collection(db, COLECCION_CHAT), {
             text,
             uid: currentUser.uid,
             displayName: currentUser.chatName || currentUser.email.split("@")[0],
@@ -699,19 +682,19 @@ async function sendMessage() {
     sendBtn.disabled = false;
     inputEl.focus();
 }
- 
+
 sendBtn.addEventListener("click", sendMessage);
 inputEl.addEventListener("keydown", (e) => {
     if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(); }
 });
- 
+
 function scrollToBottom() { messagesEl.scrollTop = messagesEl.scrollHeight; }
- 
+
 function escapeHtml(str) {
     return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 </script>
- 
+
 <script type="module" src="login.js"></script>
 </body>
 </html>
