@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link rel="icon" type="image/png" href="iconodef.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soluciones de la Comunidad | CaTecnoFan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="login.css">
+    <style>
+        :root {
+            --cian-neon: #00e5ff;
+            --magenta-neon: #ff00ff;
+            --amarillo-neon: #ffff00;
+            --verde-term: #4dff9e;
+            --naranja: #ff9a3c;
+            --bg: #080808;
+            --panel: #111111;
+            --panel-2: #151515;
+            --mono: 'JetBrains Mono', 'Courier New', monospace;
+        }
+        html { overflow-y: scroll; scroll-behavior: smooth; }
+        body {
+            background-color: var(--bg); color: #ffffff;
+            font-family: 'Arial Black', Gadget, sans-serif;
+            margin: 0; padding: 0;
+            background-image: linear-gradient(rgba(0,0,0,0.96), rgba(0,0,0,0.96)), url('banner.png');
+            background-attachment: fixed; background-size: cover; background-position: center;
+        }
+        .bunker-dashboard {
+            position: fixed; top: 50%; left: calc(50% + 650px);
+            transform: translate(-50%, -50%); width: 140px;
+            background: rgba(10,10,10,0.9); border: 2px solid var(--cian-neon);
+            border-radius: 15px; padding: 20px 10px;
+            box-shadow: 0 0 25px rgba(0,229,255,0.3);
+            z-index: 10000; text-align: center; backdrop-filter: blur(5px);
+        }
+        .dash-label { font-size: 0.6em; color: #888; text-transform: uppercase; margin-bottom: 5px; display: block; }
+        .dash-value { font-size: 0.9em; color: #fff; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: bold; }
+        .btn-subscribe { display: block; background: #ff0000; color: white; text-decoration: none; font-size: 0.65em; padding: 8px 5px; border-radius: 5px; text-transform: uppercase; font-weight: bold; margin-top: 10px; }
+        @media (max-width: 1350px) { .bunker-dashboard { display: none; } }
+
+        header { width: 100%; background-color: #000; text-align: center; overflow: hidden; }
+        .banner-img { width: 100%; height: auto; display: block; margin: 0 auto; }
+        .linea-magenta { width: 100%; height: 5px; background-color: var(--magenta-neon); box-shadow: 0px 0px 25px var(--magenta-neon); }
+
+        .container {
+            max-width: 1000px; margin: -80px auto 50px auto;
+            background-color: rgba(10,10,10,0.98); border-radius: 20px;
+            border: 1px solid #333; box-shadow: 0px 0px 60px rgba(0,0,0,1);
+            position: relative; z-index: 10; overflow: hidden;
+        }
+        nav { background-color: #1a1a1a; border-bottom: 2px solid var(--cian-neon); }
+        nav ul { list-style: none; margin: 0; padding: 0; display: flex; justify-content: center; flex-wrap: wrap; }
+        nav li { position: relative; flex: 1; min-width: 150px; border-right: 1px solid #333; }
+        nav li:last-child { border-right: none; }
+        nav a { color: white; text-decoration: none; text-transform: uppercase; font-size: 0.8em; padding: 18px 10px; display: flex; align-items: center; justify-content: center; gap: 12px; transition: 0.3s; }
+        nav a i { font-size: 1.2em; color: var(--cian-neon); width: 20px; text-align: center; }
+        nav a:hover { background-color: #252525; color: var(--cian-neon); }
+        .dropdown-content { display: none; position: absolute; background-color: #111; min-width: 220px; border: 1px solid var(--cian-neon); top: 100%; left: 0; z-index: 2000; }
+        .dropdown:hover .dropdown-content { display: block; }
+        .dropdown-content a { justify-content: flex-start; padding: 15px; border-bottom: 1px solid #222; }
+
+        .inner-content { padding: 0; }
+
+        /* HERO */
+        .hero {
+            padding: 55px 40px 35px 40px;
+            background: radial-gradient(ellipse at 50% 0%, rgba(0,229,255,0.08), transparent 60%);
+            border-bottom: 1px solid #222;
+            text-align: center;
+        }
+        .hero-eyebrow {
+            font-family: var(--mono); font-size: 0.75em; letter-spacing: 3px;
+            color: var(--verde-term); text-transform: uppercase; margin-bottom: 18px;
+            display: inline-flex; align-items: center; gap: 8px;
+        }
+        .hero-eyebrow .dot {
+            width: 8px; height: 8px; border-radius: 50%; background: var(--verde-term);
+            box-shadow: 0 0 8px var(--verde-term); animation: pulse 1.6s infinite;
+        }
+        @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.35;} }
+        .hero h1 {
+            font-size: 1.8em; margin: 0 0 14px 0; color: #fff; text-transform: uppercase;
+            letter-spacing: 1px; text-shadow: 0 0 25px rgba(0,229,255,0.35);
+        }
+        .hero h1 span { color: var(--cian-neon); }
+        .hero p.tagline {
+            font-family: sans-serif; font-weight: normal; color: #bbb; font-size: 0.95em;
+            max-width: 650px; margin: 0 auto 25px auto; line-height: 1.6;
+        }
+
+        .btn-publicar-trigger {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: var(--cian-neon); color: #000; border: none;
+            padding: 14px 28px; border-radius: 8px; font-weight: bold;
+            font-size: 0.85em; text-transform: uppercase; cursor: pointer;
+            box-shadow: 0 0 20px rgba(0,229,255,0.4); transition: 0.3s;
+        }
+        .btn-publicar-trigger:hover { background: #fff; box-shadow: 0 0 30px rgba(255,255,255,0.8); }
+
+        /* SECCION FORO */
+        section.block { padding: 35px 40px 55px 40px; }
+
+        /* BARRA FILTROS POR EMULADOR */
+        .filter-bar {
+            display: flex; gap: 8px; overflow-x: auto; padding-bottom: 12px; margin-bottom: 25px;
+        }
+        .filter-bar::-webkit-scrollbar { height: 4px; }
+        .filter-bar::-webkit-scrollbar-thumb { background: var(--cian-neon); border-radius: 4px; }
+        .filter-btn {
+            background: #151515; color: #888; border: 1px solid #333;
+            padding: 8px 14px; border-radius: 6px; font-family: var(--mono);
+            font-size: 0.72em; text-transform: uppercase; cursor: pointer;
+            white-space: nowrap; transition: 0.25s;
+        }
+        .filter-btn.active, .filter-btn:hover {
+            background: rgba(0,229,255,0.1); color: var(--cian-neon);
+            border-color: var(--cian-neon); box-shadow: 0 0 10px rgba(0,229,255,0.2);
+        }
+
+        /* GRID DE POSTEOS */
+        .forum-list { display: flex; flex-direction: column; gap: 16px; min-height: 200px; }
+        .post-card {
+            background: var(--panel); border: 1px solid #222; border-left: 4px solid var(--cian-neon);
+            border-radius: 10px; padding: 20px; transition: 0.25s; position: relative;
+        }
+        .post-card:hover { border-color: var(--amarillo-neon); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.6); }
+        .post-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 10px; }
+        .badge-emu {
+            background: rgba(0,229,255,0.12); color: var(--cian-neon); border: 1px solid var(--cian-neon);
+            padding: 3px 8px; border-radius: 4px; font-family: var(--mono); font-size: 0.68em; text-transform: uppercase;
+        }
+        .badge-juego {
+            background: #222; color: #fff; padding: 3px 8px; border-radius: 4px; font-family: sans-serif; font-size: 0.75em; margin-left: 6px;
+        }
+        .post-time { font-family: var(--mono); font-size: 0.75em; color: #666; }
+        .post-title { color: var(--amarillo-neon); font-size: 1.1em; text-transform: uppercase; margin: 0 0 10px 0; }
+        .post-box {
+            font-family: sans-serif; font-weight: normal; font-size: 0.88em; color: #ccc;
+            line-height: 1.6; margin-bottom: 12px; background: #0a0a0a; padding: 12px; border-radius: 6px; border: 1px solid #1a1a1a;
+        }
+        .post-box label { color: var(--cian-neon); font-family: 'Arial Black', sans-serif; font-size: 0.8em; display: block; margin-bottom: 4px; text-transform: uppercase; }
+        .post-author { text-align: right; font-size: 0.75em; color: #555; font-family: sans-serif; font-weight: normal; }
+
+        /* PANEL ADMIN */
+        .admin-controls {
+            display: flex; gap: 10px; margin-top: 10px; padding-top: 10px; border-top: 1px solid #222; justify-content: flex-end;
+        }
+        .btn-approve { background: #00e676; color: #000; border: none; padding: 6px 12px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 0.7em; text-transform: uppercase; }
+        .btn-delete { background: #ff5252; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 0.7em; text-transform: uppercase; }
+
+        /* PAGINACION */
+        .pagination { display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 35px; }
+        .page-btn {
+            background: transparent; color: var(--cian-neon); border: 2px solid var(--cian-neon);
+            padding: 8px 16px; border-radius: 6px; font-weight: bold; font-size: 0.8em; cursor: pointer; transition: 0.3s;
+        }
+        .page-btn:disabled { opacity: 0.3; cursor: not-allowed; border-color: #444; color: #444; }
+        .page-btn:not(:disabled):hover { background: var(--cian-neon); color: #000; }
+        .page-info { font-family: var(--mono); font-size: 0.85em; color: #888; }
+
+        /* MODAL */
+        .modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); z-index: 20000; justify-content: center; align-items: center; backdrop-filter: blur(5px);
+        }
+        .modal-card {
+            background: #111; border: 2px solid var(--cian-neon); border-radius: 15px;
+            width: 90%; max-width: 600px; padding: 30px; box-shadow: 0 0 40px rgba(0,229,255,0.25);
+            max-height: 90vh; overflow-y: auto; position: relative;
+        }
+        .modal-close {
+            position: absolute; top: 15px; right: 20px; color: #888; font-size: 1.5em; cursor: pointer; transition: 0.2s;
+        }
+        .modal-close:hover { color: var(--magenta-neon); }
+        .modal-title { color: var(--cian-neon); text-transform: uppercase; font-size: 1.2em; margin-top: 0; margin-bottom: 20px; text-align: center; }
+
+        .form-row { display: flex; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
+        .form-row select, .form-row input, .modal-card textarea {
+            background: #080808; border: 1px solid #333; color: #fff; padding: 12px;
+            border-radius: 6px; font-family: sans-serif; font-size: 0.85em; width: 100%; box-sizing: border-box;
+        }
+        .form-row select:focus, .form-row input:focus, .modal-card textarea:focus {
+            border-color: var(--cian-neon); outline: none; box-shadow: 0 0 10px rgba(0,229,255,0.2);
+        }
+        .btn-submit {
+            width: 100%; background: var(--cian-neon); color: #000; border: none; padding: 14px;
+            border-radius: 6px; font-weight: bold; font-size: 0.85em; text-transform: uppercase; cursor: pointer; transition: 0.3s; margin-top: 10px;
+        }
+        .btn-submit:hover { background: #fff; }
+
+        footer { text-align: center; padding: 60px; color: #555; font-family: sans-serif; font-size: 0.9em; }
+        .contador-digital { display: inline-block; padding: 10px 20px; border: 1px solid var(--cian-neon); border-radius: 10px; background: rgba(0,229,255,0.05); box-shadow: 0 0 15px rgba(0,229,255,0.2); margin-bottom: 20px; }
+        #stats-count { font-family: 'Courier New', Courier, monospace; color: var(--cian-neon); font-size: 1.2rem; text-shadow: 0 0 10px var(--cian-neon); font-weight: bold; }
+
+        @media (max-width: 768px) {
+            .container { margin-top: -30px; width: 95%; }
+            nav li { min-width: 120px; }
+            .hero h1 { font-size: 1.4em; }
+            section.block { padding: 25px 15px; }
+            .hero { padding: 40px 20px; }
+        }
+    </style>
+</head>
+<script>
+const API_KEY = 'AIzaSyBa_xg_kBBmAe1cJVEhE5BiOfCjlQ-Ib0w';
+const CHANNEL_ID = 'UCG_8fY6lpJwWW0cut5Z5dfA';
+async function fetchGlobalStats() {
+    try {
+        const res = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${CHANNEL_ID}&key=${API_KEY}`);
+        const data = await res.json();
+        const s = data?.items?.[0]?.statistics;
+        if (s) {
+            document.getElementById('subs-count').innerText = (s.subscriberCount/1000).toFixed(1) + "K";
+            document.getElementById('views-total-count').innerText = Intl.NumberFormat().format(s.viewCount);
+        }
+    } catch(e) { console.error(e); }
+}
+fetchGlobalStats();
+</script>
+<body>
+
+<aside class="bunker-dashboard">
+    <span class="dash-label">YouTube Subs</span>
+    <div class="dash-value"><i class="fab fa-youtube" style="color:#ff0000;"></i><span id="subs-count">--</span></div>
+    <span class="dash-label">Total Views</span>
+    <div class="dash-value"><i class="fas fa-play-circle" style="color:#00e5ff;"></i><span id="views-total-count">--</span></div>
+    <a href="https://www.youtube.com/@CaTecnoFan?sub_confirmation=1" target="_blank" class="btn-subscribe">SUSCRIBIRSE</a>
+</aside>
+
+<header>
+    <div id="login-container"></div>
+    <img src="banner.png" alt="CaTecnoFan Banner" class="banner-img">
+    <div class="linea-magenta"></div>
+</header>
+
+<div class="container">
+    <nav>
+        <ul>
+            <li><a href="index.html"><i class="fas fa-home"></i> INICIO</a></li>
+            <li class="dropdown">
+                <a href="#"><i class="fas fa-download"></i> DESCARGAS ▼</a>
+                <div class="dropdown-content">
+                    <a href="emuladores.html"><i class="fas fa-gamepad"></i> EMULADORES</a>
+                    <a href="utilidades.html"><i class="fas fa-tools"></i> UTILIDADES</a>
+                    <a href="launcher.html"><i class="fas fa-rocket"></i> LAUNCHER</a>
+                </div>
+            </li>
+            <li><a href="https://www.youtube.com/@CaTecnoFan" target="_blank"><i class="fab fa-youtube"></i> YOUTUBE</a></li>
+            <li class="dropdown">
+                <a href="#"><i class="fas fa-envelope"></i> AYUDA ▼</a>
+                <div class="dropdown-content">
+                    <a href="contacto.html"><i class="fas fa-gamepad"></i> CONTACTO</a>
+                    <a href="diagnostico.html"><i class="fas fa-tools"></i> DIAGNOSTICO</a>
+                    <a href="guia.html"><i class="fas fa-book"></i> GUÍA</a>
+                </div>
+            </li>
+            <li><a href="comunidad.html"><i class="fas fa-comments"></i> COMUNIDAD</a></li>
+        </ul>
+    </nav>
+
+    <div class="inner-content">
+
+        <!-- HERO -->
+        <section class="hero">
+            <div class="hero-eyebrow"><span class="dot"></span> CATECNOFAN · SOLUCIONES</div>
+            <h1>¿Tuviste un problema con un emulador? <span>Compartí la solución que encontraste</span></h1>
+            <p class="tagline">
+                Base de conocimientos de la comunidad. Si solucionaste un crasheo, pantalla negra o tirón de FPS, dejá tu aporte para ayudar a los demás.
+            </p>
+            <button class="btn-publicar-trigger" id="open-modal-btn">
+                <i class="fas fa-plus-circle"></i> Publicar una Solución
+            </button>
+        </section>
+
+        <!-- SECCION FORO -->
+        <section class="block">
+            <!-- FILTROS POR EMULADOR -->
+            <div class="filter-bar">
+                <button class="filter-btn active" data-emu="TODOS">Todos</button>
+                <button class="filter-btn" data-emu="shadPS4">shadPS4</button>
+                <button class="filter-btn" data-emu="RPCS3">RPCS3</button>
+                <button class="filter-btn" data-emu="Ryujinx">Ryujinx</button>
+                <button class="filter-btn" data-emu="Yuzu">Yuzu</button>
+                <button class="filter-btn" data-emu="Eden">Eden</button>
+                <button class="filter-btn" data-emu="Citron">Citron</button>
+                <button class="filter-btn" data-emu="Xenia">Xenia</button>
+                <button class="filter-btn" data-emu="PCSX2">PCSX2</button>
+                <button class="filter-btn" data-emu="RetroBat">RetroBat</button>
+                <button class="filter-btn" data-emu="Otros">Otros</button>
+            </div>
+
+            <!-- CONTENEDOR DE POSTEOS -->
+            <div class="forum-list" id="forum-list">
+                <!-- Se cargan dinámicamente desde Firestore -->
+            </div>
+
+            <!-- PAGINACION -->
+            <div class="pagination">
+                <button class="page-btn" id="prev-page" disabled><i class="fas fa-chevron-left"></i> Anterior</button>
+                <span class="page-info" id="page-info">Página 1</span>
+                <button class="page-btn" id="next-page" disabled>Siguiente <i class="fas fa-chevron-right"></i></button>
+            </div>
+        </section>
+
+    </div>
+</div>
+
+<!-- MODAL FORMULARIO -->
+<div class="modal-overlay" id="modal-overlay">
+    <div class="modal-card">
+        <span class="modal-close" id="close-modal-btn">&times;</span>
+        <h3 class="modal-title">🛠️ Publicar Solución / Fix</h3>
+        <form id="solucion-form">
+            <div class="form-row">
+                <select id="input-emulador" style="flex: 1;" required>
+                    <option value="" disabled selected>Seleccionar Emulador</option>
+                    <option value="shadPS4">shadPS4</option>
+                    <option value="RPCS3">RPCS3</option>
+                    <option value="Ryujinx">Ryujinx</option>
+                    <option value="Yuzu">Yuzu</option>
+                    <option value="Eden">Eden</option>
+                    <option value="Citron">Citron</option>
+                    <option value="Xenia">Xenia</option>
+                    <option value="PCSX2">PCSX2</option>
+                    <option value="RetroBat">RetroBat</option>
+                    <option value="Otros">Otros</option>
+                </select>
+                <input type="text" id="input-juego" style="flex: 1;" placeholder="Juego (ej: Bloodborne, UFC 4)" required>
+            </div>
+            <div style="margin-bottom: 12px;">
+                <input type="text" id="input-titulo" placeholder="Título resumido del problema (ej: Crash en la cinemática inicial)" required>
+            </div>
+            <div style="margin-bottom: 12px;">
+                <textarea id="input-problema" rows="3" placeholder="¿Cuál era el fallo exacto o el mensaje de error?" required></textarea>
+            </div>
+            <div style="margin-bottom: 12px;">
+                <textarea id="input-solucion" rows="5" placeholder="¿Cómo lo solucionaste? Explicá el paso a paso, configuración usada o archivo modificado." required></textarea>
+            </div>
+            <button type="submit" class="btn-submit" id="btn-submit">Enviar para Revisión</button>
+        </form>
+    </div>
+</div>
+
+<footer>
+    <div class="contador-digital">
+        <i class="fas fa-users" style="color: var(--cian-neon); margin-right: 10px;"></i>
+        <span id="stats-count">--</span>
+    </div>
+    <br>
+    CaTecnoFan &copy; 2026 - Rosario, Argentina<br>
+    Hardware, Juegos y Tecnología para el Gamer Real
+</footer>
+
+<!-- SCRIPTS LÓGICA CON FIREBASE Y MODERACIÓN -->
+<script type="module">
+import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+import { getDatabase, ref, set, onValue, onDisconnect } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-database.js";
+import { 
+import {
+    getFirestore, collection, addDoc, query, 
+    getFirestore, collection, addDoc, query,
+    orderBy, limit, onSnapshot, serverTimestamp,
+    orderBy, getDocs, doc, getDoc, updateDoc, deleteDoc, 
+    doc, getDoc, updateDoc, increment
+    increment, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+ 
+const firebaseConfig = {
+const firebaseConfig = {
+    apiKey: "AIzaSyBa_xg_kBBmAe1cJVEhE5BiOfCjlQ-Ib0w",
+    apiKey: "AIzaSyBSCwLvlIi75UodLbqtDK2HUiagmydoL8w",
+    authDomain: "catecnofan-web.firebaseapp.com",
+    authDomain: "catecnofan-web.firebaseapp.com",
+    projectId: "catecnofan-web",
+    projectId: "catecnofan-web",
+    storageBucket: "catecnofan-web.appspot.com",
+    storageBucket: "catecnofan-web.appspot.com",
+    messagingSenderId: "670781631971",
+    messagingSenderId: "670781631971",
+    appId: "1:670781631971:web:7fa547d5392149c05304d6"
+    appId: "1:670781631971:web:7fa547d5392149c05304d6"
+};
+};
+
+// Instancia compartida unificada idéntica al login.js para mantener la sesión activa
+const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// UID de administrador
+const ADMIN_UID = "f21c1f54-5d9d-478e-90f7-66a7b7a66710"; 
+
+let currentUser = null;
+let currentEmuFilter = "TODOS";
+let currentPage = 1;
+const PAGE_SIZE = 10;
+let allPostsCache = [];
+
+// Elementos DOM
+const forumList = document.getElementById("forum-list");
+const modalOverlay = document.getElementById("modal-overlay");
+const openModalBtn = document.getElementById("open-modal-btn");
+const closeModalBtn = document.getElementById("close-modal-btn");
+const solucionForm = document.getElementById("solucion-form");
+const prevBtn = document.getElementById("prev-page");
+const nextBtn = document.getElementById("next-page");
+const pageInfo = document.getElementById("page-info");
+
+// Contador de visitas
+async function handleCounter() {
+    const counterDoc = doc(db, "stats", "visitas");
+    try {
+        await updateDoc(counterDoc, { count: increment(1) });
+        const snap = await getDoc(counterDoc);
+        if (snap.exists()) document.getElementById('stats-count').innerText = snap.data().count;
+    } catch(e) { console.error("Error en contador:", e); }
+}
+window.addEventListener("load", handleCounter);
+
+// Auth sincronizada con login.js
+onAuthStateChanged(auth, (user) => {
+    currentUser = user;
+    cargarPosteos();
+});
+
+// Abrir Modal validando sesión en tiempo real desde auth.currentUser
+openModalBtn.addEventListener("click", () => {
+    const activeUser = auth.currentUser || currentUser;
+    if (!activeUser) {
+        alert("Tenés que estar logueado para publicar una solución.");
+        return;
+    }
+    modalOverlay.style.display = "flex";
+});
+closeModalBtn.addEventListener("click", () => modalOverlay.style.display = "none");
+modalOverlay.addEventListener("click", (e) => { if (e.target === modalOverlay) modalOverlay.style.display = "none"; });
+
+// Filtros
+document.querySelectorAll(".filter-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+        document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        currentEmuFilter = btn.getAttribute("data-emu");
+        currentPage = 1;
+        cargarPosteos();
+    });
+});
+
+// Guardar Solución (Estado "pendiente" para moderación)
+solucionForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const activeUser = auth.currentUser || currentUser;
+    if (!activeUser) {
+        alert("Sesión no detectada. Volvé a iniciar sesión.");
+        return;
+    }
+
+    const btnSubmit = document.getElementById("btn-submit");
+    btnSubmit.disabled = true;
+    btnSubmit.textContent = "ENVIANDO...";
+
+    try {
+        await addDoc(collection(db, "soluciones_comunidad"), {
+            emulador: document.getElementById("input-emulador").value,
+            juego: document.getElementById("input-juego").value,
+            titulo: document.getElementById("input-titulo").value,
+            problema: document.getElementById("input-problema").value,
+            solucion: document.getElementById("input-solucion").value,
+            uid: activeUser.uid,
+            autor: activeUser.displayName || activeUser.email.split("@")[0],
+            estado: "pendiente",
+            createdAt: serverTimestamp()
+        });
+
+        solucionForm.reset();
+        modalOverlay.style.display = "none";
+        alert("¡Aporte enviado correctamente! Va a aparecer publicado una vez que Francisco lo apruebe.");
+    } catch (err) {
+        console.error("Error al enviar:", err);
+        alert("Hubo un error al enviar tu solución.");
+    }
+
+    btnSubmit.disabled = false;
+    btnSubmit.textContent = "Enviar para Revisión";
+});
+
+// Cargar y Paginador de Posteos
+async function cargarPosteos() {
+    forumList.innerHTML = `<p style="text-align:center; color:#888; font-family:var(--mono);">Cargando reporte de soluciones...</p>`;
+
+    try {
+        const q = query(collection(db, "soluciones_comunidad"), orderBy("createdAt", "desc"));
+        const snapshot = await getDocs(q);
+
+        allPostsCache = [];
+        snapshot.forEach((docSnap) => {
+            const data = docSnap.data();
+            data.id = docSnap.id;
+            
+            const activeUser = auth.currentUser || currentUser;
+            const esAdmin = activeUser && activeUser.uid === ADMIN_UID;
+            
+            if (data.estado === "aprobado" || esAdmin) {
+                if (currentEmuFilter === "TODOS" || data.emulador === currentEmuFilter) {
+                    allPostsCache.push(data);
+                }
+            }
+        });
+
+        renderPage();
+    } catch (err) {
+        console.error("Error cargando posteos:", err);
+        forumList.innerHTML = `<p style="text-align:center; color:#ff5252;">Error al cargar las soluciones.</p>`;
+    }
+}
+
+function renderPage() {
+    forumList.innerHTML = "";
+
+    if (allPostsCache.length === 0) {
+        forumList.innerHTML = `<p style="text-align:center; color:#666; font-family:sans-serif;">No hay soluciones registradas para este filtro todavía.</p>`;
+        pageInfo.textContent = "Página 1";
+        prevBtn.disabled = true;
+        nextBtn.disabled = true;
+        return;
+    }
+
+    const totalPages = Math.ceil(allPostsCache.length / PAGE_SIZE);
+    if (currentPage > totalPages) currentPage = totalPages;
+
+    const start = (currentPage - 1) * PAGE_SIZE;
+    const end = start + PAGE_SIZE;
+    const pageItems = allPostsCache.slice(start, end);
+
+    pageItems.forEach(post => {
+        let fecha = "Sin fecha";
+        if (post.createdAt?.toDate) {
+            const d = post.createdAt.toDate();
+            fecha = d.toLocaleDateString("es-AR") + " " + d.toLocaleTimeString("es-AR", {hour: '2-digit', minute:'2-digit'});
+        }
+
+        const card = document.createElement("article");
+        card.className = "post-card";
+        if (post.estado === "pendiente") card.style.borderColor = "#ff9a3c";
+
+        const activeUser = auth.currentUser || currentUser;
+        const esAdmin = activeUser && activeUser.uid === ADMIN_UID;
+
+        card.innerHTML = `
+            <div class="post-meta">
+                <div>
+                    <span class="badge-emu">${escapeHtml(post.emulador)}</span>
+                    <span class="badge-juego">${escapeHtml(post.juego)}</span>
+                    ${post.estado === "pendiente" ? `<span style="background:#ff9a3c; color:#000; padding:2px 6px; border-radius:4px; font-size:0.65em; font-weight:bold; margin-left:6px;">PENDIENTE</span>` : ''}
+                </div>
+                <span class="post-time"><i class="far fa-clock"></i> ${fecha}</span>
+            </div>
+            <h3 class="post-title">${escapeHtml(post.titulo)}</h3>
+            <div class="post-box">
+                <label><i class="fas fa-exclamation-triangle"></i> Problema / Fallo</label>
+                ${escapeHtml(post.problema)}
+            </div>
+            <div class="post-box" style="border-left:3px solid var(--verde-term);">
+                <label style="color:var(--verde-term);"><i class="fas fa-check-circle"></i> Solución Aplicada</label>
+                ${escapeHtml(post.solucion)}
+            </div>
+            <div class="post-author">Publicado por <strong>${escapeHtml(post.autor || "Usuario")}</strong></div>
+            ${esAdmin ? `
+                <div class="admin-controls">
+                    ${post.estado === "pendiente" ? `<button class="btn-approve" data-id="${post.id}">Aprobar</button>` : ''}
+                    <button class="btn-delete" data-id="${post.id}">Eliminar</button>
+                </div>
+            ` : ''}
+        `;
+
+        forumList.appendChild(card);
+    });
+
+    pageInfo.textContent = `Página ${currentPage} de ${totalPages}`;
+    prevBtn.disabled = currentPage === 1;
+    nextBtn.disabled = currentPage === totalPages;
+
+    document.querySelectorAll(".btn-approve").forEach(b => {
+        b.addEventListener("click", async () => {
+            const id = b.getAttribute("data-id");
+            await updateDoc(doc(db, "soluciones_comunidad", id), { estado: "aprobado" });
+            cargarPosteos();
+        });
+    });
+
+    document.querySelectorAll(".btn-delete").forEach(b => {
+        b.addEventListener("click", async () => {
+            if (confirm("¿Estás seguro de borrar este aporte?")) {
+                const id = b.getAttribute("data-id");
+                await deleteDoc(doc(db, "soluciones_comunidad", id));
+                cargarPosteos();
+            }
+        });
+    });
+}
+
+prevBtn.addEventListener("click", () => { if (currentPage > 1) { currentPage--; renderPage(); } });
+nextBtn.addEventListener("click", () => { currentPage++; renderPage(); });
+
+function escapeHtml(str) {
+    return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+</script>
+<script type="module" src="login.js"></script>
+</body>
+</html>
