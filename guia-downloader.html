@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link rel="icon" type="image/png" href="iconodef.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía del Downloader | CaTecnoFan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="login.css">
+    <style>
+        :root {
+            --cian-neon: #00e5ff;
+            --magenta-neon: #ff00ff;
+            --amarillo-neon: #ffff00;
+            --verde-term: #4dff9e;
+            --naranja: #ff9a3c;
+            --rojo: #ff5f56;
+            --bg: #080808;
+            --panel: #111111;
+            --panel-2: #151515;
+            --mono: 'JetBrains Mono', 'Courier New', monospace;
+        }
+        html { overflow-y: scroll; scroll-behavior: smooth; }
+        body {
+            background-color: var(--bg); color: #ffffff;
+            font-family: 'Arial Black', Gadget, sans-serif;
+            margin: 0; padding: 0;
+            background-image: linear-gradient(rgba(0,0,0,0.96), rgba(0,0,0,0.96)), url('banner.png');
+            background-attachment: fixed; background-size: cover; background-position: center;
+        }
+        .bunker-dashboard {
+            position: fixed; top: 50%; left: calc(50% + 650px);
+            transform: translate(-50%, -50%); width: 140px;
+            background: rgba(10,10,10,0.9); border: 2px solid var(--cian-neon);
+            border-radius: 15px; padding: 20px 10px;
+            box-shadow: 0 0 25px rgba(0,229,255,0.3);
+            z-index: 10000; text-align: center; backdrop-filter: blur(5px);
+        }
+        .dash-label { font-size: 0.6em; color: #888; text-transform: uppercase; margin-bottom: 5px; display: block; }
+        .dash-value { font-size: 0.9em; color: #fff; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: bold; }
+        .btn-subscribe { display: block; background: #ff0000; color: white; text-decoration: none; font-size: 0.65em; padding: 8px 5px; border-radius: 5px; text-transform: uppercase; font-weight: bold; margin-top: 10px; }
+        @media (max-width: 1350px) { .bunker-dashboard { display: none; } }
+
+        header { width: 100%; background-color: #000; text-align: center; overflow: hidden; }
+        .banner-img { width: 100%; height: auto; display: block; margin: 0 auto; }
+        .linea-magenta { width: 100%; height: 5px; background-color: var(--magenta-neon); box-shadow: 0px 0px 25px var(--magenta-neon); }
+
+        .container {
+            max-width: 1000px; margin: -80px auto 50px auto;
+            background-color: rgba(10,10,10,0.98); border-radius: 20px;
+            border: 1px solid #333; box-shadow: 0px 0px 60px rgba(0,0,0,1);
+            position: relative; z-index: 10; overflow: hidden;
+        }
+        nav { background-color: #1a1a1a; border-bottom: 2px solid var(--cian-neon); }
+        nav ul { list-style: none; margin: 0; padding: 0; display: flex; justify-content: center; flex-wrap: wrap; }
+        nav li { position: relative; flex: 1; min-width: 150px; border-right: 1px solid #333; }
+        nav li:last-child { border-right: none; }
+        nav a { color: white; text-decoration: none; text-transform: uppercase; font-size: 0.8em; padding: 18px 10px; display: flex; align-items: center; justify-content: center; gap: 12px; transition: 0.3s; }
+        nav a i { font-size: 1.2em; color: var(--cian-neon); width: 20px; text-align: center; }
+        nav a:hover { background-color: #252525; color: var(--cian-neon); }
+        .dropdown-content { display: none; position: absolute; background-color: #111; min-width: 220px; border: 1px solid var(--cian-neon); top: 100%; left: 0; z-index: 2000; }
+        .dropdown:hover .dropdown-content { display: block; }
+        .dropdown-content a { justify-content: flex-start; padding: 15px; border-bottom: 1px solid #222; }
+
+        /* ============ HERO ============ */
+        .hero { padding: 55px 40px 35px 40px; text-align: center; border-bottom: 1px solid #222; background: radial-gradient(ellipse at 50% 0%, rgba(0,229,255,0.08), transparent 60%); }
+        .hero-eyebrow { font-family: var(--mono); font-size: 0.72em; letter-spacing: 3px; color: var(--verde-term); text-transform: uppercase; margin-bottom: 16px; }
+        .hero h1 {
+            font-size: 2.6em; margin: 0 0 14px 0; color: #fff; font-weight: 900;
+            letter-spacing: 1px; text-transform: uppercase;
+            text-shadow: 0 0 28px rgba(196,76,255,0.55);
+        }
+        .hero h1 span {
+            color: #d24dff;
+            text-shadow: 0 0 14px #c44cff, 0 0 32px rgba(196,76,255,0.95), 0 0 60px rgba(196,76,255,0.5);
+        }
+        .hero p.tagline { font-family: sans-serif; font-weight: normal; color: #bbb; font-size: 1em; max-width: 620px; margin: 0 auto 10px auto; line-height: 1.6; }
+        .hero .back-link { font-family: sans-serif; font-size: 0.82em; }
+        .hero .back-link a { color: var(--cian-neon); text-decoration: none; }
+        .hero .back-link a:hover { text-decoration: underline; }
+
+        /* ============ QUICK NAV (chips) ============ */
+        .quicknav-wrap { padding: 22px 40px; border-bottom: 1px solid #1c1c1c; background: #0c0c0c; }
+        .quicknav { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; max-width: 780px; margin: 0 auto; }
+        .quicknav a {
+            font-family: var(--mono); font-size: 0.72em; text-transform: uppercase; letter-spacing: 0.5px;
+            color: #ccc; background: var(--panel); border: 1px solid #2c2c2c; border-radius: 20px;
+            padding: 8px 16px; text-decoration: none; transition: 0.2s; display: inline-flex; align-items: center; gap: 6px;
+        }
+        .quicknav a i { color: var(--cian-neon); font-size: 0.95em; }
+        .quicknav a:hover { border-color: var(--cian-neon); color: #fff; }
+
+        /* ============ SECTIONS ============ */
+        section.guide-section { padding: 55px 40px; border-bottom: 1px solid #1c1c1c; scroll-margin-top: 20px; }
+        section.guide-section:nth-child(even) { background: rgba(255,255,255,0.012); }
+
+        .sec-head { display: flex; align-items: center; gap: 16px; margin-bottom: 8px; max-width: 720px; margin-left: auto; margin-right: auto; }
+        .sec-head .sec-icon {
+            width: 46px; height: 46px; min-width: 46px; border-radius: 10px; display: flex; align-items: center; justify-content: center;
+            background: var(--panel); border: 1px solid #2c2c2c; font-size: 1.2em; color: var(--cian-neon);
+        }
+        .sec-head h2 { color: #fff; text-transform: uppercase; font-size: 1.25em; margin: 0; text-shadow: 0 0 10px rgba(0,229,255,0.25); }
+        .sec-head .sec-tag { font-family: var(--mono); font-size: 0.65em; color: var(--verde-term); text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 4px; }
+        p.sec-sub { font-family: sans-serif; font-weight: normal; color: #999; max-width: 680px; margin: 0 auto 34px auto; font-size: 0.92em; line-height: 1.6; }
+
+        /* steps */
+        .steps { max-width: 680px; margin: 0 auto; counter-reset: step; }
+        .step { display: grid; grid-template-columns: 46px 1fr; gap: 18px; margin-bottom: 26px; position: relative; }
+        .step:not(:last-child)::before {
+            content: ""; position: absolute; left: 22px; top: 46px; bottom: -26px; width: 2px;
+            background: linear-gradient(#2c2c2c, #1a1a1a);
+        }
+        .step-num {
+            counter-increment: step; width: 46px; height: 46px; border-radius: 50%;
+            border: 2px solid var(--cian-neon); display: flex; align-items: center; justify-content: center;
+            font-family: var(--mono); font-weight: 700; color: var(--cian-neon); font-size: 1.05em;
+            background: #0d0d0d; z-index: 2;
+        }
+        .step-num::before { content: counter(step); }
+        .step-body h4 { margin: 8px 0 6px 0; color: var(--amarillo-neon); font-size: 0.95em; text-transform: uppercase; }
+        .step-body p { margin: 0; font-family: sans-serif; font-weight: normal; color: #bbb; font-size: 0.88em; line-height: 1.6; }
+        .step-body code {
+            background: #1a1a1a; border: 1px solid #2c2c2c; padding: 2px 7px; border-radius: 4px;
+            font-family: var(--mono); font-size: 0.85em; color: var(--cian-neon);
+        }
+
+        /* screenshot placeholder */
+        .shot {
+            margin-top: 14px; border: 2px dashed #333; border-radius: 10px; background: #0c0c0c;
+            padding: 30px 16px; text-align: center; color: #555;
+        }
+        .shot i { font-size: 1.6em; display: block; margin-bottom: 8px; color: #444; }
+        .shot span { font-family: var(--mono); font-size: 0.7em; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        .shot-img {
+            margin-top: 14px; border-radius: 10px; overflow: hidden;
+            border: 1px solid #2c2c2c; box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+        }
+        .shot-img img { width: 100%; display: block; }
+
+        /* callouts */
+        .callout { max-width: 680px; margin: 0 auto 10px auto; border-radius: 10px; padding: 16px 18px; font-family: sans-serif; font-size: 0.85em; line-height: 1.6; display: flex; gap: 12px; align-items: flex-start; }
+        .callout i { margin-top: 2px; }
+        .callout.tip { background: rgba(77,255,158,0.06); border: 1px solid rgba(77,255,158,0.25); color: #cdead9; }
+        .callout.tip i { color: var(--verde-term); }
+        .callout.warn { background: rgba(255,159,60,0.07); border: 1px solid rgba(255,154,60,0.3); color: #f0dcc4; }
+        .callout.warn i { color: var(--naranja); }
+
+        /* requirement chips */
+        .req-chips { display: flex; flex-wrap: wrap; gap: 10px; max-width: 680px; margin: 0 auto 28px auto; justify-content: center; }
+        .req-chip {
+            font-family: var(--mono); font-size: 0.75em; background: var(--panel); border: 1px solid #2c2c2c;
+            border-radius: 8px; padding: 10px 14px; display: flex; align-items: center; gap: 8px; color: #ddd;
+        }
+        .req-chip i { color: var(--verde-term); }
+
+        /* troubleshoot table */
+        .trouble { max-width: 720px; margin: 0 auto; }
+        .trouble-row {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding: 18px 0; border-bottom: 1px solid #222;
+        }
+        .trouble-row:last-child { border-bottom: none; }
+        .trouble-row .msg {
+            font-family: var(--mono); font-size: 0.78em; color: var(--rojo); background: rgba(255,95,86,0.08);
+            border: 1px solid rgba(255,95,86,0.25); border-radius: 6px; padding: 10px 12px; align-self: start;
+        }
+        .trouble-row .sol { font-family: sans-serif; font-weight: normal; color: #bbb; font-size: 0.85em; line-height: 1.6; }
+        .trouble-row .sol b { color: #fff; }
+        @media (max-width: 640px) { .trouble-row { grid-template-columns: 1fr; } }
+
+        /* final cta */
+        .final-cta { text-align: center; padding: 55px 40px 65px 40px; }
+        .final-cta h2 { color: #fff; text-transform: uppercase; font-size: 1.3em; margin-bottom: 10px; }
+        .final-cta p { font-family: sans-serif; font-weight: normal; color: #999; margin-bottom: 26px; font-size: 0.9em; }
+        .btn-download-main {
+            display: inline-flex; align-items: center; gap: 14px;
+            background: linear-gradient(135deg, #1a1a1a, #0d0d0d);
+            border: 2px solid var(--cian-neon); color: #fff;
+            padding: 16px 30px; border-radius: 10px; text-decoration: none;
+            font-size: 1em; text-transform: uppercase; letter-spacing: 0.5px;
+            box-shadow: 0 0 30px rgba(0,229,255,0.2); transition: 0.25s;
+        }
+        .btn-download-main:hover { background: var(--cian-neon); color: #000; transform: translateY(-2px); box-shadow: 0 0 45px rgba(0,229,255,0.5); }
+
+        footer { text-align: center; padding: 60px; color: #555; font-family: sans-serif; font-size: 0.9em; }
+        .contador-digital { display: inline-block; padding: 10px 20px; border: 1px solid var(--cian-neon); border-radius: 10px; background: rgba(0,229,255,0.05); box-shadow: 0 0 15px rgba(0,229,255,0.2); margin-bottom: 20px; }
+        #stats-count { font-family: 'Courier New', Courier, monospace; color: var(--cian-neon); font-size: 1.2rem; text-shadow: 0 0 10px var(--cian-neon); font-weight: bold; }
+
+        @media (max-width: 768px) {
+            .container { margin-top: -30px; width: 95%; }
+            nav li { min-width: 120px; }
+            .hero h1 { font-size: 1.85em; }
+            section.guide-section { padding: 40px 20px; }
+            .quicknav-wrap { padding: 20px; }
+        }
+    </style>
+</head>
+<script>
+const API_KEY = 'AIzaSyBa_xg_kBBmAe1cJVEhE5BiOfCjlQ-Ib0w';
+const CHANNEL_ID = 'UCG_8fY6lpJwWW0cut5Z5dfA';
+async function fetchGlobalStats() {
+    try {
+        const res = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${CHANNEL_ID}&key=${API_KEY}`);
+        const data = await res.json();
+        const s = data?.items?.[0]?.statistics;
+        if (s) {
+            document.getElementById('subs-count').innerText = (s.subscriberCount/1000).toFixed(1) + "K";
+            document.getElementById('views-total-count').innerText = Intl.NumberFormat().format(s.viewCount);
+        }
+    } catch(e) { console.error(e); }
+}
+fetchGlobalStats();
+</script>
+<body>
+<aside class="bunker-dashboard">
+    <span class="dash-label">YouTube Subs</span>
+    <div class="dash-value"><i class="fab fa-youtube" style="color:#ff0000;"></i><span id="subs-count">--</span></div>
+    <span class="dash-label">Total Views</span>
+    <div class="dash-value"><i class="fas fa-play-circle" style="color:#00e5ff;"></i><span id="views-total-count">--</span></div>
+    <a href="https://www.youtube.com/@CaTecnoFan?sub_confirmation=1" target="_blank" class="btn-subscribe">SUSCRIBIRSE</a>
+</aside>
+
+<header>
+    <div id="login-container"></div>
+    <img src="banner.png" alt="CaTecnoFan Banner" class="banner-img">
+    <div class="linea-magenta"></div>
+</header>
+
+<div class="container">
+    <nav>
+        <ul>
+            <li><a href="index.html"><i class="fas fa-home"></i> INICIO</a></li>
+            <li class="dropdown">
+                <a href="#"><i class="fas fa-download"></i> DESCARGAS ▼</a>
+                <div class="dropdown-content">
+                    <a href="emuladores.html"><i class="fas fa-gamepad"></i> EMULADORES</a>
+                    <a href="utilidades.html"><i class="fas fa-tools"></i> UTILIDADES</a>
+                    <a href="launcher.html"><i class="fas fa-rocket"></i> LAUNCHER</a>
+                    <a href="downloader.html"><i class="fas fa-cloud-download-alt"></i> DOWNLOADER</a>
+                </div>
+            </li>
+            <li><a href="https://www.youtube.com/@CaTecnoFan" target="_blank"><i class="fab fa-youtube"></i> YOUTUBE</a></li>
+            <li class="dropdown">
+                <a href="#"><i class="fas fa-envelope"></i> AYUDA ▼</a>
+                <div class="dropdown-content">
+                    <a href="contacto.html"><i class="fas fa-gamepad"></i> CONTACTO</a>
+                    <a href="diagnostico.html"><i class="fas fa-tools"></i> DIAGNOSTICO</a>
+                    <a href="guia.html"><i class="fas fa-book"></i> GUÍA</a>
+                    <a href="guia-downloader.html"><i class="fas fa-book"></i> GUÍA DOWNLOADER</a>
+                </div>
+            </li>
+            <li><a href="comunidad.html"><i class="fas fa-comments"></i> COMUNIDAD</a></li>
+        </ul>
+    </nav>
+
+    <!-- ===================== HERO ===================== -->
+    <section class="hero">
+        <div class="hero-eyebrow">GUÍA COMPLETA · CATECNOFAN DOWNLOADER</div>
+        <h1>Cómo usar el <span>Downloader</span></h1>
+        <p class="tagline">
+            Paso a paso. Desde pegar el primer link hasta reanudar si cerraste el programa.
+            Si te trabaste en un botón, está acá.
+        </p>
+        <div class="back-link"><a href="downloader.html">← Volver a la página de descarga</a></div>
+    </section>
+
+    <!-- ===================== QUICK NAV ===================== -->
+    <div class="quicknav-wrap">
+        <div class="quicknav">
+            <a href="#empezar"><i class="fas fa-play"></i> Empezar</a>
+            <a href="#lista"><i class="fas fa-list"></i> La lista</a>
+            <a href="#pausar"><i class="fas fa-pause"></i> Pausar</a>
+            <a href="#reanudar"><i class="fas fa-undo"></i> Reanudar</a>
+            <a href="#varios"><i class="fas fa-layer-group"></i> Varios a la vez</a>
+            <a href="#cerrar"><i class="fas fa-power-off"></i> Si cerrás</a>
+            <a href="#espacio"><i class="fas fa-hdd"></i> Espacio</a>
+            <a href="#problemas"><i class="fas fa-exclamation-triangle"></i> Problemas</a>
+        </div>
+    </div>
+
+    <!-- ===================== EMPEZAR ===================== -->
+    <section class="guide-section" id="empezar">
+        <div class="sec-head">
+            <div class="sec-icon"><i class="fas fa-play"></i></div>
+            <div><span class="sec-tag">Primer paso</span><h2>Bajar el primer archivo</h2></div>
+        </div>
+        <p class="sec-sub">El Downloader no busca archivos por vos. Vos le pegás el link que ya tenés y le decís dónde guardarlo.</p>
+
+        <div class="steps">
+            <div class="step">
+                <div class="step-num"></div>
+                <div class="step-body">
+                    <h4>Así se ve al abrir</h4>
+                    <p>Pantalla vacía: recuadro de URL, carpeta y la lista. Todavía no hay nada en cola.</p>
+                    <div class="shot-img"><img src="guia-dl-01-vacia.png" alt="Pantalla inicial del Downloader, sin descargas"></div>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num"></div>
+                <div class="step-body">
+                    <h4>Pegá el link</h4>
+                    <p>En el recuadro <code>URL</code>, pegá el link del archivo. Enter hace lo mismo que Agregar.</p>
+                    <div class="shot-img"><img src="guia-dl-02-link.png" alt="Link pegado en el recuadro de URL"></div>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num"></div>
+                <div class="step-body">
+                    <h4>Elegí la carpeta</h4>
+                    <p>Apretá <code>Carpeta</code> y seleccioná dónde querés que se guarde. Si está vacío, te va a pedir que elijas una.</p>
+                    <div class="shot-img"><img src="guia-dl-03-carpeta.png" alt="Selector de carpeta de destino"></div>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num"></div>
+                <div class="step-body">
+                    <h4>Apretá Agregar</h4>
+                    <p>El link entra a la lista, en estado <code>En cola</code>. Todavía no empieza a bajar.</p>
+                    <div class="shot-img"><img src="guia-dl-04-cola.png" alt="Archivo agregado a la lista en cola"></div>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num"></div>
+                <div class="step-body">
+                    <h4>Seleccioná la fila y Descargar</h4>
+                    <p>Tocá la fila para que se ilumine (gris claro). Después apretá <code>Descargar</code>. Consulta el servidor y arranca: ves el %, la velocidad y lo que resta.</p>
+                    <div class="shot-img"><img src="guia-dl-12-una-bajando.png" alt="Una descarga en curso, con porcentaje y velocidad"></div>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num"></div>
+                <div class="step-body">
+                    <h4>Cuando termina</h4>
+                    <p>Sale este aviso con el nombre del archivo.</p>
+                    <div class="shot-img"><img src="guia-dl-06-completo.png" alt="Descarga completa y aviso Se descargó el archivo"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="callout tip">
+            <i class="fas fa-lightbulb"></i>
+            <div>Si apretás <b>Descargar</b> sin tener una fila prendida, te sale un aviso: primero seleccioná una descarga de la lista.</div>
+        </div>
+    </section>
+
+    <!-- ===================== LISTA ===================== -->
+    <section class="guide-section" id="lista">
+        <div class="sec-head">
+            <div class="sec-icon"><i class="fas fa-list"></i></div>
+            <div><span class="sec-tag">Pantalla</span><h2>Qué significa cada cosa</h2></div>
+        </div>
+        <p class="sec-sub">Cada archivo es una fila. Ahí ves el estado, el porcentaje, la velocidad, lo que ya bajó y lo que resta.</p>
+
+        <div class="steps">
+            <div class="step">
+                <div class="step-num"></div>
+                <div class="step-body">
+                    <h4>Seleccionar y deseleccionar</h4>
+                    <p>Un clic prende la fila. Otro clic la apaga. Pausar, Reanudar, Cancelar y Descargar actúan sobre la que está prendida.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num"></div>
+                <div class="step-body">
+                    <h4>La barrita de la fila</h4>
+                    <p>Cada descarga tiene su propia barra chica. No hay una sola barra para todos: si bajás dos, cada uno muestra su avance.</p>
+                    <div class="shot-img"><img src="guia-dl-07-varios.png" alt="Dos descargas: una completa y otra en curso"></div>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num"></div>
+                <div class="step-body">
+                    <h4>El circulito de la derecha</h4>
+                    <p><b>Verde</b> está bajando. <b>Naranja</b> está en pausa. <b>Rojo</b> se canceló o hubo un error. <b>Tilde</b> terminó bien.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== PAUSAR ===================== -->
+    <section class="guide-section" id="pausar">
+        <div class="sec-head">
+            <div class="sec-icon"><i class="fas fa-pause"></i></div>
+            <div><span class="sec-tag">Control</span><h2>Pausar y cancelar</h2></div>
+        </div>
+        <p class="sec-sub">Siempre sobre la fila que está iluminada.</p>
+
+        <div class="steps">
+            <div class="step">
+                <div class="step-num"></div>
+                <div class="step-body">
+                    <h4>Pausar</h4>
+                    <p>Selecciona la que está bajando y apretá <code>Pausar</code>. Queda naranja. No se borra nada.</p>
+                    <div class="shot-img"><img src="guia-dl-08-pausado.png" alt="Descarga en pausa, indicador naranja"></div>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num"></div>
+                <div class="step-body">
+                    <h4>Cancelar</h4>
+                    <p>Pregunta si la querés sacar de la lista. Si decís que sí, la para (si está bajando) y la saca. El archivo a medias se queda en la carpeta: si más adelante pegás el mismo link, puede seguir desde ahí. Si decís que no, no pasa nada.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num"></div>
+                <div class="step-body">
+                    <h4>Abrir</h4>
+                    <p>Abre la carpeta que figura arriba. Si el recuadro está vacío, abre <code>C:\</code>.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== REANUDAR ===================== -->
+    <section class="guide-section" id="reanudar">
+        <div class="sec-head">
+            <div class="sec-icon"><i class="fas fa-undo"></i></div>
+            <div><span class="sec-tag">Control</span><h2>Reanudar</h2></div>
+        </div>
+        <p class="sec-sub">Para una descarga que quedó en pausa, o que volvió a la lista después de cerrar el programa.</p>
+
+        <div class="steps">
+            <div class="step">
+                <div class="step-num"></div>
+                <div class="step-body">
+                    <h4>Prendé la fila</h4>
+                    <p>Tiene que estar iluminada. Si no, Reanudar te avisa que no hay nada para reanudar.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num"></div>
+                <div class="step-body">
+                    <h4>Apretá Reanudar</h4>
+                    <p>Un momento puede decir <code>Reanudando</code> y después pasa a <code>Descargando</code>. Sigue desde el porcentaje que ya tenía. En el log ves desde cuántos MB retomó.</p>
+                    <div class="shot-img"><img src="guia-dl-05-descargando.png" alt="Descarga reanudada, sigue bajando desde donde quedó"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== VARIOS ===================== -->
+    <section class="guide-section" id="varios">
+        <div class="sec-head">
+            <div class="sec-icon"><i class="fas fa-layer-group"></i></div>
+            <div><span class="sec-tag">Cola</span><h2>Varios a la vez</h2></div>
+        </div>
+        <p class="sec-sub">Podés tener más de una descarga activa. Cada una es independiente.</p>
+
+        <div class="steps">
+            <div class="step">
+                <div class="step-num"></div>
+                <div class="step-body">
+                    <h4>Agregá el primero y ponelo a bajar</h4>
+                    <p>Link, carpeta, Agregar, seleccionar, Descargar.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num"></div>
+                <div class="step-body">
+                    <h4>Pegá el otro link</h4>
+                    <p>El recuadro de URL se limpia después de Agregar, para que puedas pegar el siguiente.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num"></div>
+                <div class="step-body">
+                    <h4>Agregar, seleccionar y Descargar</h4>
+                    <p>Las dos filas bajan juntas. Cada una con su barra y su velocidad. Para pausar una sola, primero prendes esa fila.</p>
+                    <div class="shot-img"><img src="guia-dl-07-varios.png" alt="Dos archivos bajando o uno ya listo y otro en curso"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== CERRAR ===================== -->
+    <section class="guide-section" id="cerrar">
+        <div class="sec-head">
+            <div class="sec-icon"><i class="fas fa-power-off"></i></div>
+            <div><span class="sec-tag">Seguridad</span><h2>Si cerrás el programa</h2></div>
+        </div>
+        <p class="sec-sub">No se pierde lo que ya bajó. Tampoco tenés que volver a pegar el link.</p>
+
+        <div class="steps">
+            <div class="step">
+                <div class="step-num"></div>
+                <div class="step-body">
+                    <h4>Al cerrar</h4>
+                    <p>Las descargas que no terminaron se guardan. Lo que ya está en disco se queda.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num"></div>
+                <div class="step-body">
+                    <h4>Al abrir de nuevo</h4>
+                    <p>Vuelven a la lista, en pausa, con el porcentaje que tenían. El log dice cuántas se recuperaron. Si apretás un botón sin prender la fila, te avisa.</p>
+                    <div class="shot-img"><img src="guia-dl-09-selecciona.png" alt="Descarga recuperada en pausa y aviso de seleccionar la fila"></div>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num"></div>
+                <div class="step-body">
+                    <h4>Reanudar</h4>
+                    <p>Seleccioná cada una y apretá Reanudar. No hace falta el link de nuevo.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="callout tip">
+            <i class="fas fa-lightbulb"></i>
+            <div>Las que ya terminaron no vuelven a la lista. El archivo ya está en la carpeta.</div>
+        </div>
+    </section>
+
+    <!-- ===================== ESPACIO ===================== -->
+    <section class="guide-section" id="espacio">
+        <div class="sec-head">
+            <div class="sec-icon"><i class="fas fa-hdd"></i></div>
+            <div><span class="sec-tag">Disco</span><h2>Espacio en el disco</h2></div>
+        </div>
+        <p class="sec-sub">Antes de arrancar, mira si entra. Si entra, no dice nada. Si no entra, un aviso y no empieza.</p>
+
+        <div class="steps">
+            <div class="step">
+                <div class="step-num"></div>
+                <div class="step-body">
+                    <h4>Si no hay lugar</h4>
+                    <p>Sale un popup: cuánto hace falta y cuánto queda libre en esa unidad (por ejemplo <code>C:</code>).</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num"></div>
+                <div class="step-body">
+                    <h4>Varios a la vez</h4>
+                    <p>Si ya hay otra bajando al mismo disco, también la tiene en cuenta. Así no te avisa tarde con dos archivos grandes.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="callout warn">
+            <i class="fas fa-exclamation-triangle"></i>
+            <div>Liberá espacio o elegí otra carpeta en otro disco, y volvé a apretar Descargar.</div>
+        </div>
+    </section>
+
+    <!-- ===================== PROBLEMAS ===================== -->
+    <section class="guide-section" id="problemas">
+        <div class="sec-head">
+            <div class="sec-icon"><i class="fas fa-exclamation-triangle"></i></div>
+            <div><span class="sec-tag">Soporte</span><h2>Problemas comunes</h2></div>
+        </div>
+        <p class="sec-sub">Los avisos que te puede mostrar, y qué hacer.</p>
+
+        <div class="trouble">
+            <div class="trouble-row">
+                <div class="msg">"Primero seleccioná una descarga de la lista."</div>
+                <div class="sol">Tocá la fila para que se ilumine y después apretá Descargar, Pausar, Reanudar o Cancelar.<div class="shot-img" style="margin-top:12px;"><img src="guia-dl-09-selecciona.png" alt="Aviso: primero seleccioná una descarga de la lista"></div></div>
+            </div>
+            <div class="trouble-row">
+                <div class="msg">"Elegí una carpeta."</div>
+                <div class="sol">Apretá <b>Carpeta</b>, elegí dónde guardar, y después Agregar de nuevo.<div class="shot-img" style="margin-top:12px;"><img src="guia-dl-11-elegi-carpeta.png" alt="Aviso: elegí una carpeta"></div></div>
+            </div>
+            <div class="trouble-row">
+                <div class="msg">"No hay espacio suficiente en C:."</div>
+                <div class="sol">Liberá espacio o cambiá la carpeta a otro disco. El mensaje te dice cuánto hace falta y cuánto queda.</div>
+            </div>
+            <div class="trouble-row">
+                <div class="msg">"No hay ninguna descarga activa para pausar."</div>
+                <div class="sol">No hay ninguna fila bajando, o no seleccionaste la que está bajando. Prendé esa fila y volvé a intentar.</div>
+            </div>
+            <div class="trouble-row">
+                <div class="msg">No hubo respuesta del servidor</div>
+                <div class="sol">Revisá el link y la conexión. Si el archivo está en el servidor, esperá un momento y Reanudar.</div>
+            </div>
+        </div>
+
+        <div class="callout tip" style="margin-top: 30px;">
+            <i class="fas fa-life-ring"></i>
+            <div>¿Ninguna de estas soluciones resolvió tu problema? Escribinos desde la sección <a href="contacto.html" style="color:var(--verde-term);">Contacto</a> o probá la <a href="diagnostico.html" style="color:var(--verde-term);">herramienta de diagnóstico</a>.</div>
+        </div>
+    </section>
+
+    <!-- ===================== CTA FINAL ===================== -->
+    <div class="final-cta">
+        <h2>¿Todavía no lo descargaste?</h2>
+        <p>Bajá el Downloader, pegá el link y elegí la carpeta. El resto ya sabés cómo hacerlo.</p>
+        <a href="downloader.html" class="btn-download-main">
+            <i class="fas fa-download"></i>
+            <span>Ir a la página de descarga</span>
+        </a>
+    </div>
+
+</div>
+
+<footer>
+    <div class="contador-digital">
+        <i class="fas fa-users" style="color: var(--cian-neon); margin-right: 10px;"></i>
+        <span id="stats-count">--</span>
+    </div>
+    <br>
+    CaTecnoFan &copy; 2026 - Rosario, Argentina<br>
+    Hardware, Juegos y Tecnología para el Gamer Real
+</footer>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+import { getFirestore, doc, getDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyBa_xg_kBBmAe1cJVEhE5BiOfCjlQ-Ib0w",
+    authDomain: "catecnofan-web.firebaseapp.com",
+    projectId: "catecnofan-web",
+    storageBucket: "catecnofan-web.appspot.com",
+    messagingSenderId: "670781631971",
+    appId: "1:670781631971:web:7fa547d5392149c05304d6"
+};
+const app = initializeApp(firebaseConfig, "guia-downloader");
+const db = getFirestore(app);
+
+async function handleCounter() {
+    const counterDoc = doc(db, "stats", "visitas");
+    try {
+        await updateDoc(counterDoc, { count: increment(1) });
+        const snap = await getDoc(counterDoc);
+        if (snap.exists()) document.getElementById('stats-count').innerText = snap.data().count;
+    } catch(e) { console.error("Error en contador:", e); }
+}
+window.addEventListener("load", handleCounter);
+</script>
+
+<script type="module" src="login.js"></script>
+</body>
+</html>
