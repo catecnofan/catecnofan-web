@@ -34,7 +34,7 @@ Downloads are operational.
 If a download does not start correctly, we recommend using CaTecnoFan Downloader V1.5.
 This tool was developed to solve this particular cases.
 </p>
-            <a href="https://download.catecnofan.com/CaTecnoFan%20Downloader%20V1.5.exe" target="_blank" style="
+            <a href="https://catecnofan.com/downloader.html" target="_blank" style="
                 display:inline-block;background:#ff6600;color:#fff;
                 text-decoration:none;padding:10px 24px;border-radius:8px;
                 font-size:0.75em;font-weight:bold;letter-spacing:1px;
