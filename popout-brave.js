@@ -1,17 +1,17 @@
-// Popup aviso Brave — solo se muestra una vez por sesión
+// Popup aviso descargas CaTecnoFan — solo se muestra una vez por sesión
 (function() {
-    if (sessionStorage.getItem("brave_popup_shown")) return;
-    sessionStorage.setItem("brave_popup_shown", "1");
- 
+    if (sessionStorage.getItem("ctf_popup_shown")) return;
+    sessionStorage.setItem("ctf_popup_shown", "1");
+
     const overlay = document.createElement("div");
-    overlay.id = "brave-popup-overlay";
+    overlay.id = "ctf-popup-overlay";
     overlay.style.cssText = `
         position:fixed;top:0;left:0;width:100%;height:100%;
         background:rgba(0,0,0,0.75);z-index:99999;
         display:flex;align-items:center;justify-content:center;
         backdrop-filter:blur(4px);
     `;
- 
+
     overlay.innerHTML = `
         <div style="
             background:#0a0a0a;border:1px solid #00e5ff;border-radius:16px;
@@ -25,25 +25,26 @@
             <p style="color:#aaa;font-family:sans-serif;font-size:0.88em;line-height:1.6;margin:0 0 15px;">
 🇪🇸 Algunos usuarios han reportado demoras o inconvenientes al iniciar ciertas descargas desde Chrome.
 Las descargas se encuentran operativas.
-Si una descarga no comienza correctamente, recomendamos utilizar Brave Browser.
+Si una descarga no comienza correctamente, recomendamos utilizar CaTecnoFan Downloader V1.5.
+Esta herramienta la desarrollamos especficiamente para resolver estos casos puntuales.
 </p>
-
 <p style="color:#aaa;font-family:sans-serif;font-size:0.88em;line-height:1.6;margin:0 0 25px;">
 🇺🇸 Some users have reported delays or issues when starting downloads in Chrome.
 Downloads are operational.
-If a download does not start correctly, we recommend using Brave Browser.
+If a download does not start correctly, we recommend using CaTecnoFan Downloader V1.5.
+This tool was developed to solve this particular cases.
 </p>
-            <a href="https://brave.com/download" target="_blank" style="
+            <a href="https://download.catecnofan.com/CaTecnoFan%20Downloader%20V1.5.exe" target="_blank" style="
                 display:inline-block;background:#ff6600;color:#fff;
                 text-decoration:none;padding:10px 24px;border-radius:8px;
                 font-size:0.75em;font-weight:bold;letter-spacing:1px;
                 text-transform:uppercase;margin-bottom:12px;
                 transition:opacity 0.2s;
             " onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
-                Descargar Brave
+                Descargar CaTecnoFan Downloader
             </a>
             <br>
-            <button onclick="document.getElementById('brave-popup-overlay').remove()" style="
+            <button onclick="document.getElementById('ctf-popup-overlay').remove()" style="
                 background:transparent;border:1px solid #333;color:#555;
                 padding:8px 20px;border-radius:8px;cursor:pointer;
                 font-family:'Arial Black',sans-serif;font-size:0.7em;
@@ -54,10 +55,10 @@ If a download does not start correctly, we recommend using Brave Browser.
             </button>
         </div>
     `;
- 
+
     overlay.addEventListener("click", (e) => {
         if (e.target === overlay) overlay.remove();
     });
- 
+
     document.body.appendChild(overlay);
 })();
