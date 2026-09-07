@@ -63,12 +63,20 @@
         .dropdown:hover .dropdown-content { display: block; }
         .dropdown-content a { justify-content: flex-start; padding: 15px; border-bottom: 1px solid #222; }
 
-        /* ============ HERO ============ */
+        /* ============ HERO (estilo launcher.html) ============ */
         .hero { padding: 55px 40px 35px 40px; text-align: center; border-bottom: 1px solid #222; background: radial-gradient(ellipse at 50% 0%, rgba(0,229,255,0.08), transparent 60%); }
         .hero-eyebrow { font-family: var(--mono); font-size: 0.72em; letter-spacing: 3px; color: var(--verde-term); text-transform: uppercase; margin-bottom: 16px; }
-        .hero h1 { font-size: 2.2em; margin: 0 0 14px 0; color: #fff; text-transform: uppercase; text-shadow: 0 0 25px rgba(0,229,255,0.35); }
-        .hero h1 span { color: var(--cian-neon); }
-        .hero p.tagline { font-family: sans-serif; font-weight: normal; color: #bbb; font-size: 1em; max-width: 620px; margin: 0 auto 10px auto; line-height: 1.6; }
+        .hero h1 {
+            font-size: 2.6em; margin: 0 0 14px 0; color: #fff; font-weight: 900;
+            letter-spacing: 1px; text-transform: uppercase;
+            text-shadow: 0 0 28px rgba(0,229,255,0.4);
+        }
+        .hero h1 span {
+            background: linear-gradient(90deg, #00e5ff, #ff9a3c);
+            -webkit-background-clip: text; background-clip: text; color: transparent;
+            filter: drop-shadow(0 0 10px rgba(0,229,255,0.75)) drop-shadow(0 0 26px rgba(255,154,60,0.45));
+        }
+        .hero p.tagline { font-family: 'Segoe UI', sans-serif; font-weight: normal; color: #b8b8c0; font-size: 1em; max-width: 560px; margin: 0 auto 10px auto; line-height: 1.55; }
         .hero .back-link { font-family: sans-serif; font-size: 0.82em; }
         .hero .back-link a { color: var(--cian-neon); text-decoration: none; }
         .hero .back-link a:hover { text-decoration: underline; }
@@ -167,14 +175,15 @@
         .final-cta h2 { color: #fff; text-transform: uppercase; font-size: 1.3em; margin-bottom: 10px; }
         .final-cta p { font-family: sans-serif; font-weight: normal; color: #999; margin-bottom: 26px; font-size: 0.9em; }
         .btn-download-main {
-            display: inline-flex; align-items: center; gap: 14px;
-            background: linear-gradient(135deg, #1a1a1a, #0d0d0d);
-            border: 2px solid var(--cian-neon); color: #fff;
-            padding: 16px 30px; border-radius: 10px; text-decoration: none;
-            font-size: 1em; text-transform: uppercase; letter-spacing: 0.5px;
-            box-shadow: 0 0 30px rgba(0,229,255,0.2); transition: 0.25s;
+            display: inline-flex; align-items: center; gap: 12px;
+            background: #16161c; border: 2px solid #3dff6a; color: #fff;
+            padding: 12px 26px; border-radius: 6px; text-decoration: none;
+            font-family: 'Segoe UI', sans-serif; font-size: 1em; font-weight: 600;
+            text-transform: none; letter-spacing: 0;
+            box-shadow: 0 0 18px rgba(61,255,106,0.2); transition: 0.2s;
         }
-        .btn-download-main:hover { background: var(--cian-neon); color: #000; transform: translateY(-2px); box-shadow: 0 0 45px rgba(0,229,255,0.5); }
+        .btn-download-main:hover { background: #14281a; color: #fff; box-shadow: 0 0 28px rgba(61,255,106,0.4); }
+        .btn-download-main i { color: #3dff6a; }
 
         footer { text-align: center; padding: 60px; color: #555; font-family: sans-serif; font-size: 0.9em; }
         .contador-digital { display: inline-block; padding: 10px 20px; border: 1px solid var(--cian-neon); border-radius: 10px; background: rgba(0,229,255,0.05); box-shadow: 0 0 15px rgba(0,229,255,0.2); margin-bottom: 20px; }
@@ -183,7 +192,7 @@
         @media (max-width: 768px) {
             .container { margin-top: -30px; width: 95%; }
             nav li { min-width: 120px; }
-            .hero h1 { font-size: 1.6em; }
+            .hero h1 { font-size: 1.85em; }
             section.guide-section { padding: 40px 20px; }
             .quicknav-wrap { padding: 20px; }
         }
@@ -263,9 +272,11 @@ fetchGlobalStats();
         <div class="quicknav">
             <a href="#modos"><i class="fas fa-sliders-h"></i> Elegir modo</a>
             <a href="#requisitos"><i class="fas fa-check-double"></i> Requisitos</a>
+            <a href="#disco"><i class="fas fa-hdd"></i> Elegir disco</a>
             <a href="#pkg"><i class="fas fa-gamepad"></i> Instalar PKG</a>
             <a href="#update"><i class="fas fa-sync-alt"></i> Update</a>
             <a href="#dlc"><i class="fas fa-puzzle-piece"></i> DLC</a>
+            <a href="#parches"><i class="fas fa-puzzle-piece"></i> Parches</a>
             <a href="#lanzar"><i class="fas fa-rocket"></i> Lanzar</a>
             <a href="#reparar"><i class="fas fa-wrench"></i> Reparar</a>
             <a href="#cambiar-modo"><i class="fas fa-exchange-alt"></i> Cambiar modo</a>
@@ -286,11 +297,9 @@ fetchGlobalStats();
                 <div class="step-num"></div>
                 <div class="step-body">
                     <h4>Modo recomendado</h4>
-                    <p>Elegilo si no tenés nada instalado todavía. El launcher descarga el emulador, lo instala en <code>C:\ShadCTF</code> y configura todo automáticamente. Es la opción más simple: apretás botones y listo.</p>
+                    <p>Elegilo si no tenés nada instalado todavía. El launcher descarga el emulador, te deja elegir el disco y configura todo. Es la opción más simple: apretás botones y listo.</p>
                     <div class="shot-img"><img src="guia-01-modos.png" alt="Panel de selección de modo del launcher"></div>
-                    <p style="margin-top:14px;">Una vez que arranca la instalación y termina, te lo confirma así:</p>
-                    <div class="shot-img"><img src="guia-04-shadctf-instalado.png" alt="Confirmación de ShadCTF instalado en C:\ShadCTF"></div>
-                </div>
+                                    </div>
             </div>
             <div class="step">
                 <div class="step-num"></div>
@@ -346,6 +355,32 @@ fetchGlobalStats();
                     <div class="shot-img"><img src="guia-03-requisitos-completo.png" alt="Panel de requisitos con los 4 elementos instalados"></div>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!-- ===================== ELEGIR DISCO ===================== -->
+    <section class="guide-section" id="disco">
+        <div class="sec-head">
+            <div class="sec-icon"><i class="fas fa-hdd"></i></div>
+            <div><span class="sec-tag">Modo recomendado</span><h2>Elegir disco</h2></div>
+        </div>
+        <p class="sec-sub">Cuando los requisitos están OK, apretá <code>Comenzar</code>. Te pregunta dónde instalar ShadCTF. Ahí también se van a guardar los juegos.</p>
+        <div class="steps">
+            <div class="step">
+                <div class="step-num"></div>
+                <div class="step-body">
+                    <h4>Elegí el disco</h4>
+                    <p>Sale <code>¿Dónde querés instalar ShadCTF?</code>. Tocá el recuadro (por ejemplo <code>C:\</code>) y elegí el que tenga lugar. No tiene que ser C:.</p>
+                    <div class="shot-img"><img src="guia-ln-disco.png" alt="Popup Elegir disco del Launcher"></div>
+<p style="margin-top:14px;">Una vez que arranca la instalación y termina, te lo confirma así:</p>
+                    <div class="shot-img"><img src="guia-04-shadctf-instalado.png" alt="Confirmación de ShadCTF instalado en C:\ShadCTF"></div>
+
+                </div>
+            </div>
+        </div>
+        <div class="callout tip">
+            <i class="fas fa-lightbulb"></i>
+            <div>Si C: está justo, ponelo en D: u otro. Los juegos ocupan mucho.</div>
         </div>
     </section>
 
@@ -418,6 +453,48 @@ fetchGlobalStats();
         <div class="callout tip">
             <i class="fas fa-lightbulb"></i>
             <div>Si el launcher no puede leer el identificador del DLC, te lo va a avisar con un mensaje claro en vez de instalarlo en el lugar equivocado.</div>
+        </div>
+    </section>
+
+    <!-- ===================== PARCHES ===================== -->
+    <section class="guide-section" id="parches">
+        <div class="sec-head">
+            <div class="sec-icon"><i class="fas fa-puzzle-piece"></i></div>
+            <div><span class="sec-tag">Panel derecho</span><h2>Parches</h2></div>
+        </div>
+        <p class="sec-sub">Los botones de la derecha: bajar packs, prender/apagar parches, o meter un XML tuyo.</p>
+        <div class="steps">
+            <div class="step">
+                <div class="step-num"></div>
+                <div class="step-body">
+                    <h4>Descargar parches</h4>
+                    <p>Apretá <code>Descargar parches</code>. Elegí el pack (ej. UFC 3) y <code>Descargar</code>. Se guarda en la carpeta de parches del emulador.</p>
+                    <div class="shot-img"><img src="guia-ln-parches.png" alt="Popup Descargar parches"></div>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num"></div>
+                <div class="step-body">
+                    <h4>Cuando termina</h4>
+                    <p>Sale <code>Listo</code>: el XML quedó instalado y se actualizó <code>files.json</code>.</p>
+                    <div class="shot-img"><img src="guia-ln-parche-listo.png" alt="Parche instalado y files.json actualizado"></div>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num"></div>
+                <div class="step-body">
+                    <h4>Configurar parches</h4>
+                    <p>Apretá <code>Configurar parches</code>. Se abre <code>Editar parches</code>. Tildá lo que quieras, pasá el mouse para leer la descripción, y <code>Guardar</code>.</p>
+                    <div class="shot-img"><img src="guia-ln-config-parches.png" alt="Ventana Editar parches"></div>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num"></div>
+                <div class="step-body">
+                    <h4>Agregar parche local</h4>
+                    <p>Si ya tenés un <code>.xml</code> en el disco, usá <code>Agregar parche local</code> y seleccioná el archivo. <code>Reparar File.json</code> si la lista del emulador quedó rara.</p>
+                </div>
+            </div>
         </div>
     </section>
 
