@@ -368,6 +368,15 @@ html {
                 <div class="video-item"><iframe src="https://www.youtube.com/embed/tQ_QE3EJN00?si=G3_Fvmi0KXEJv13Y" frameborder="0" allowfullscreen></iframe></div>
                 <div class="video-item"><iframe src="https://www.youtube.com/embed/XVCuPzPuhds?si=1q4vdBjWXGO0b-6Y" frameborder="0" allowfullscreen></iframe></div>
                 <div class="video-item"><iframe src="https://www.youtube.com/embed/fbrR_cKxRCI?si=OLKUN_As6_A0kGET" frameborder="0" allowfullscreen></iframe></div>
+                <div class="video-item"><iframe src="https://www.youtube.com/embed/RRz1Dh1AMLQ" frameborder="0" allowfullscreen></iframe></div>
+<div class="video-item"><iframe src="https://www.youtube.com/embed/00pw3_NetXs" frameborder="0" allowfullscreen></iframe></div>
+<div class="video-item"><iframe src="https://www.youtube.com/embed/8BYfBDF99Kk" frameborder="0" allowfullscreen></iframe></div>
+<div class="video-item"><iframe src="https://www.youtube.com/embed/bh8GYoMp294" frameborder="0" allowfullscreen></iframe></div>
+<div class="video-item"><iframe src="https://www.youtube.com/embed/qYsHbfAYsQw" frameborder="0" allowfullscreen></iframe></div>
+<div class="video-item"><iframe src="https://www.youtube.com/embed/T3KwIKyE0MM" frameborder="0" allowfullscreen></iframe></div>
+<div class="video-item"><iframe src="https://www.youtube.com/embed/A4pv_Iu4Tp0" frameborder="0" allowfullscreen></iframe></div>
+<div class="video-item"><iframe src="https://www.youtube.com/embed/hYEwT_j2wsA" frameborder="0" allowfullscreen></iframe></div>
+<div class="video-item"><iframe src="https://www.youtube.com/embed/97eLDVC-mHY" frameborder="0" allowfullscreen></iframe></div>
             </div>
             <div class="carousel-controls">
                 <button onclick="manualMove(-1)"><i class="fas fa-chevron-left"></i> ANTERIOR</button>
@@ -494,7 +503,7 @@ async function fetchGlobalStats() {
 }
  
 function fetchYouTubeData(index) {
-    const videoIds = ['Un6ZHrWKDYI','UlxbEDFHn8I','6iYHssA7ADM','AT1_tCjPGh4','Rx1fKZAbglY','XQ2bQwHd82s','6UUWiL0neeY','9KoAwkaC_KU','jBCiqo6hCnk','-7HCGvQbAQ8','vFWvq0UMbDs','sz9VXeCTt5c','ZE5B5mnhZRk','n2UFF11aNxI','yVnf-hC-HiQ','WO-X7K-M9I4','VTZrG056Y88','V_YbQ7DJPWs','OAm9Njw31CY','4Pm8gx_A8oA','AH69J6lvCVY','bQy8vu6ZgBI','tQ_QE3EJN00','XVCuPzPuhds','fbrR_cKxRCI'];
+    const videoIds = ['Un6ZHrWKDYI','UlxbEDFHn8I','6iYHssA7ADM','AT1_tCjPGh4','Rx1fKZAbglY','XQ2bQwHd82s','6UUWiL0neeY','9KoAwkaC_KU','jBCiqo6hCnk','-7HCGvQbAQ8','vFWvq0UMbDs','sz9VXeCTt5c','ZE5B5mnhZRk','n2UFF11aNxI','yVnf-hC-HiQ','WO-X7K-M9I4','VTZrG056Y88','V_YbQ7DJPWs','OAm9Njw31CY','4Pm8gx_A8oA','AH69J6lvCVY','bQy8vu6ZgBI','tQ_QE3EJN00','XVCuPzPuhds','fbrR_cKxRCI','RRz1Dh1AMLQ','00pw3_NetXs','8BYfBDF99Kk','bh8GYoMp294','qYsHbfAYsQw','T3KwIKyE0MM','A4pv_Iu4Tp0','hYEwT_j2wsA','97eLDVC-mHY'];
     const id = videoIds[index];
     if (!id) return;
     fetch(`https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${id}&key=${API_KEY}`)
