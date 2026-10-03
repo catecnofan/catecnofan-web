@@ -207,6 +207,17 @@ html {
     .stat-dato { color: var(--cian-neon); font-size: 14px; font-family: 'Arial Black', sans-serif; font-weight: bold; text-shadow: 0 0 10px rgba(0, 229, 255, 0.8), 1px 1px 2px #000; display: flex; align-items: center; gap: 10px; }
     .stat-dato i { color: #fff; font-size: 12px; filter: drop-shadow(0 0 5px var(--cian-neon)); }
     .carousel-controls button { background: transparent; border: 1px solid var(--cian-neon); color: var(--cian-neon); padding: 8px 15px; cursor: pointer; font-family: 'Arial Black', sans-serif; font-size: 0.7rem; border-radius: 5px; }
+
+    .video-comentarios { background: #0c0c0c; border-top: 1px solid #333; padding: 14px 20px 16px; }
+    .comentarios-titulo { color: var(--cian-neon); font-size: 0.75rem; letter-spacing: 1px; margin-bottom: 8px; text-transform: uppercase; }
+    .comentario-item { display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid #222; }
+    .comentario-item > div { min-width: 0; flex: 1; }
+    .comentario-item:last-child { border-bottom: none; padding-bottom: 2px; }
+    .comentario-avatar { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; flex-shrink: 0; border: 1px solid var(--cian-neon); background: #1a1a1a; }
+    .comentario-avatar-vacio { display: flex; align-items: center; justify-content: center; color: var(--cian-neon); font-size: 0.8rem; }
+    .comentario-autor { color: #fff; font-size: 0.75rem; margin-bottom: 3px; }
+    .comentario-texto { color: #ccc; font-family: sans-serif; font-size: 0.9rem; font-weight: normal; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+    .comentario-vacio { color: #888; font-family: sans-serif; font-size: 0.85rem; font-weight: normal; padding: 6px 0 2px; }
  
     .alerta-shadow { background: #111; padding: 25px; border-left: 8px solid var(--cian-neon); margin-bottom: 35px; border-radius: 8px; border: 1px solid #222; }
     .noticia-item { border-bottom: 1px solid #333; padding: 15px; margin-bottom: 10px; height: 300px; display: flex; flex-direction: column; }
@@ -267,7 +278,13 @@ html {
     .contador-digital { display: inline-block; padding: 10px 20px; border: 1px solid var(--cian-neon); border-radius: 10px; background: rgba(0, 229, 255, 0.05); box-shadow: 0 0 15px rgba(0, 229, 255, 0.2); margin-bottom: 20px; }
     #stats-count { font-family: 'Courier New', Courier, monospace; color: var(--cian-neon); font-size: 1.2rem; text-shadow: 0 0 10px var(--cian-neon); font-weight: bold; }
  
-    @media (max-width: 768px) { .container { margin-top: -30px; width: 95%; } nav li { min-width: 120px; } }
+    @media (max-width: 768px) {
+        .container { margin-top: -30px; width: 95%; }
+        nav li { min-width: 120px; }
+        .carousel-controls { flex-wrap: wrap; gap: 10px; }
+        .carousel-controls button { flex: 1 1 40%; }
+        .video-stats-limpias { flex: 1 1 100%; justify-content: center; gap: 16px; order: 3; }
+    }
  
     input:-webkit-autofill,
     input:-webkit-autofill:hover,
@@ -387,6 +404,12 @@ html {
                 </div>
                 <button onclick="manualMove(1)">SIGUIENTE <i class="fas fa-chevron-right"></i></button>
             </div>
+            <div class="video-comentarios">
+                <div class="comentarios-titulo"><i class="fas fa-comments"></i> Comentarios del video</div>
+                <div id="comentarios-lista">
+                    <div class="comentario-vacio">Cargando comentarios...</div>
+                </div>
+            </div>
         </div>
  
         <div class="alerta-shadow">
@@ -488,7 +511,85 @@ const db = getFirestore(app);
  
 const API_KEY = 'AIzaSyBa_xg_kBBmAe1cJVEhE5BiOfCjlQ-Ib0w';
 const CHANNEL_ID = 'UCG_8fY6lpJwWW0cut5Z5dfA';
+const VIDEO_IDS = ['Un6ZHrWKDYI','UlxbEDFHn8I','6iYHssA7ADM','AT1_tCjPGh4','Rx1fKZAbglY','XQ2bQwHd82s','6UUWiL0neeY','9KoAwkaC_KU','jBCiqo6hCnk','-7HCGvQbAQ8','vFWvq0UMbDs','sz9VXeCTt5c','ZE5B5mnhZRk','n2UFF11aNxI','yVnf-hC-HiQ','WO-X7K-M9I4','VTZrG056Y88','V_YbQ7DJPWs','OAm9Njw31CY','4Pm8gx_A8oA','AH69J6lvCVY','bQy8vu6ZgBI','tQ_QE3EJN00','XVCuPzPuhds','fbrR_cKxRCI','RRz1Dh1AMLQ','00pw3_NetXs','8BYfBDF99Kk','bh8GYoMp294','qYsHbfAYsQw','T3KwIKyE0MM','A4pv_Iu4Tp0','hYEwT_j2wsA','97eLDVC-mHY'];
+const commentCache = new Map();
 let currentSlide = 0;
+let commentRequest = 0;
+
+function escapeHtml(text) {
+    return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+}
+
+function renderComentarios(items, mensaje) {
+    const box = document.getElementById('comentarios-lista');
+    if (!box) return;
+    if (mensaje) {
+        box.innerHTML = `<div class="comentario-vacio">${escapeHtml(mensaje)}</div>`;
+        return;
+    }
+    if (!items || !items.length) {
+        box.innerHTML = '<div class="comentario-vacio">Este video no tiene comentarios para mostrar.</div>';
+        return;
+    }
+    box.innerHTML = items.map(c => `
+        <div class="comentario-item">
+            ${c.avatar
+                ? `<img class="comentario-avatar" src="${escapeHtml(c.avatar)}" alt="" referrerpolicy="no-referrer">`
+                : `<div class="comentario-avatar comentario-avatar-vacio"><i class="fas fa-user"></i></div>`}
+            <div>
+                <div class="comentario-autor">${escapeHtml(c.author)}</div>
+                <div class="comentario-texto">${escapeHtml(c.text)}</div>
+            </div>
+        </div>
+    `).join('');
+}
+
+function fetchVideoComments(index) {
+    const id = VIDEO_IDS[index];
+    const req = ++commentRequest;
+    if (!id) return;
+    if (commentCache.has(id)) {
+        const cached = commentCache.get(id);
+        renderComentarios(cached.items, cached.mensaje);
+        return;
+    }
+    renderComentarios(null, 'Cargando comentarios...');
+    fetch(`https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&videoId=${encodeURIComponent(id)}&maxResults=3&order=relevance&textFormat=plainText&key=${API_KEY}`)
+        .then(res => res.json())
+        .then(data => {
+            if (req !== commentRequest) return;
+            let mensaje = '';
+            let items = [];
+            if (data?.error) {
+                const reason = data.error.errors?.[0]?.reason;
+                mensaje = reason === 'commentsDisabled'
+                    ? 'Los comentarios de este video están desactivados.'
+                    : 'No se pudieron cargar los comentarios.';
+            } else {
+                items = (data?.items || []).map(item => {
+                    const s = item?.snippet?.topLevelComment?.snippet || {};
+                    const avatar = typeof s.authorProfileImageUrl === 'string' && s.authorProfileImageUrl.startsWith('https://')
+                        ? s.authorProfileImageUrl
+                        : '';
+                    return {
+                        author: s.authorDisplayName || 'Usuario',
+                        text: (s.textOriginal || s.textDisplay || '').replace(/\s+/g, ' ').trim(),
+                        avatar
+                    };
+                }).filter(c => c.text);
+            }
+            commentCache.set(id, { items, mensaje });
+            renderComentarios(items, mensaje);
+        })
+        .catch(() => {
+            if (req !== commentRequest) return;
+            renderComentarios(null, 'No se pudieron cargar los comentarios.');
+        });
+}
  
 async function fetchGlobalStats() {
     try {
@@ -503,9 +604,9 @@ async function fetchGlobalStats() {
 }
  
 function fetchYouTubeData(index) {
-    const videoIds = ['Un6ZHrWKDYI','UlxbEDFHn8I','6iYHssA7ADM','AT1_tCjPGh4','Rx1fKZAbglY','XQ2bQwHd82s','6UUWiL0neeY','9KoAwkaC_KU','jBCiqo6hCnk','-7HCGvQbAQ8','vFWvq0UMbDs','sz9VXeCTt5c','ZE5B5mnhZRk','n2UFF11aNxI','yVnf-hC-HiQ','WO-X7K-M9I4','VTZrG056Y88','V_YbQ7DJPWs','OAm9Njw31CY','4Pm8gx_A8oA','AH69J6lvCVY','bQy8vu6ZgBI','tQ_QE3EJN00','XVCuPzPuhds','fbrR_cKxRCI','RRz1Dh1AMLQ','00pw3_NetXs','8BYfBDF99Kk','bh8GYoMp294','qYsHbfAYsQw','T3KwIKyE0MM','A4pv_Iu4Tp0','hYEwT_j2wsA','97eLDVC-mHY'];
-    const id = videoIds[index];
+    const id = VIDEO_IDS[index];
     if (!id) return;
+    fetchVideoComments(index);
     fetch(`https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${id}&key=${API_KEY}`)
         .then(res => res.json())
         .then(data => {
