@@ -1,145 +1,216 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<link rel="icon" type="image/png" href="iconodef.png">
+    <link rel="icon" type="image/png" href="iconodef.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Videos | CaTecnoFan</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="login.css">
-<style>
-    :root {
-        --cian-neon: #00e5ff;
-        --magenta-neon: #ff00ff;
-        --amarillo-neon: #ffff00;
-    }
-    html { overflow-y: scroll; }
-    body {
-        background-color: #080808;
-        color: #ffffff;
-        font-family: 'Arial Black', Gadget, sans-serif;
-        margin: 0;
-        padding: 0;
-        background-image: linear-gradient(rgba(0,0,0,0.96), rgba(0,0,0,0.96)), url('banner.png');
-        background-attachment: fixed;
-        background-size: cover;
-        background-position: center;
-    }
-    .bunker-dashboard {
-        position: fixed; top: 50%; left: calc(50% + 650px); transform: translate(-50%, -50%);
-        width: 140px; background: rgba(10, 10, 10, 0.9); border: 2px solid var(--cian-neon);
-        border-radius: 15px; padding: 20px 10px; box-shadow: 0 0 25px rgba(0, 229, 255, 0.3);
-        z-index: 10000; text-align: center; backdrop-filter: blur(5px);
-    }
-    .dash-label { font-size: 0.6em; color: #888; text-transform: uppercase; margin-bottom: 5px; display: block; }
-    .dash-value { font-size: 0.9em; color: #fff; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: bold; }
-    .btn-subscribe { display: block; background: #ff0000; color: white; text-decoration: none; font-size: 0.65em; padding: 8px 5px; border-radius: 5px; text-transform: uppercase; font-weight: bold; margin-top: 10px; }
-    @media (max-width: 1350px) { .bunker-dashboard { display: none; } }
+    <style>
+        :root {
+            --cian-neon: #00e5ff;
+            --magenta-neon: #ff00ff;
+            --amarillo-neon: #ffff00;
+            --verde-term: #4dff9e;
+            --naranja: #ff9a3c;
+            --bg: #080808;
+            --panel: #111111;
+            --panel-2: #151515;
+            --mono: 'JetBrains Mono', 'Courier New', monospace;
+        }
+        html { overflow-y: scroll; scroll-behavior: smooth; }
+        body {
+            background-color: var(--bg); color: #ffffff;
+            font-family: 'Arial Black', Gadget, sans-serif;
+            margin: 0; padding: 0;
+            background-image: linear-gradient(rgba(0,0,0,0.96), rgba(0,0,0,0.96)), url('banner.png');
+            background-attachment: fixed; background-size: cover; background-position: center;
+        }
+        .bunker-dashboard {
+            position: fixed; top: 50%; left: calc(50% + 650px);
+            transform: translate(-50%, -50%); width: 140px;
+            background: rgba(10,10,10,0.9); border: 2px solid var(--cian-neon);
+            border-radius: 15px; padding: 20px 10px;
+            box-shadow: 0 0 25px rgba(0,229,255,0.3);
+            z-index: 10000; text-align: center; backdrop-filter: blur(5px);
+        }
+        .dash-label { font-size: 0.6em; color: #888; text-transform: uppercase; margin-bottom: 5px; display: block; }
+        .dash-value { font-size: 0.9em; color: #fff; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: bold; }
+        .btn-subscribe { display: block; background: #ff0000; color: white; text-decoration: none; font-size: 0.65em; padding: 8px 5px; border-radius: 5px; text-transform: uppercase; font-weight: bold; margin-top: 10px; }
+        @media (max-width: 1350px) { .bunker-dashboard { display: none; } }
 
-    header { width: 100%; background-color: #000; text-align: center; overflow: hidden; }
-    .banner-img { width: 100%; height: auto; display: block; margin: 0 auto; }
-    .linea-magenta { width: 100%; height: 5px; background-color: var(--magenta-neon); box-shadow: 0px 0px 25px var(--magenta-neon); }
-    .container {
-        max-width: 1100px; margin: -80px auto 50px auto; background-color: rgba(10, 10, 10, 0.98);
-        border-radius: 20px; border: 1px solid #333; box-shadow: 0px 0px 60px rgba(0,0,0,1);
-        position: relative; z-index: 10; overflow: hidden;
-    }
-    nav { background-color: #1a1a1a; border-bottom: 2px solid var(--cian-neon); }
-    nav ul { list-style: none; margin: 0; padding: 0; display: flex; justify-content: center; flex-wrap: wrap; }
-    nav li { position: relative; flex: 1; min-width: 130px; border-right: 1px solid #333; }
-    nav li:last-child { border-right: none; }
-    nav a { color: white; text-decoration: none; text-transform: uppercase; font-size: 0.75em; padding: 18px 8px; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.3s; }
-    nav a i { font-size: 1.1em; color: var(--cian-neon); width: 18px; text-align: center; }
-    nav a:hover { background-color: #252525; color: var(--cian-neon); }
-    .dropdown-content { display: none; position: absolute; background-color: #111; min-width: 220px; border: 1px solid var(--cian-neon); top: 100%; left: 0; z-index: 2000; }
-    .dropdown:hover .dropdown-content { display: block; }
-    .dropdown-content a { justify-content: flex-start; padding: 15px; border-bottom: 1px solid #222; }
-    .nav-active { background-color: #111; color: var(--amarillo-neon) !important; }
-    .nav-active i { color: var(--amarillo-neon) !important; }
-    .inner-content { padding: 28px; }
+        header { width: 100%; background-color: #000; text-align: center; overflow: hidden; }
+        .banner-img { width: 100%; height: auto; display: block; margin: 0 auto; }
+        .linea-magenta { width: 100%; height: 5px; background-color: var(--magenta-neon); box-shadow: 0px 0px 25px var(--magenta-neon); }
 
-    .cine { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 18px; align-items: start; }
-    .reproductor { border: 3px solid var(--cian-neon); border-radius: 12px; overflow: hidden; box-shadow: 0 0 20px rgba(0, 229, 255, 0.3); background: #000; }
-    .reproductor-marco { position: relative; padding-bottom: 56.25%; height: 0; background: #000; }
-    .reproductor-marco video, .reproductor-marco iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; background: #000; }
-    .video-ficha { padding: 14px 16px 6px; }
-    .video-ficha h2 { color: #fff; font-size: 1rem; margin: 0 0 8px; text-transform: uppercase; }
-    .video-link-row { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
-    .video-link-row input { flex: 1; background: #111; border: 1px solid #333; color: var(--cian-neon); padding: 8px 10px; border-radius: 5px; font-family: sans-serif; font-size: 0.75rem; }
-    .video-link-row button, .comentario-form button, .lista-vacia {
-        background: transparent; border: 1px solid var(--cian-neon); color: var(--cian-neon);
-        padding: 8px 12px; cursor: pointer; font-family: 'Arial Black', sans-serif; font-size: 0.68rem; border-radius: 5px;
-    }
-    .cine-comentarios { margin-top: 16px; background: #0c0c0c; border: 1px solid #333; border-radius: 12px; padding: 14px 16px 16px; }
-    .comentarios-titulo { color: var(--cian-neon); font-size: 0.75rem; letter-spacing: 1px; margin-bottom: 8px; text-transform: uppercase; }
-    .comentario-item { padding: 10px 0; border-bottom: 1px solid #222; }
-    .comentario-item:last-child { border-bottom: none; }
-    .comentario-autor { color: #fff; font-size: 0.75rem; margin-bottom: 3px; }
-    .comentario-texto { color: #ccc; font-family: sans-serif; font-size: 0.9rem; font-weight: normal; line-height: 1.4; }
-    .comentario-vacio { color: #888; font-family: sans-serif; font-size: 0.85rem; font-weight: normal; }
-    .comentario-form { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
-    .comentario-form input, .comentario-form textarea, #panel-subida input[type="text"] {
-        width: 100%; background: #161616; border: 1px solid #333; color: #fff; padding: 10px; border-radius: 5px;
-        box-sizing: border-box; font-family: sans-serif; font-size: 0.9rem;
-    }
-    .comentario-form button { align-self: flex-start; background: var(--cian-neon); color: #000; border: none; }
+        .container {
+            max-width: 1000px; margin: -80px auto 50px auto;
+            background-color: rgba(10,10,10,0.98); border-radius: 20px;
+            border: 1px solid #333; box-shadow: 0px 0px 60px rgba(0,0,0,1);
+            position: relative; z-index: 10; overflow: hidden;
+        }
+        nav { background-color: #1a1a1a; border-bottom: 2px solid var(--cian-neon); }
+        nav ul { list-style: none; margin: 0; padding: 0; display: flex; justify-content: center; flex-wrap: wrap; }
+        nav li { position: relative; flex: 1; min-width: 150px; border-right: 1px solid #333; }
+        nav li:last-child { border-right: none; }
+        nav a { color: white; text-decoration: none; text-transform: uppercase; font-size: 0.8em; padding: 18px 10px; display: flex; align-items: center; justify-content: center; gap: 12px; transition: 0.3s; }
+        nav a i { font-size: 1.2em; color: var(--cian-neon); width: 20px; text-align: center; }
+        nav a:hover { background-color: #252525; color: var(--cian-neon); }
+        .dropdown-content { display: none; position: absolute; background-color: #111; min-width: 220px; border: 1px solid var(--cian-neon); top: 100%; left: 0; z-index: 2000; }
+        .dropdown:hover .dropdown-content { display: block; }
+        .dropdown-content a { justify-content: flex-start; padding: 15px; border-bottom: 1px solid #222; }
 
-    .cine-lista { background: #111; border: 1px solid #333; border-radius: 12px; overflow: hidden; }
-    .lista-titulo { color: var(--cian-neon); font-size: 0.72rem; letter-spacing: 1px; padding: 12px 14px; border-bottom: 1px solid #222; text-transform: uppercase; }
-    .lista-item { display: flex; gap: 10px; padding: 10px 12px; border-bottom: 1px solid #222; cursor: pointer; text-decoration: none; color: inherit; }
-    .lista-item:hover { background: #1a1a1a; }
-    .lista-item.activo { background: #141414; box-shadow: inset 3px 0 0 var(--amarillo-neon); }
-    .lista-thumb { width: 86px; height: 48px; border-radius: 4px; background: #000 center/cover no-repeat; flex-shrink: 0; border: 1px solid #333; display: flex; align-items: center; justify-content: center; color: var(--cian-neon); font-size: 0.8rem; }
-    .lista-nombre { font-size: 0.72rem; line-height: 1.3; text-transform: uppercase; }
-    .lista-vacia { display: block; margin: 12px; text-align: center; }
+        .inner-content { padding: 0; }
 
-    #panel-subida {
-        display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-        background: #111; border: 3px solid var(--magenta-neon); padding: 28px; z-index: 20000;
-        width: 90%; max-width: 480px; border-radius: 15px; box-shadow: 0 0 50px rgba(255, 0, 255, 0.4);
-    }
-    #panel-subida h2 { color: var(--magenta-neon); margin-top: 0; font-size: 1rem; }
-    #panel-subida p { font-family: sans-serif; color: #aaa; font-size: 0.82rem; font-weight: normal; }
-    #panel-subida input[type="file"] { color: #ccc; font-family: sans-serif; margin: 8px 0 14px; }
-    .admin-btns { display: flex; gap: 10px; }
-    .btn-admin { flex: 1; padding: 10px; border: none; cursor: pointer; font-weight: bold; text-transform: uppercase; border-radius: 5px; }
-    .btn-save { background: var(--cian-neon); color: #000; }
-    .btn-close { background: #444; color: #fff; }
-    .subido-item { display: flex; justify-content: space-between; gap: 8px; align-items: center; border-bottom: 1px solid #222; padding: 8px 0; font-size: 0.72rem; }
-    .btn-delete { background: #ff0000; color: #fff; font-size: 0.7em; padding: 3px 8px; border: none; cursor: pointer; border-radius: 3px; }
-    footer { text-align: center; padding: 60px; color: #555; font-family: sans-serif; }
-    @media (max-width: 800px) {
-        .container { margin-top: -30px; width: 95%; }
-        .cine { grid-template-columns: 1fr; }
-        nav li { min-width: 110px; }
-    }
-</style>
+        /* ============ HERO ============ */
+        .hero {
+            padding: 55px 40px 45px 40px;
+            background: radial-gradient(ellipse at 50% 0%, rgba(0,229,255,0.08), transparent 60%);
+            border-bottom: 1px solid #222;
+            text-align: center;
+        }
+        .hero-eyebrow {
+            font-family: var(--mono); font-size: 0.75em; letter-spacing: 3px;
+            color: var(--verde-term); text-transform: uppercase; margin-bottom: 18px;
+            display: inline-flex; align-items: center; gap: 8px;
+        }
+        .hero-eyebrow .dot {
+            width: 8px; height: 8px; border-radius: 50%; background: var(--verde-term);
+            box-shadow: 0 0 8px var(--verde-term); animation: pulse 1.6s infinite;
+        }
+        @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.35;} }
+        .hero h1 {
+            font-size: 2.2em; margin: 0 0 14px 0; color: #fff; text-transform: uppercase;
+            letter-spacing: 1px; text-shadow: 0 0 25px rgba(0,229,255,0.35);
+        }
+        .hero h1 span { color: var(--cian-neon); }
+        .hero p.tagline {
+            font-family: sans-serif; font-weight: normal; color: #bbb; font-size: 1em;
+            max-width: 560px; margin: 0 auto 0 auto; line-height: 1.6;
+        }
+
+        /* ============ AVISO DESCARGAS ============ */
+        .aviso-descargas {
+            max-width: 900px; margin: 22px auto 0 auto; background: rgba(10,10,10,0.85);
+            border: 1px solid rgba(0,229,255,0.4); border-radius: 12px;
+            padding: 12px 20px; text-align: left;
+            box-shadow: 0 0 20px rgba(0,229,255,0.08);
+        }
+        .aviso-titulo-row {
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            margin-bottom: 8px;
+        }
+        .aviso-descargas i.aviso-warn-icon { color: var(--naranja); font-size: 1em; }
+        .aviso-descargas h4 {
+            color: var(--cian-neon); text-transform: uppercase; font-size: 0.75em;
+            margin: 0; letter-spacing: 0.5px;
+        }
+        .aviso-cuerpo { display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; }
+        .aviso-texto { flex: 0 1 auto; text-align: center; }
+        .aviso-descargas p {
+            font-family: sans-serif; font-weight: normal; font-size: 0.72em; color: #999;
+            line-height: 1.4; margin: 0; text-align: center;
+        }
+        .aviso-descargas p .lang-tag {
+            font-family: var(--mono); color: #555; font-size: 0.85em; margin-right: 4px;
+        }
+        .aviso-descargas .btn-brave {
+            display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0;
+            background: var(--naranja); color: #1a0a00; text-decoration: none;
+            padding: 8px 14px; border-radius: 7px; font-family: 'Arial Black', sans-serif;
+            font-size: 0.68em; text-transform: uppercase; letter-spacing: 0.5px;
+            transition: 0.25s; white-space: nowrap;
+        }
+        .aviso-descargas .btn-brave:hover { background: #ffb066; box-shadow: 0 0 18px rgba(255,154,60,0.4); }
+
+        @media (max-width: 700px) {
+            .aviso-cuerpo { flex-direction: column; align-items: flex-start; text-align: left; }
+            .aviso-descargas .btn-brave { align-self: stretch; justify-content: center; }
+        }
+
+        /* ============ SECTIONS ============ */
+        section.block { padding: 45px 40px 55px 40px; }
+        h2.section-title {
+            color: var(--cian-neon); text-transform: uppercase; margin: 0 0 8px 0;
+            text-shadow: 0 0 10px rgba(0,229,255,0.3); text-align: center; font-size: 1.3em;
+        }
+        p.section-sub {
+            font-family: sans-serif; font-weight: normal; text-align: center; color: #999;
+            max-width: 560px; margin: 0 auto 34px auto; font-size: 0.92em; line-height: 1.5;
+        }
+
+        /* dl cards */
+        .dl-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px,1fr)); gap: 18px; }
+        .dl-card {
+            background: var(--panel); border: 1px solid #2c2c2c; border-radius: 12px; padding: 22px 20px;
+            border-top: 4px solid var(--cian-neon); display: flex; flex-direction: column;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+        }
+        .dl-card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(0,0,0,0.5); border-color: var(--cian-neon); }
+        .dl-card .tag {
+            font-family: var(--mono); font-size: 0.62em; color: var(--verde-term); text-transform: uppercase;
+            letter-spacing: 1px; margin-bottom: 10px; display: block;
+        }
+        .dl-card i.dl-icon { font-size: 1.5em; color: var(--cian-neon); margin-bottom: 12px; display: block; }
+        .dl-card h3 { color: var(--amarillo-neon); font-size: 0.95em; text-transform: uppercase; margin: 0 0 8px 0; }
+        .dl-card p { font-family: sans-serif; font-weight: normal; font-size: 0.85em; color: #bbb; line-height: 1.5; margin: 0 0 18px 0; flex: 1; }
+
+        .btn-drive {
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            background-color: transparent; color: var(--cian-neon); border: 2px solid var(--cian-neon);
+            padding: 11px; text-align: center; text-decoration: none; border-radius: 8px;
+            font-family: 'Arial Black', sans-serif; font-weight: bold; font-size: 0.8em;
+            text-transform: uppercase; letter-spacing: 0.5px; transition: 0.25s;
+        }
+        .btn-drive:hover { background-color: var(--cian-neon); color: #000; box-shadow: 0 0 20px rgba(0,229,255,0.35); }
+
+        .resaltado-temporal { animation: zoomHighlight 2.5s ease-in-out; outline: none; z-index: 10; position: relative; }
+        @keyframes zoomHighlight {
+            0%, 100% { transform: scale(1); box-shadow: none; border: 3px solid transparent; }
+            30%, 70% { transform: scale(1.15); box-shadow: 0 0 40px rgba(255,204,0,0.7); border: 3px solid #ffcc00; }
+        }
+
+        footer { text-align: center; padding: 60px; color: #555; font-family: sans-serif; font-size: 0.9em; }
+        .contador-digital { display: inline-block; padding: 10px 20px; border: 1px solid var(--cian-neon); border-radius: 10px; background: rgba(0,229,255,0.05); box-shadow: 0 0 15px rgba(0,229,255,0.2); margin-bottom: 20px; }
+        #stats-count { font-family: 'Courier New', Courier, monospace; color: var(--cian-neon); font-size: 1.2rem; text-shadow: 0 0 10px var(--cian-neon); font-weight: bold; }
+
+        @media (max-width: 768px) {
+            .container { margin-top: -30px; width: 95%; }
+            nav li { min-width: 120px; }
+            .hero h1 { font-size: 1.6em; }
+            section.block { padding: 35px 20px; }
+            .hero { padding: 40px 20px 35px 20px; }
+        }
+    </style>
 </head>
+<script>
+const API_KEY = 'AIzaSyBa_xg_kBBmAe1cJVEhE5BiOfCjlQ-Ib0w';
+const CHANNEL_ID = 'UCG_8fY6lpJwWW0cut5Z5dfA';
+async function fetchGlobalStats() {
+    try {
+        const res = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${CHANNEL_ID}&key=${API_KEY}`);
+        const data = await res.json();
+        const s = data?.items?.[0]?.statistics;
+        if (s) {
+            document.getElementById('subs-count').innerText = (s.subscriberCount/1000).toFixed(1) + "K";
+            document.getElementById('views-total-count').innerText = Intl.NumberFormat().format(s.viewCount);
+        }
+    } catch(e) { console.error(e); }
+}
+fetchGlobalStats();
+</script>
 <body>
-
 <aside class="bunker-dashboard">
     <span class="dash-label">YouTube Subs</span>
-    <div class="dash-value"><i class="fab fa-youtube" style="color:#ff0000;"></i> <span id="subs-count">--</span></div>
+    <div class="dash-value"><i class="fab fa-youtube" style="color:#ff0000;"></i><span id="subs-count">--</span></div>
     <span class="dash-label">Total Views</span>
-    <div class="dash-value"><i class="fas fa-play-circle" style="color:var(--cian-neon);"></i> <span id="views-total-count">--</span></div>
-    <a href="https://www.youtube.com/@CaTecnoFan?sub_confirmation=1" target="_blank" class="btn-subscribe">
-        <i class="fas fa-plus"></i> SUSCRIBIRSE
-    </a>
+    <div class="dash-value"><i class="fas fa-play-circle" style="color:#00e5ff;"></i><span id="views-total-count">--</span></div>
+    <a href="https://www.youtube.com/@CaTecnoFan?sub_confirmation=1" target="_blank" class="btn-subscribe">SUSCRIBIRSE</a>
 </aside>
 
-<div id="panel-subida">
-    <h2>SUBIR VIDEO</h2>
-    <p>Este panel no lo ve la gente. Los videos quedan guardados en este navegador, para que puedas probar la sección antes de publicarla.</p>
-    <input type="text" id="video-titulo" placeholder="Título del video">
-    <input type="file" id="video-archivo" accept="video/*">
-    <div class="admin-btns">
-        <button class="btn-admin btn-save" id="btn-subir">SUBIR</button>
-        <button class="btn-admin btn-close" id="btn-cerrar-panel">CERRAR</button>
-    </div>
-    <div id="lista-subidos" style="margin-top:16px;"></div>
-</div>
-
-<header style="position:relative;">
+<header>
     <div id="login-container"></div>
     <img src="banner.png" alt="CaTecnoFan Banner" class="banner-img">
     <div class="linea-magenta"></div>
@@ -159,7 +230,6 @@
                 </div>
             </li>
             <li><a href="https://www.youtube.com/@CaTecnoFan" target="_blank"><i class="fab fa-youtube"></i> YOUTUBE</a></li>
-            <li><a href="videos.html" class="nav-active"><i class="fas fa-film"></i> VIDEOS</a></li>
             <li class="dropdown">
                 <a href="#"><i class="fas fa-envelope"></i> AYUDA ▼</a>
                 <div class="dropdown-content">
@@ -174,6 +244,66 @@
     </nav>
 
     <div class="inner-content">
+        <style>
+            .cine { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 18px; align-items: start; padding: 28px; }
+            .reproductor { border: 3px solid var(--cian-neon); border-radius: 12px; overflow: hidden; box-shadow: 0 0 20px rgba(0, 229, 255, 0.3); background: #000; }
+            .reproductor-marco { position: relative; padding-bottom: 56.25%; height: 0; background: #000; }
+            .reproductor-marco video, .reproductor-marco iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; background: #000; }
+            .video-ficha { padding: 14px 16px 6px; }
+            .video-ficha h2 { color: #fff; font-size: 1rem; margin: 0 0 8px; text-transform: uppercase; }
+            .video-link-row { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
+            .video-link-row input { flex: 1; background: #111; border: 1px solid #333; color: var(--cian-neon); padding: 8px 10px; border-radius: 5px; font-family: sans-serif; font-size: 0.75rem; }
+            .video-link-row button, .comentario-form button {
+                background: transparent; border: 1px solid var(--cian-neon); color: var(--cian-neon);
+                padding: 8px 12px; cursor: pointer; font-family: 'Arial Black', sans-serif; font-size: 0.68rem; border-radius: 5px;
+            }
+            .cine-comentarios { margin-top: 16px; background: #0c0c0c; border: 1px solid #333; border-radius: 12px; padding: 14px 16px 16px; }
+            .comentarios-titulo { color: var(--cian-neon); font-size: 0.75rem; letter-spacing: 1px; margin-bottom: 8px; text-transform: uppercase; }
+            .comentario-item { padding: 10px 0; border-bottom: 1px solid #222; }
+            .comentario-item:last-child { border-bottom: none; }
+            .comentario-autor { color: #fff; font-size: 0.75rem; margin-bottom: 3px; }
+            .comentario-texto { color: #ccc; font-family: sans-serif; font-size: 0.9rem; font-weight: normal; line-height: 1.4; }
+            .comentario-vacio { color: #888; font-family: sans-serif; font-size: 0.85rem; font-weight: normal; }
+            .comentario-form { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+            .comentario-form input, .comentario-form textarea, #panel-subida input[type="text"] {
+                width: 100%; background: #161616; border: 1px solid #333; color: #fff; padding: 10px; border-radius: 5px;
+                box-sizing: border-box; font-family: sans-serif; font-size: 0.9rem;
+            }
+            .comentario-form button { align-self: flex-start; background: var(--cian-neon); color: #000; border: none; }
+            .cine-lista { background: #111; border: 1px solid #333; border-radius: 12px; overflow: hidden; }
+            .lista-titulo { color: var(--cian-neon); font-size: 0.72rem; letter-spacing: 1px; padding: 12px 14px; border-bottom: 1px solid #222; text-transform: uppercase; }
+            .lista-item { display: flex; gap: 10px; padding: 10px 12px; border-bottom: 1px solid #222; cursor: pointer; text-decoration: none; color: inherit; }
+            .lista-item:hover { background: #1a1a1a; }
+            .lista-item.activo { background: #141414; box-shadow: inset 3px 0 0 var(--amarillo-neon); }
+            .lista-thumb { width: 86px; height: 48px; border-radius: 4px; background: #000 center/cover no-repeat; flex-shrink: 0; border: 1px solid #333; display: flex; align-items: center; justify-content: center; color: var(--cian-neon); font-size: 0.8rem; }
+            .lista-nombre { font-size: 0.72rem; line-height: 1.3; text-transform: uppercase; }
+            #panel-subida {
+                display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+                background: #111; border: 3px solid var(--magenta-neon); padding: 28px; z-index: 20000;
+                width: 90%; max-width: 480px; border-radius: 15px; box-shadow: 0 0 50px rgba(255, 0, 255, 0.4);
+            }
+            #panel-subida h2 { color: var(--magenta-neon); margin-top: 0; font-size: 1rem; }
+            #panel-subida p { font-family: sans-serif; color: #aaa; font-size: 0.82rem; font-weight: normal; }
+            #panel-subida input[type="file"] { color: #ccc; font-family: sans-serif; margin: 8px 0 14px; }
+            .admin-btns { display: flex; gap: 10px; }
+            .btn-admin { flex: 1; padding: 10px; border: none; cursor: pointer; font-weight: bold; text-transform: uppercase; border-radius: 5px; }
+            .btn-save { background: var(--cian-neon); color: #000; }
+            .btn-close { background: #444; color: #fff; }
+            .subido-item { display: flex; justify-content: space-between; gap: 8px; align-items: center; border-bottom: 1px solid #222; padding: 8px 0; font-size: 0.72rem; }
+            .btn-delete { background: #ff0000; color: #fff; font-size: 0.7em; padding: 3px 8px; border: none; cursor: pointer; border-radius: 3px; }
+            @media (max-width: 800px) { .cine { grid-template-columns: 1fr; padding: 16px; } }
+        </style>
+        <div id="panel-subida">
+            <h2>SUBIR VIDEO</h2>
+            <p>Este panel no lo ve la gente. Se abre con Ctrl + Alt + V.</p>
+            <input type="text" id="video-titulo" placeholder="Título del video">
+            <input type="file" id="video-archivo" accept="video/*">
+            <div class="admin-btns">
+                <button class="btn-admin btn-save" id="btn-subir" type="button">SUBIR</button>
+                <button class="btn-admin btn-close" id="btn-cerrar-panel" type="button">CERRAR</button>
+            </div>
+            <div id="lista-subidos" style="margin-top:16px;"></div>
+        </div>
         <div class="cine">
             <div class="cine-main">
                 <div class="reproductor">
@@ -201,218 +331,233 @@
                 <div id="lista-videos"></div>
             </aside>
         </div>
+        <script>
+        const SEMILLAS = [
+            { id: 'ufc4', titulo: 'Cómo jugar UFC 4 en PC', tipo: 'youtube', youtubeId: 'Un6ZHrWKDYI' },
+            { id: 'ufc3', titulo: 'UFC en PC', tipo: 'youtube', youtubeId: 'UlxbEDFHn8I' }
+        ];
+        const COMENTARIOS_SEMILLA = [
+            { id: 'c1', videoId: 'ufc4', autor: 'Visitante', texto: 'Se entendió todo, gracias.' },
+            { id: 'c2', videoId: 'ufc4', autor: 'Nico', texto: 'Por fin lo pude abrir en la PC.' }
+        ];
+        function openDb() {
+            return new Promise((resolve, reject) => {
+                const req = indexedDB.open('catecnofan-videos-local', 1);
+                req.onupgradeneeded = () => {
+                    const db = req.result;
+                    if (!db.objectStoreNames.contains('videos')) db.createObjectStore('videos', { keyPath: 'id' });
+                    if (!db.objectStoreNames.contains('comments')) {
+                        const store = db.createObjectStore('comments', { keyPath: 'id' });
+                        store.createIndex('videoId', 'videoId');
+                    }
+                };
+                req.onsuccess = () => resolve(req.result);
+                req.onerror = () => reject(req.error);
+            });
+        }
+        function txDone(tx) {
+            return new Promise((resolve, reject) => {
+                tx.oncomplete = () => resolve();
+                tx.onerror = () => reject(tx.error);
+                tx.onabort = () => reject(tx.error);
+            });
+        }
+        async function allFrom(storeName) {
+            const db = await openDb();
+            const tx = db.transaction(storeName, 'readonly');
+            const req = tx.objectStore(storeName).getAll();
+            const rows = await new Promise((resolve, reject) => {
+                req.onsuccess = () => resolve(req.result || []);
+                req.onerror = () => reject(req.error);
+            });
+            await txDone(tx);
+            return rows;
+        }
+        async function putRow(storeName, row) {
+            const db = await openDb();
+            const tx = db.transaction(storeName, 'readwrite');
+            tx.objectStore(storeName).put(row);
+            await txDone(tx);
+        }
+        async function deleteRow(storeName, id) {
+            const db = await openDb();
+            const tx = db.transaction(storeName, 'readwrite');
+            tx.objectStore(storeName).delete(id);
+            await txDone(tx);
+        }
+        async function sembrar() {
+            const videos = await allFrom('videos');
+            if (videos.length) return;
+            for (const video of SEMILLAS) await putRow('videos', video);
+            for (const comentario of COMENTARIOS_SEMILLA) await putRow('comments', comentario);
+        }
+        function escapeHtml(text) {
+            return String(text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+        function linkDe(id) { return location.origin + location.pathname + '?v=' + encodeURIComponent(id); }
+        function idActual() { return new URLSearchParams(location.search).get('v'); }
+        let urlTemporal = '';
+        function liberarUrl() { if (urlTemporal) { URL.revokeObjectURL(urlTemporal); urlTemporal = ''; } }
+        function pintarReproductor(video) {
+            const marco = document.getElementById('marco');
+            liberarUrl();
+            if (!video) {
+                marco.innerHTML = '';
+                document.getElementById('video-titulo-visible').textContent = 'Todavía no hay videos';
+                document.getElementById('video-link').value = '';
+                return;
+            }
+            document.getElementById('video-titulo-visible').textContent = video.titulo;
+            document.getElementById('video-link').value = linkDe(video.id);
+            if (video.tipo === 'archivo' && video.blob) {
+                urlTemporal = URL.createObjectURL(video.blob);
+                marco.innerHTML = `<video src="${urlTemporal}" controls autoplay playsinline></video>`;
+            } else if (video.tipo === 'youtube' && video.youtubeId) {
+                marco.innerHTML = `<iframe src="https://www.youtube.com/embed/${encodeURIComponent(video.youtubeId)}" allowfullscreen></iframe>`;
+            } else marco.innerHTML = '';
+        }
+        function pintarLista(videos, activo) {
+            const box = document.getElementById('lista-videos');
+            if (!videos.length) {
+                box.innerHTML = '<div class="comentario-vacio" style="padding:14px;">No hay videos todavía.</div>';
+                return;
+            }
+            box.innerHTML = videos.map(video => {
+                const thumb = video.tipo === 'youtube'
+                    ? `style="background-image:url('https://i.ytimg.com/vi/${encodeURIComponent(video.youtubeId)}/mqdefault.jpg')"`
+                    : '';
+                return `<a class="lista-item ${video.id === activo ? 'activo' : ''}" href="videos.html?v=${encodeURIComponent(video.id)}">
+                    <div class="lista-thumb" ${thumb}>${video.tipo === 'archivo' ? '<i class="fas fa-play"></i>' : ''}</div>
+                    <div class="lista-nombre">${escapeHtml(video.titulo)}</div>
+                </a>`;
+            }).join('');
+        }
+        function pintarComentarios(lista) {
+            const box = document.getElementById('comentarios-lista');
+            if (!lista.length) {
+                box.innerHTML = '<div class="comentario-vacio">Sé el primero en comentar.</div>';
+                return;
+            }
+            box.innerHTML = lista.map(c => `<div class="comentario-item"><div class="comentario-autor">${escapeHtml(c.autor || 'Visitante')}</div><div class="comentario-texto">${escapeHtml(c.texto)}</div></div>`).join('');
+        }
+        function pintarSubidos(videos) {
+            document.getElementById('lista-subidos').innerHTML = videos.map(video => `<div class="subido-item"><span>${escapeHtml(video.titulo)}</span><button class="btn-delete" data-borrar="${escapeHtml(video.id)}" type="button">Quitar</button></div>`).join('');
+        }
+        async function mostrar() {
+            const videos = (await allFrom('videos')).sort((a, b) => (b.creado || 0) - (a.creado || 0) || a.titulo.localeCompare(b.titulo));
+            const pedido = idActual();
+            const video = videos.find(v => v.id === pedido) || videos[0] || null;
+            if (video && video.id !== pedido) history.replaceState(null, '', 'videos.html?v=' + encodeURIComponent(video.id));
+            pintarReproductor(video);
+            pintarLista(videos, video && video.id);
+            const comentarios = video ? (await allFrom('comments')).filter(c => c.videoId === video.id) : [];
+            pintarComentarios(comentarios);
+            pintarSubidos(videos);
+        }
+        document.getElementById('form-comentario').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const videoId = idActual();
+            const texto = document.getElementById('comentario-texto').value.trim();
+            const autor = document.getElementById('comentario-nombre').value.trim() || 'Visitante';
+            if (!videoId || !texto) return;
+            await putRow('comments', { id: Date.now().toString(36), videoId, autor, texto });
+            document.getElementById('comentario-texto').value = '';
+            mostrar();
+        });
+        document.getElementById('btn-copiar').addEventListener('click', async () => {
+            const valor = document.getElementById('video-link').value;
+            if (!valor) return;
+            try { await navigator.clipboard.writeText(valor); } catch (e) { document.getElementById('video-link').select(); }
+        });
+        document.getElementById('btn-subir').addEventListener('click', async () => {
+            const titulo = document.getElementById('video-titulo').value.trim();
+            const archivo = document.getElementById('video-archivo').files[0];
+            if (!titulo || !archivo) return alert('Poné un título y elegí un video.');
+            const id = Date.now().toString(36);
+            await putRow('videos', { id, titulo, tipo: 'archivo', blob: archivo, creado: Date.now() });
+            document.getElementById('video-titulo').value = '';
+            document.getElementById('video-archivo').value = '';
+            document.getElementById('panel-subida').style.display = 'none';
+            location.href = 'videos.html?v=' + encodeURIComponent(id);
+        });
+        document.getElementById('btn-cerrar-panel').addEventListener('click', () => {
+            document.getElementById('panel-subida').style.display = 'none';
+        });
+        document.getElementById('lista-subidos').addEventListener('click', async (e) => {
+            const id = e.target.getAttribute('data-borrar');
+            if (!id) return;
+            await deleteRow('videos', id);
+            const comentarios = await allFrom('comments');
+            for (const c of comentarios) if (c.videoId === id) await deleteRow('comments', c.id);
+            if (idActual() === id) history.replaceState(null, '', 'videos.html');
+            mostrar();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.altKey && e.key.toLowerCase() === 'v') {
+                e.preventDefault();
+                const panel = document.getElementById('panel-subida');
+                panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+            }
+        });
+        sembrar().then(mostrar);
+        </script>
+
     </div>
 </div>
 
 <footer>
-    CaTecnoFan &copy; 2026 - Rosario, Argentina
+    <div class="contador-digital">
+        <i class="fas fa-users" style="color: var(--cian-neon); margin-right: 10px;"></i>
+        <span id="stats-count">--</span>
+    </div>
+    <br>
+    CaTecnoFan &copy; 2026 - Rosario, Argentina<br>
+    Hardware, Juegos y Tecnología para el Gamer Real
 </footer>
 
-<script>
-const SEMILLAS = [
-    { id: 'ufc4', titulo: 'Cómo jugar UFC 4 en PC', tipo: 'youtube', youtubeId: 'Un6ZHrWKDYI' },
-    { id: 'ufc3', titulo: 'UFC en PC', tipo: 'youtube', youtubeId: 'UlxbEDFHn8I' }
-];
-const COMENTARIOS_SEMILLA = [
-    { id: 'c1', videoId: 'ufc4', autor: 'Visitante', texto: 'Se entendió todo, gracias.' },
-    { id: 'c2', videoId: 'ufc4', autor: 'Nico', texto: 'Por fin lo pude abrir en la PC.' }
-];
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+import { getFirestore, doc, getDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
-function openDb() {
-    return new Promise((resolve, reject) => {
-        const req = indexedDB.open('catecnofan-videos-local', 1);
-        req.onupgradeneeded = () => {
-            const db = req.result;
-            if (!db.objectStoreNames.contains('videos')) db.createObjectStore('videos', { keyPath: 'id' });
-            if (!db.objectStoreNames.contains('comments')) {
-                const store = db.createObjectStore('comments', { keyPath: 'id' });
-                store.createIndex('videoId', 'videoId');
+const firebaseConfig = {
+    apiKey: "AIzaSyBa_xg_kBBmAe1cJVEhE5BiOfCjlQ-Ib0w",
+    authDomain: "catecnofan-web.firebaseapp.com",
+    projectId: "catecnofan-web",
+    storageBucket: "catecnofan-web.appspot.com",
+    messagingSenderId: "670781631971",
+    appId: "1:670781631971:web:7fa547d5392149c05304d6"
+};
+const app = initializeApp(firebaseConfig, "videos");
+const db = getFirestore(app);
+
+async function handleCounter() {
+    const counterDoc = doc(db, "stats", "visitas");
+    try {
+        await updateDoc(counterDoc, { count: increment(1) });
+        const snap = await getDoc(counterDoc);
+        if (snap.exists()) document.getElementById('stats-count').innerText = snap.data().count;
+    } catch(e) { console.error("Error en contador:", e); }
+}
+
+const hash = window.location.hash;
+if (hash) history.replaceState(null, null, window.location.pathname);
+
+window.addEventListener("load", () => {
+    handleCounter();
+    if (hash) {
+        setTimeout(() => {
+            const target = document.querySelector(hash);
+            if (target) {
+                const y = target.getBoundingClientRect().top + window.pageYOffset - 120;
+                window.scrollTo({ top: y, behavior: "smooth" });
+                target.classList.add("resaltado-temporal");
+                setTimeout(() => target.classList.remove("resaltado-temporal"), 3000);
             }
-        };
-        req.onsuccess = () => resolve(req.result);
-        req.onerror = () => reject(req.error);
-    });
-}
-function txDone(tx) {
-    return new Promise((resolve, reject) => {
-        tx.oncomplete = () => resolve();
-        tx.onerror = () => reject(tx.error);
-        tx.onabort = () => reject(tx.error);
-    });
-}
-async function allFrom(storeName) {
-    const db = await openDb();
-    const tx = db.transaction(storeName, 'readonly');
-    const req = tx.objectStore(storeName).getAll();
-    const rows = await new Promise((resolve, reject) => {
-        req.onsuccess = () => resolve(req.result || []);
-        req.onerror = () => reject(req.error);
-    });
-    await txDone(tx);
-    return rows;
-}
-async function putRow(storeName, row) {
-    const db = await openDb();
-    const tx = db.transaction(storeName, 'readwrite');
-    tx.objectStore(storeName).put(row);
-    await txDone(tx);
-}
-async function deleteRow(storeName, id) {
-    const db = await openDb();
-    const tx = db.transaction(storeName, 'readwrite');
-    tx.objectStore(storeName).delete(id);
-    await txDone(tx);
-}
-async function sembrar() {
-    const videos = await allFrom('videos');
-    if (videos.length) return;
-    for (const video of SEMILLAS) await putRow('videos', video);
-    for (const comentario of COMENTARIOS_SEMILLA) await putRow('comments', comentario);
-}
-
-function escapeHtml(text) {
-    return String(text)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;');
-}
-function linkDe(id) {
-    return location.origin + location.pathname + '?v=' + encodeURIComponent(id);
-}
-function idActual() {
-    return new URLSearchParams(location.search).get('v');
-}
-
-let urlTemporal = '';
-function liberarUrl() {
-    if (urlTemporal) {
-        URL.revokeObjectURL(urlTemporal);
-        urlTemporal = '';
-    }
-}
-function pintarReproductor(video) {
-    const marco = document.getElementById('marco');
-    liberarUrl();
-    if (!video) {
-        marco.innerHTML = '';
-        document.getElementById('video-titulo-visible').textContent = 'Todavía no hay videos';
-        document.getElementById('video-link').value = '';
-        return;
-    }
-    document.getElementById('video-titulo-visible').textContent = video.titulo;
-    document.getElementById('video-link').value = linkDe(video.id);
-    if (video.tipo === 'archivo' && video.blob) {
-        urlTemporal = URL.createObjectURL(video.blob);
-        marco.innerHTML = `<video src="${urlTemporal}" controls autoplay playsinline></video>`;
-    } else if (video.tipo === 'youtube' && video.youtubeId) {
-        marco.innerHTML = `<iframe src="https://www.youtube.com/embed/${encodeURIComponent(video.youtubeId)}" allowfullscreen></iframe>`;
-    } else {
-        marco.innerHTML = '';
-    }
-}
-function pintarLista(videos, activo) {
-    const box = document.getElementById('lista-videos');
-    if (!videos.length) {
-        box.innerHTML = '<div class="comentario-vacio" style="padding:14px;">No hay videos todavía.</div>';
-        return;
-    }
-    box.innerHTML = videos.map(video => {
-        const thumb = video.tipo === 'youtube'
-            ? `style="background-image:url('https://i.ytimg.com/vi/${encodeURIComponent(video.youtubeId)}/mqdefault.jpg')"`
-            : '';
-        return `<a class="lista-item ${video.id === activo ? 'activo' : ''}" href="videos.html?v=${encodeURIComponent(video.id)}">
-            <div class="lista-thumb" ${thumb}>${video.tipo === 'archivo' ? '<i class="fas fa-play"></i>' : ''}</div>
-            <div class="lista-nombre">${escapeHtml(video.titulo)}</div>
-        </a>`;
-    }).join('');
-}
-function pintarComentarios(lista) {
-    const box = document.getElementById('comentarios-lista');
-    if (!lista.length) {
-        box.innerHTML = '<div class="comentario-vacio">Sé el primero en comentar.</div>';
-        return;
-    }
-    box.innerHTML = lista.map(c => `
-        <div class="comentario-item">
-            <div class="comentario-autor">${escapeHtml(c.autor || 'Visitante')}</div>
-            <div class="comentario-texto">${escapeHtml(c.texto)}</div>
-        </div>
-    `).join('');
-}
-function pintarSubidos(videos) {
-    document.getElementById('lista-subidos').innerHTML = videos.map(video => `
-        <div class="subido-item">
-            <span>${escapeHtml(video.titulo)}</span>
-            <button class="btn-delete" data-borrar="${escapeHtml(video.id)}" type="button">Quitar</button>
-        </div>
-    `).join('');
-}
-
-async function mostrar() {
-    const videos = (await allFrom('videos')).sort((a, b) => (b.creado || 0) - (a.creado || 0) || a.titulo.localeCompare(b.titulo));
-    const pedido = idActual();
-    const video = videos.find(v => v.id === pedido) || videos[0] || null;
-    if (video && video.id !== pedido) history.replaceState(null, '', 'videos.html?v=' + encodeURIComponent(video.id));
-    pintarReproductor(video);
-    pintarLista(videos, video && video.id);
-    const comentarios = video
-        ? (await allFrom('comments')).filter(c => c.videoId === video.id)
-        : [];
-    pintarComentarios(comentarios);
-    pintarSubidos(videos);
-}
-
-document.getElementById('form-comentario').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const videoId = idActual();
-    const texto = document.getElementById('comentario-texto').value.trim();
-    const autor = document.getElementById('comentario-nombre').value.trim() || 'Visitante';
-    if (!videoId || !texto) return;
-    await putRow('comments', { id: Date.now().toString(36), videoId, autor, texto });
-    document.getElementById('comentario-texto').value = '';
-    mostrar();
-});
-document.getElementById('btn-copiar').addEventListener('click', async () => {
-    const valor = document.getElementById('video-link').value;
-    if (!valor) return;
-    try { await navigator.clipboard.writeText(valor); } catch (e) { document.getElementById('video-link').select(); }
-});
-document.getElementById('btn-subir').addEventListener('click', async () => {
-    const titulo = document.getElementById('video-titulo').value.trim();
-    const archivo = document.getElementById('video-archivo').files[0];
-    if (!titulo || !archivo) return alert('Poné un título y elegí un video.');
-    const id = Date.now().toString(36);
-    await putRow('videos', { id, titulo, tipo: 'archivo', blob: archivo, creado: Date.now() });
-    document.getElementById('video-titulo').value = '';
-    document.getElementById('video-archivo').value = '';
-    document.getElementById('panel-subida').style.display = 'none';
-    location.href = 'videos.html?v=' + encodeURIComponent(id);
-});
-document.getElementById('btn-cerrar-panel').addEventListener('click', () => {
-    document.getElementById('panel-subida').style.display = 'none';
-});
-document.getElementById('lista-subidos').addEventListener('click', async (e) => {
-    const id = e.target.getAttribute('data-borrar');
-    if (!id) return;
-    await deleteRow('videos', id);
-    const comentarios = await allFrom('comments');
-    for (const c of comentarios) {
-        if (c.videoId === id) await deleteRow('comments', c.id);
-    }
-    if (idActual() === id) history.replaceState(null, '', 'videos.html');
-    mostrar();
-});
-document.addEventListener('keydown', (e) => {
-    if (e.ctrlKey && e.altKey && e.key.toLowerCase() === 'v') {
-        e.preventDefault();
-        const panel = document.getElementById('panel-subida');
-        panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+        }, 1000);
     }
 });
-
-sembrar().then(mostrar);
 </script>
 <script type="module" src="login.js"></script>
+<script type="module" src="popout-brave.js"></script>
 </body>
 </html>
