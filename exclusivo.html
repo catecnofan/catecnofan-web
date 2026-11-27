@@ -264,18 +264,31 @@ fetchGlobalStats();
             .ex-card.bloqueada { filter: grayscale(0.4); opacity: 0.85; }
             .ex-card h3 { margin: 0; color: var(--amarillo-neon); font-size: 0.95rem; text-transform: uppercase; }
             .ex-card p { margin: 0; font-family: sans-serif; font-weight: normal; color: #aaa; font-size: 0.85rem; flex: 1; }
-            .ex-acciones { display: flex; flex-direction: column; gap: 8px; }
-            .ex-card a, .ex-card span.candado, .ex-card button.btn-copiar { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 11px; border-radius: 8px; text-decoration: none; font-size: 0.78rem; text-transform: uppercase; font-family: 'Arial Black', sans-serif; }
+            .ex-acciones { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+            .ex-card a, .ex-card span.candado { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 11px; border-radius: 8px; text-decoration: none; font-size: 0.78rem; text-transform: uppercase; font-family: 'Arial Black', sans-serif; width: 100%; box-sizing: border-box; }
             .ex-card a { border: 2px solid var(--cian-neon); color: var(--cian-neon); }
             .ex-card a:hover { background: var(--cian-neon); color: #000; }
-            .ex-card button.btn-copiar { border: 2px solid var(--magenta-neon); color: var(--magenta-neon); background: transparent; cursor: pointer; }
-            .ex-card button.btn-copiar:hover { background: var(--magenta-neon); color: #000; }
+            .ex-card button.btn-copiar { display: inline-flex; align-items: center; justify-content: center; gap: 5px; margin-top: 2px; padding: 3px 8px; border: 1px solid rgba(184, 196, 214, 0.35); border-radius: 999px; background: transparent; color: #9aa6b8; cursor: pointer; font-family: var(--mono); font-size: 0.62rem; font-weight: 400; letter-spacing: 0.4px; text-transform: none; }
+            .ex-card button.btn-copiar:hover { color: #d5dde8; border-color: rgba(213, 221, 232, 0.7); }
             .ex-card span.candado { border: 2px solid #444; color: #777; }
             @media (max-width: 768px) { .ex-hero, .ex-grid { padding-left: 16px; padding-right: 16px; } }
         </style>
         <section class="ex-hero">
             <h1>Descargas <span>exclusivas</span></h1>
             <p>Un pago de 5 USD habilita las tarjetas de este sector para la cuenta con la que entraste.</p>
+            <div class="aviso-descargas">
+                <div class="aviso-titulo-row">
+                    <i class="fas fa-triangle-exclamation aviso-warn-icon"></i>
+                    <h4>Aviso sobre descargas</h4>
+                </div>
+                <div class="aviso-cuerpo">
+                    <div class="aviso-texto">
+                        <p><span class="lang-tag">ES</span>Las descargas se encuentran operativas. Si una descarga no comienza o finaliza correctamente, recomendamos utilizar CaTecnoFan Downloader.</p>
+                        <p><span class="lang-tag">US</span>Downloads are operational. If a download does not start or finish correctly, we recommend using CaTecnoFan Downloader.</p>
+                    </div>
+                    <a href="downloader.html" class="btn-brave"><i class="fas fa-download"></i> CaTecnoFan Downloader</a>
+                </div>
+            </div>
         </section>
         <div class="ex-pago" id="caja-pago">
             <div class="ex-precio">5 USD</div>
@@ -346,7 +359,7 @@ function pintarTarjetas(archivos) {
     grilla.innerHTML = TARJETAS.map((item) => {
         const url = enlaces.get(claveTitulo(item.titulo));
         const boton = url
-            ? `<div class="ex-acciones"><a href="${esc(url)}" target="_blank" rel="noopener"><i class="fas fa-download"></i> Descargar</a><button class="btn-copiar" type="button" data-url="${esc(url)}"><i class="fas fa-copy"></i> Copiar</button></div>`
+            ? `<div class="ex-acciones"><a href="${esc(url)}" target="_blank" rel="noopener"><i class="fas fa-download"></i> Descargar</a><button class="btn-copiar" type="button" data-url="${esc(url)}"><i class="fas fa-copy"></i> Copiar enlace</button></div>`
             : `<span class="candado"><i class="fas fa-lock"></i> Bloqueado</span>`;
         return `
         <article class="ex-card${url ? "" : " bloqueada"}">
@@ -476,7 +489,7 @@ document.getElementById("grilla-links").addEventListener("click", (evento) => {
     const marcar = () => {
         boton.innerHTML = "<i class=\"fas fa-check\"></i> Copiado";
         setTimeout(() => {
-            boton.innerHTML = "<i class=\"fas fa-copy\"></i> Copiar";
+            boton.innerHTML = "<i class=\"fas fa-copy\"></i> Copiar enlace";
         }, 1500);
     };
     if (navigator.clipboard?.writeText) {
