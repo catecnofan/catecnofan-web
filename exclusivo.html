@@ -271,11 +271,23 @@ fetchGlobalStats();
             .ex-card button.btn-copiar { display: inline-flex; align-items: center; justify-content: center; gap: 5px; margin-top: 2px; padding: 3px 8px; border: 1px solid rgba(184, 196, 214, 0.35); border-radius: 999px; background: transparent; color: #9aa6b8; cursor: pointer; font-family: var(--mono); font-size: 0.62rem; font-weight: 400; letter-spacing: 0.4px; text-transform: none; }
             .ex-card button.btn-copiar:hover { color: #d5dde8; border-color: rgba(213, 221, 232, 0.7); }
             .ex-card span.candado { border: 2px solid #444; color: #777; }
-            @media (max-width: 768px) { .ex-hero, .ex-grid { padding-left: 16px; padding-right: 16px; } }
+            .ex-aviso-wrap { padding: 0 40px 8px; }
+            @media (max-width: 768px) { .ex-hero, .ex-grid, .ex-aviso-wrap { padding-left: 16px; padding-right: 16px; } }
         </style>
         <section class="ex-hero">
             <h1>Descargas <span>exclusivas</span></h1>
             <p>Un pago de 5 USD habilita las tarjetas de este sector para la cuenta con la que entraste.</p>
+        </section>
+        <div class="ex-pago" id="caja-pago">
+            <div class="ex-precio">5 USD</div>
+            <small>Acá se paga con Ualá. Desde el exterior, con PayPal. El mismo pago abre todas las tarjetas.</small>
+            <div class="ex-botones">
+                <button class="btn-mp" id="btn-uala" type="button">Pagar con Ualá</button>
+                <button class="btn-pp" id="btn-pp" type="button">Pagar con PayPal</button>
+            </div>
+            <div class="ex-estado" id="estado-pago">Revisando la sesión.</div>
+        </div>
+        <div class="ex-aviso-wrap">
             <div class="aviso-descargas">
                 <div class="aviso-titulo-row">
                     <i class="fas fa-triangle-exclamation aviso-warn-icon"></i>
@@ -289,15 +301,6 @@ fetchGlobalStats();
                     <a href="downloader.html" class="btn-brave"><i class="fas fa-download"></i> CaTecnoFan Downloader</a>
                 </div>
             </div>
-        </section>
-        <div class="ex-pago" id="caja-pago">
-            <div class="ex-precio">5 USD</div>
-            <small>Acá se paga con Ualá. Desde el exterior, con PayPal. El mismo pago abre todas las tarjetas.</small>
-            <div class="ex-botones">
-                <button class="btn-mp" id="btn-uala" type="button">Pagar con Ualá</button>
-                <button class="btn-pp" id="btn-pp" type="button">Pagar con PayPal</button>
-            </div>
-            <div class="ex-estado" id="estado-pago">Revisando la sesión.</div>
         </div>
         <div class="ex-grid" id="grilla-links" hidden></div>
     </div>
