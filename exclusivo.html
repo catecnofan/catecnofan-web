@@ -227,7 +227,6 @@ fetchGlobalStats();
                     <a href="utilidades.html"><i class="fas fa-tools"></i> UTILIDADES</a>
                     <a href="launcher.html"><i class="fas fa-rocket"></i> LAUNCHER</a>
                     <a href="downloader.html"><i class="fas fa-rocket"></i> DOWNLOADER</a>
-                    <a href="exclusivo.html"><i class="fas fa-lock"></i> EXCLUSIVO</a>
                 </div>
             </li>
             <li><a href="https://www.youtube.com/@CaTecnoFan" target="_blank"><i class="fab fa-youtube"></i> YOUTUBE</a></li>
@@ -258,6 +257,7 @@ fetchGlobalStats();
             .btn-mp { background: #00b1ea; color: #041820; }
             .btn-mp:disabled { opacity: 0.55; cursor: default; }
             .btn-pp { background: #ffc439; color: #111; }
+            .btn-pp:disabled { opacity: 0.55; cursor: default; }
             .ex-estado { margin-top: 14px; font-family: sans-serif; font-weight: normal; color: var(--cian-neon); font-size: 0.85rem; }
             .ex-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; padding: 28px 36px 40px; }
             .ex-card { background: #111; border: 1px solid #2c2c2c; border-top: 4px solid var(--cian-neon); border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 8px; }
@@ -272,13 +272,14 @@ fetchGlobalStats();
         </style>
         <section class="ex-hero">
             <h1>Descargas <span>exclusivas</span></h1>
-            <p>Un pago de 5 USD habilita los archivos de este sector para la cuenta con la que entraste. Ualá cobra el equivalente en pesos.</p>
+            <p>Un pago de 5 USD habilita las tarjetas de este sector para la cuenta con la que entraste.</p>
         </section>
         <div class="ex-pago" id="caja-pago">
             <div class="ex-precio">5 USD</div>
-            <small>El pago queda anotado en tu usuario. Otro navegador, con la misma cuenta, ve los mismos archivos.</small>
+            <small>Acá se paga con Ualá. Desde el exterior, con PayPal. El mismo pago abre todas las tarjetas.</small>
             <div class="ex-botones">
                 <button class="btn-mp" id="btn-uala" type="button">Pagar con Ualá</button>
+                <button class="btn-pp" id="btn-pp" type="button">Pagar con PayPal</button>
             </div>
             <div class="ex-estado" id="estado-pago">Revisando la sesión.</div>
         </div>
@@ -314,6 +315,29 @@ const app = getApps().find((item) => item.name === "login") || initializeApp(fir
 const auth = getAuth(app);
 const db = getFirestore(app);
 const API = "https://ctfbackend.vercel.app";
+const TARJETAS = [
+    { titulo: "UFC 2", detalle: "Juego de PS4." },
+    { titulo: "UFC 3", detalle: "Juego de PS4." },
+    { titulo: "UFC 3 Update", detalle: "Actualización v1.14." },
+    { titulo: "UFC 4", detalle: "Juego de PS4." },
+    { titulo: "UFC 4 Update", detalle: "Actualización v28.00." },
+    { titulo: "UFC 4 USA", detalle: "Juego principal. Versión USA, CUSA14204." },
+    { titulo: "UFC 4 USA Update", detalle: "Actualización v28.00 para la versión USA. Backport 5.05, 6.72 y 7.02." },
+    { titulo: "UFC 5", detalle: "Pack UFC 5." },
+    { titulo: "UFC 6", detalle: "Pack UFC 6." }
+];
+
+function pintarTarjetas() {
+    const grilla = document.getElementById("grilla-links");
+    grilla.hidden = false;
+    grilla.innerHTML = TARJETAS.map((item) => `
+        <article class="ex-card bloqueada">
+            <h3>${esc(item.titulo)}</h3>
+            <p>${esc(item.detalle)}</p>
+            <span class="candado"><i class="fas fa-lock"></i> Bloqueado</span>
+        </article>
+    `).join("");
+}
 
 function esc(texto) {
     return String(texto ?? "").replace(/[&<>"']/g, (c) => ({
@@ -322,13 +346,14 @@ function esc(texto) {
 }
 
 function pintarArchivos(archivos) {
-    const grilla = document.getElementById("grilla-links");
-    grilla.hidden = false;
-    if (!archivos.length) {
-        grilla.innerHTML = `<article class="ex-card"><h3>Tu usuario</h3><p>El pago ya está anotado en esta cuenta. En este sector todavía no hay archivos.</p></article>`;
+    const propios = (archivos || []).filter((item) => String(item.url || "").startsWith("https://"));
+    if (!propios.length) {
+        pintarTarjetas();
         return;
     }
-    grilla.innerHTML = archivos.map((item) => `
+    const grilla = document.getElementById("grilla-links");
+    grilla.hidden = false;
+    grilla.innerHTML = propios.map((item) => `
         <article class="ex-card">
             <h3>${esc(item.titulo)}</h3>
             <p>${esc(item.detalle)}</p>
@@ -356,63 +381,68 @@ function mostrarEstado(texto, ok) {
 
 let usuarioActual = null;
 
+function botonesPago() {
+    return [document.getElementById("btn-uala"), document.getElementById("btn-pp")];
+}
+
 async function alEntrar(user) {
     usuarioActual = user;
-    const boton = document.getElementById("btn-uala");
-    const grilla = document.getElementById("grilla-links");
+    pintarTarjetas();
     if (!user) {
-        grilla.hidden = true;
-        boton.disabled = false;
-        boton.textContent = "Entrar para pagar";
-        mostrarEstado("Entrá con tu cuenta. El pago se anota en ese usuario.", false);
+        botonesPago().forEach((boton) => { boton.disabled = false; boton.hidden = false; });
+        mostrarEstado("Entrá con tu cuenta. Las tarjetas siguen bloqueadas.", false);
         return;
     }
-    boton.disabled = true;
-    boton.textContent = "Revisando";
+    botonesPago().forEach((boton) => { boton.disabled = true; });
     const vuelta = new URLSearchParams(location.search).get("pago");
+    const ordenPaypal = new URLSearchParams(location.search).get("token");
     if (vuelta) history.replaceState(null, "", location.pathname);
     try {
+        if (vuelta === "paypal" && ordenPaypal) {
+            const token = await user.getIdToken();
+            await fetch(`${API}/api/exclusivo-paypal`, {
+                method: "POST",
+                headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+                body: JSON.stringify({ orderId: ordenPaypal })
+            });
+        }
         let data = await leerEstado(user);
-        if (!data.pagado && vuelta === "ok") {
-            mostrarEstado("Ualá está confirmando el pago de esta cuenta.", false);
+        if (!data.pagado && (vuelta === "ok" || vuelta === "paypal")) {
+            mostrarEstado("Estamos confirmando el pago de esta cuenta.", false);
             for (let i = 0; i < 4 && !data.pagado; i++) {
                 await new Promise((resolver) => setTimeout(resolver, 2000));
                 data = await leerEstado(user);
             }
         }
         if (data.pagado) {
-            boton.hidden = true;
-            mostrarEstado("Esta cuenta ya pagó. Los archivos de abajo son de este usuario.", true);
+            botonesPago().forEach((boton) => { boton.hidden = true; });
+            mostrarEstado("Esta cuenta ya pagó.", true);
             pintarArchivos(data.archivos || []);
             return;
         }
-        if (vuelta === "error") {
-            mostrarEstado("Ualá no confirmó el pago.", false);
-        } else if (vuelta === "ok") {
-            mostrarEstado("Ualá todavía no confirmó el pago de esta cuenta.", false);
+        if (vuelta === "error" || vuelta === "cancelado") {
+            mostrarEstado("El pago no se confirmó. Las tarjetas siguen bloqueadas.", false);
         } else {
-            mostrarEstado("Esta cuenta todavía no pagó.", false);
+            mostrarEstado("Esta cuenta todavía no pagó. Las tarjetas están bloqueadas.", false);
         }
-        boton.disabled = false;
-        boton.textContent = "Pagar con Ualá";
+        botonesPago().forEach((boton) => { boton.disabled = false; boton.hidden = false; });
     } catch (err) {
-        boton.disabled = false;
-        boton.textContent = "Pagar con Ualá";
+        botonesPago().forEach((boton) => { boton.disabled = false; boton.hidden = false; });
         mostrarEstado(err.message, false);
     }
 }
 
-document.getElementById("btn-uala").addEventListener("click", async () => {
+async function abrirCobro(boton, ruta, texto) {
     if (!usuarioActual) {
         location.href = "auth.html";
         return;
     }
-    const boton = document.getElementById("btn-uala");
+    const original = boton.textContent;
     boton.disabled = true;
-    boton.textContent = "Abriendo Ualá";
+    boton.textContent = texto;
     try {
         const token = await usuarioActual.getIdToken();
-        const res = await fetch(`${API}/api/exclusivo-cobro`, {
+        const res = await fetch(`${API}${ruta}`, {
             method: "POST",
             headers: { Authorization: `Bearer ${token}` }
         });
@@ -422,15 +452,23 @@ document.getElementById("btn-uala").addEventListener("click", async () => {
             await alEntrar(usuarioActual);
             return;
         }
-        if (!data.checkout) throw new Error("Ualá no devolvió el cobro");
+        if (!data.checkout) throw new Error("La pasarela no devolvió el cobro");
         location.href = data.checkout;
     } catch (err) {
         boton.disabled = false;
-        boton.textContent = "Pagar con Ualá";
+        boton.textContent = original;
         mostrarEstado(err.message, false);
     }
+}
+
+document.getElementById("btn-uala").addEventListener("click", (evento) => {
+    abrirCobro(evento.currentTarget, "/api/exclusivo-cobro", "Abriendo Ualá");
+});
+document.getElementById("btn-pp").addEventListener("click", (evento) => {
+    abrirCobro(evento.currentTarget, "/api/exclusivo-paypal", "Abriendo PayPal");
 });
 
+pintarTarjetas();
 onAuthStateChanged(auth, (user) => { alEntrar(user); });
 
 async function handleCounter() {
