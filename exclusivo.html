@@ -327,39 +327,37 @@ const TARJETAS = [
     { titulo: "UFC 6", detalle: "Pack UFC 6." }
 ];
 
-function pintarTarjetas() {
+function claveTitulo(texto) {
+    return String(texto || "").trim().toLocaleLowerCase("es").replace(/\s+/g, " ");
+}
+
+function pintarTarjetas(archivos) {
+    const enlaces = new Map();
+    (archivos || []).forEach((item) => {
+        const url = String(item.url || "");
+        if (!url.startsWith("https://")) return;
+        enlaces.set(claveTitulo(item.titulo), url);
+    });
     const grilla = document.getElementById("grilla-links");
     grilla.hidden = false;
-    grilla.innerHTML = TARJETAS.map((item) => `
-        <article class="ex-card bloqueada">
+    grilla.innerHTML = TARJETAS.map((item) => {
+        const url = enlaces.get(claveTitulo(item.titulo));
+        const boton = url
+            ? `<a href="${esc(url)}" target="_blank" rel="noopener"><i class="fas fa-download"></i> Descargar</a>`
+            : `<span class="candado"><i class="fas fa-lock"></i> Bloqueado</span>`;
+        return `
+        <article class="ex-card${url ? "" : " bloqueada"}">
             <h3>${esc(item.titulo)}</h3>
             <p>${esc(item.detalle)}</p>
-            <span class="candado"><i class="fas fa-lock"></i> Bloqueado</span>
-        </article>
-    `).join("");
+            ${boton}
+        </article>`;
+    }).join("");
 }
 
 function esc(texto) {
     return String(texto ?? "").replace(/[&<>"']/g, (c) => ({
         "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
     }[c]));
-}
-
-function pintarArchivos(archivos) {
-    const propios = (archivos || []).filter((item) => String(item.url || "").startsWith("https://"));
-    if (!propios.length) {
-        pintarTarjetas();
-        return;
-    }
-    const grilla = document.getElementById("grilla-links");
-    grilla.hidden = false;
-    grilla.innerHTML = propios.map((item) => `
-        <article class="ex-card">
-            <h3>${esc(item.titulo)}</h3>
-            <p>${esc(item.detalle)}</p>
-            <a href="${esc(item.url)}" target="_blank" rel="noopener"><i class="fas fa-download"></i> Descargar</a>
-        </article>
-    `).join("");
 }
 
 async function leerEstado(user) {
@@ -417,7 +415,7 @@ async function alEntrar(user) {
         if (data.pagado) {
             botonesPago().forEach((boton) => { boton.hidden = true; });
             mostrarEstado("Esta cuenta ya pagó.", true);
-            pintarArchivos(data.archivos || []);
+            pintarTarjetas(data.archivos || []);
             return;
         }
         if (vuelta === "error" || vuelta === "cancelado") {
